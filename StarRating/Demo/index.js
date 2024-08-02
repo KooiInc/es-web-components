@@ -91,8 +91,7 @@ function intro() {
             >GitHub repository</a><br>` : ``}
       <a target="_blank" href="//github.com/KooiInc/es-webcomponent-factory"
         >Web component module @GitHub</a>
-      <br><a target="_blank" href="https://stackoverflow.com/a/78731814/58186"
-        >StackOverflow answer</a></p>`,
+     </p>`,
     `!!<h2>Ranking the stars</h2>
     <div>
       <p>Here is a web component (autonomous custom element) for creating star ratings.
