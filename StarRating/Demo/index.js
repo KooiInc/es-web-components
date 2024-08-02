@@ -82,12 +82,17 @@ function questionnaire() {
 
 function intro() {
   return [
-    `!!<p>${/stackblitz/i.test(top.href) ?
-      `<a target="_top" href="//stackblitz.com/@KooiInc">All my projects</a><br>` : ``}
-    <a target="_blank" href="//github.com/KooiInc/es-webcomponent-factory"
-      >Web component module @GitHub</a>
-    <br><a target="_blank" href="https://stackoverflow.com/a/78731814/58186"
-      >StackOverflow answer</a></p>`,
+    `!!<p>
+      ${/stackblitz/i.test(top.href) ?
+      `<a target="_blank" href="//stackblitz.com/@KooiInc"
+          >All my projects</a><br>` : ``}
+      ${/kooiinc\.github\.io/i.test(top.href) ?
+        `<a target="_top" href="https://github.com/KooiInc/es-web-components"
+            >GitHub repository</a><br>` : ``}
+      <a target="_blank" href="//github.com/KooiInc/es-webcomponent-factory"
+        >Web component module @GitHub</a>
+      <br><a target="_blank" href="https://stackoverflow.com/a/78731814/58186"
+        >StackOverflow answer</a></p>`,
     `!!<h2>Ranking the stars</h2>
     <div>
       <p>Here is a web component (autonomous custom element) for creating star ratings.
