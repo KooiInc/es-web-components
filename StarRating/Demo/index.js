@@ -83,10 +83,10 @@ function questionnaire() {
 function intro() {
   return [
     `!!<p>
-      ${/stackblitz/i.test(top.href) ?
+      ${/stackblitz/i.test(top.location.href) ?
       `<a target="_blank" href="//stackblitz.com/@KooiInc"
           >All my projects</a><br>` : ``}
-      ${/kooiinc\.github\.io/i.test(top.href) ?
+      ${/kooiinc\.github\.io/i.test(toplocation.href) ?
         `<a target="_top" href="https://github.com/KooiInc/es-web-components"
             >GitHub repository</a><br>` : ``}
       <a target="_blank" href="//github.com/KooiInc/es-webcomponent-factory"
