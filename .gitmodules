@@ -1,0 +1,4 @@
+[submodule "es-webcomponent-factory"]
+	path = es-webcomponent-factory
+	url = https://github.com/KooiInc/es-webcomponent-factory.git
+	branch = main
