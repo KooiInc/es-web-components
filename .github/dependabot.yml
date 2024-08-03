@@ -1,0 +1,8 @@
+# update submodules this repo depends on
+
+version: 2
+updates:
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "daily"
