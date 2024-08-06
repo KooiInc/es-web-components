@@ -81,10 +81,10 @@ function handleShadowroot(evt) {
 function getStyling() {
   return `
   :host {
-  display: block;
-  position: relative;
-  margin-top: 1em;
-  font: 14px/17px normal system-ui, sans-serif;
+      display: block;
+      position: relative;
+      margin-top: 1em;
+      font: 14px/17px normal system-ui, sans-serif;
 
     .expand-title {
       display: block;
