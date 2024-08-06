@@ -1,3 +1,6 @@
+const basePath = document.querySelector(`base`).href;
+const importPath = `${basePath}ExpandableText/index.js`;
+await import(importPath);
 import {$, logFactory} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@main/index.browser.js?version=makeitso";
 import createStarRatingComponent from "../index.js";
 
