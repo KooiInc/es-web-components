@@ -122,7 +122,7 @@ function initialize() {
         }
       }
     }`,
-    `.starContainer { color: green; }`,
+    `.starContainer { color: #82d985; }`,
     `.head div:first-child {
       color: #777;
       font-weight: normal;
