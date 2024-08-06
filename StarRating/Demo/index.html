@@ -6,10 +6,17 @@
 </head>
 <body>
   <script type="module" src="./index.js"></script>
-  <expandable-text data-title="Ranking The Stars">
+  <expandable-text data-title="Ranking The Stars" data-content-id="headerText"></expandable-text>
+  
+  <template id="headerText">
     <style>
       :host {
         color: #777;
+      }
+      [data-expanded='0'] ~ .expand-content {
+        max-height: 2rem;
+        max-width: 100%;
+        opacity: 0.6;
       }
       [data-expanded='1'] ~ .expand-content  {
         padding: 1em;
@@ -55,11 +62,11 @@
 
     <p>
       <b>The default limits are</b>:
-      <ul>
-        <li>maximum amount of stars (<code>max</code>): 10
-        <li>minimum amount of stars (<code>min</code>): 3
-        <li>default amount of stars (<code>nDefault</code>): 5
-      </ul>
+    <ul>
+      <li>maximum amount of stars (<code>max</code>): 10
+      <li>minimum amount of stars (<code>min</code>): 3
+      <li>default amount of stars (<code>nDefault</code>): 5
+    </ul>
     </p>
     <p>invalid or missing values are replaced with these defaults,
       see examples.</p>
@@ -83,12 +90,12 @@
         <div class="star"></div>
         <div class="star"></div>
       </div>
-        By the way: I am <code><i>div.starContainer</i></code>.
-        Although a css class called <code>.starContainer</code> exists within
-        the web component (is encapsulated by it) it will only apply to the
-        contents of the component. For the document itself <i>div.starContainer</i>
-        has its own css-class (green color).
+      By the way: I am <code><i>div.starContainer</i></code>.
+      Although a css class called <code>.starContainer</code> exists within
+      the web component (is encapsulated by it) it will only apply to the
+      contents of the component. For the document itself <i>div.starContainer</i>
+      has its own css-class (green color).
     </div>
-  </expandable-text>
+  </template>
 </body>
 </html>
