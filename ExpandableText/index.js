@@ -9,7 +9,7 @@ const componentStyle = getStyling();
 
 CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
 
-export default `loaded from base path ${document.querySelector(`base`).href}`;
+export default `loaded`;
 
 function connectElement(componentNode) {
   const shadow = createOrRetrieveShadowRoot(componentNode);
