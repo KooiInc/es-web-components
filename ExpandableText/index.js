@@ -79,10 +79,10 @@ function handleShadowroot(evt) {
 function getStyling() {
   return `
   :host {
-      display: block;
-      position: relative;
-      margin-top: 1em;
-      font: 14px/17px normal system-ui, sans-serif;
+    display: block;
+    position: relative;
+    margin-top: 1em;
+    font: 14px/17px system-ui, sans-serif;
 
     .expand-title {
       display: block;
@@ -162,11 +162,12 @@ function getStyling() {
       padding: 0;
       opacity: 0;
       transition: all 1s ease;
-      .ellipsis {
+      .ellipsis:after {
         display: inline-block;
         font-weight: bold;
         color: #777;
         font-size: 1.5em;
+        content: '\\2026 ';
       }
     }
   
