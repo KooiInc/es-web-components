@@ -5,97 +5,109 @@
   <title>DEV Demo Star Rating web component</title>
 </head>
 <body>
-<script type="module" src="./index.js"></script>
-<expandable-text data-title="Ranking The Stars" data-content-id="headerText"></expandable-text>
+  <script type="module" src="./index.js"></script>
+  <expandable-text data-title="Ranking The Stars" data-content-id="headerText"></expandable-text>
 
-<template id="headerText">
-  <style>
-    .starContainer {
-      color: #76b578;
-      border-top: 1px solid darkslateblue;
-      padding-top: 3px;
-    }
-    :host {
-      color: #777;
-      [data-expanded='0'] ~ .expand-content {
-        max-height: 1.2rem;
-        max-width: 100%;
-        opacity: 0.6;
+  <template id="headerText">
+    <style>
+      .starContainer {
+        color: #76b578;
+        border-top: 1px solid darkslateblue;
+        padding-top: 3px;
       }
-      [data-expanded='1'] ~ .expand-content  {
-        padding: 1em;
-        margin-left: 0;
-      }
-      code {
-        background-color: #eee;
-        color: green;
-        padding: 1px;
-      }
-      .expand-content {
-        ul {
-          margin: 0.5rem 0 0 -1.5rem;
+      :host {
+        color: #444;
+        [data-expanded='0'] ~ .expand-content {
+          max-height: 1.2rem;
+          opacity: 1;
+          mask-image: linear-gradient(to right, #000, transparent);
+          .ellipsis {
+            display: inline-block;
+            font-weight: bold;
+            font-size: 2em;
+          }
         }
-
-        ul li {
-          margin-top: 0.2rem;
-          list-style: '✓ ';
+        [data-expanded='1'] ~ .expand-content  {
+          padding: 1em;
+          margin-left: 0;
+          mask-image: none;
+          overflow: unset;
+          text-overflow: unset;
+          white-space: unset;
+          .ellipsis { display: none; }
         }
+        code {
+          background-color: #eee;
+          color: green;
+          padding: 1px;
+        }
+        .expand-content {
+          ul {
+            margin: 0.5rem 0 0 -1.5rem;
+          }
 
-        ul li:last-child {
-          padding-bottom: 0;
-          margin-bottom: 0;
+          ul li {
+            margin-top: 0.2rem;
+            list-style: '✓ ';
+          }
+
+          ul li:last-child {
+            padding-bottom: 0;
+            margin-bottom: 0;
+          }
         }
       }
-    }
-  </style>
-  <div>Here is a web component (autonomous custom element) for creating star ratings.</div>
-  <p>The custom element is <code>&lt;star-rater></code></p>
-
-  <p>After importing the creation factory (here as
-    <code>createStarRatingComponent</code>) you create the
-    custom element by calling it with or without limit
-    parameters: <code>{min: number, max: number, nDefault: number}</code>
-    where <code>min</code> is the minimum -,
-    <code>max</code> the maximum - and <code>nDefault</code> the
-    default amount of stars.
-  </p>
-
-  <p>
-    <b>The default limits are</b>:
-  <ul>
-    <li>maximum amount of stars (<code>max</code>): 10
-    <li>minimum amount of stars (<code>min</code>): 3
-    <li>default amount of stars (<code>nDefault</code>): 5
-  </ul>
-  </p>
-  <p>invalid or missing values are replaced with these defaults,
-    see examples.</p>
-  <p>
-    The <code>&lt;star-rater></code> element may contain the following data attributes:
-  <ul>
-    <li><code>data-stars="x"</code> - the number of stars the component should create</li>
-    <li><code>data-initial="x"</code> - the score the component should initially have</li>
-  </ul>
-  <p>The values are compared with the aforementioned limits. When out of bounds,
-    they are substituted by default limit values.</p>
-  </p>
-  <p>
-    <b>Note</b>: the <code>&lt;star-rater></code> component can be created once.
-    Subsequent calls to the creator function will do nothing, apart from showing
-    a message in the console.
-  </p>
-  <div class="starContainer">
-    <div class="stars">
-      <div class="star"></div>
-      <div class="star"></div>
-      <div class="star"></div>
+    </style>
+    <div>
+      <span class="ellipsis">...</span> Here is a web component (autonomous custom element) for creating star ratings.
     </div>
-    By the way: I am <code><i>div.starContainer</i></code>.
-    Although a css class called <code>.starContainer</code> exists within
-    the web component (is encapsulated by it) it will only apply to the
-    contents of the component. For the document itself <i>div.starContainer</i>
-    has its own css-class (green color).
-  </div>
-</template>
+    <p>The custom element is <code>&lt;star-rater></code></p>
+
+    <p>After importing the creation factory (here as
+      <code>createStarRatingComponent</code>) you create the
+      custom element by calling it with or without limit
+      parameters: <code>{min: number, max: number, nDefault: number}</code>
+      where <code>min</code> is the minimum -,
+      <code>max</code> the maximum - and <code>nDefault</code> the
+      default amount of stars.
+    </p>
+
+    <p>
+      <b>The default limits are</b>:
+    <ul>
+      <li>maximum amount of stars (<code>max</code>): 10
+      <li>minimum amount of stars (<code>min</code>): 3
+      <li>default amount of stars (<code>nDefault</code>): 5
+    </ul>
+    </p>
+    <p>invalid or missing values are replaced with these defaults,
+      see examples.</p>
+    <p>
+      The <code>&lt;star-rater></code> element may contain the following data attributes:
+    <ul>
+      <li><code>data-stars="x"</code> - the number of stars the component should create</li>
+      <li><code>data-initial="x"</code> - the score the component should initially have</li>
+    </ul>
+    <p>The values are compared with the aforementioned limits. When out of bounds,
+      they are substituted by default limit values.</p>
+    </p>
+    <p>
+      <b>Note</b>: the <code>&lt;star-rater></code> component can be created once.
+      Subsequent calls to the creator function will do nothing, apart from showing
+      a message in the console.
+    </p>
+    <div class="starContainer">
+      <div class="stars">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+      </div>
+      By the way: I am <code><i>div.starContainer</i></code>.
+      Although a css class called <code>.starContainer</code> exists within
+      the web component (is encapsulated by it) it will only apply to the
+      contents of the component. For the document itself <i>div.starContainer</i>
+      has its own css-class (green color).
+    </div>
+  </template>
 </body>
 </html>
