@@ -47,6 +47,7 @@ function createFullContent(componentNode) {
   
   const embeddedTemplate = componentNode.querySelector(`template`);
   const maybeTemplate = document.querySelector(`#${componentNode.dataset?.contentId ?? `_`}`);
+  const maybeHtml = componentNode.innerHTML.trim();
   
   if (embeddedTemplate) {
     const fullContent = embeddedTemplate.content.cloneNode(true);
@@ -54,8 +55,9 @@ function createFullContent(componentNode) {
     return fullContent;
   }
   
-  return componentNode.innerHTML.trim().length
-      ? createElement(`div`, {innerHTML: componentNode.innerHTML})
+  componentNode.textContent = ``;
+  return maybeHtml.length > 0
+      ? createElement(`div`, {innerHTML: maybeHtml})
       : maybeTemplate?.content;
 }
 
