@@ -142,7 +142,7 @@ function initialize() {
       font-weight: bold;
       color: #607ca1;
       min-width: 320px;
-      max-width: 50vw;
+      max-width: 360px;
       white-space: nowrap;
       padding: 4px;
       background-color: #EEE;
@@ -158,8 +158,8 @@ function initialize() {
     `<a target="_blank" href="//stackblitz.com/@KooiInc"
           >All my projects</a><br>` : ``}
       ${/kooiinc\.github\.io/i.test(top.location.href) ?
-    `<a target="_top" href="https://github.com/KooiInc/es-web-components"
-            >GitHub repository</a><br>` : ``}
+    `<a target="_top" href="https://github.com/KooiInc/es-web-components/StarRating"
+            >GitHub</a><br>` : ``}
       <a target="_blank" href="//github.com/KooiInc/es-webcomponent-factory"
         >Web component module @GitHub</a>
      </p>`);
