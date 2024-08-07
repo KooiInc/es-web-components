@@ -9,8 +9,6 @@ const componentStyle = getStyling();
 
 CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
 
-export default `loaded`;
-
 function connectElement(componentNode) {
   const shadow = createOrRetrieveShadowRoot(componentNode);
   shadow.adoptedStyleSheets = [setComponentStyleFor(componentNode, componentStyle)];
@@ -157,14 +155,10 @@ function getStyling() {
       line-height: 1.1rem;
     }
   
-    .expand-title [data-is-expanded='1'] ~ .expand-content > div:first-child {
-      margin-top: 0;
-    }
-  
     [data-expanded='0'] ~ .expand-content {
       overflow: hidden;
       max-height: 0;
-      max-width: 40vw;
+      max-width: 40%;
       padding: 0;
       opacity: 0;
       transition: all 1s ease;
