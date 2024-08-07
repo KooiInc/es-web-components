@@ -165,10 +165,8 @@ function getStyling() {
       overflow: hidden;
       max-height: 0;
       max-width: 40vw;
-      color: #c0c0c0;
       padding: 0;
       opacity: 0;
-      margin: auto auto 0 1.5rem;
       transition: all 1s ease;
     }
   
@@ -179,6 +177,7 @@ function getStyling() {
       transition: all 1s ease;
       border: 1px dashed #ccc;
       padding: 8px;
+      color: unset;
       margin: 0.3em auto 0.7em auto;
     }
   }`;
