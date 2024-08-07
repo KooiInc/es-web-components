@@ -121,6 +121,8 @@ function getStyling() {
         text-overflow: ellipsis;
         white-space: nowrap;
         max-width: 90%;
+        height: 1.4em;
+        vertical-align: middle;
       }
     }
   
@@ -128,7 +130,7 @@ function getStyling() {
       display: inline-block;
       margin: auto;
       color: #a15a57;
-      font-size: 1.5em;
+      font-size: 1.3em;
       text-align: center;
     }
   
@@ -179,6 +181,7 @@ function getStyling() {
     }
   
     [data-expanded='0'] ~ .expand-content {
+      margin-top: -0.4em;
       overflow: hidden;
       max-height: 0;
       max-width: 40%;
