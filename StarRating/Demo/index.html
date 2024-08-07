@@ -21,21 +21,11 @@
           max-height: 1.5em;
           opacity: 1;
           mask-image: linear-gradient(to right, #000, transparent);
-          .ellipsis {
-            display: inline-block;
-            font-weight: bold;
-            color: #777;
-            font-size: 1.5em;
-          }
         }
         [data-expanded='1'] ~ .expand-content  {
           padding: 1em;
           margin-left: 0;
           mask-image: none;
-          overflow: unset;
-          text-overflow: unset;
-          white-space: unset;
-          .ellipsis { display: none; }
         }
         code {
           background-color: #eee;
