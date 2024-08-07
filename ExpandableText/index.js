@@ -168,6 +168,12 @@ function getStyling() {
       padding: 0;
       opacity: 0;
       transition: all 1s ease;
+      .ellipsis {
+        display: inline-block;
+        font-weight: bold;
+        color: #777;
+        font-size: 1.5em;
+      }
     }
   
     [data-expanded='1'] ~ .expand-content {
@@ -177,8 +183,8 @@ function getStyling() {
       transition: all 1s ease;
       border: 1px dashed #ccc;
       padding: 8px;
-      color: unset;
       margin: 0.3em auto 0.7em auto;
+      .ellipsis { display: none; }
     }
   }`;
 }
