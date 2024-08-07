@@ -10,16 +10,20 @@ const componentStyle = getStyling();
 CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
 
 function connectElement(componentNode) {
+  const fullContent = createFullContent(componentNode);
+  if (!fullContent) {
+    componentNode.remove();
+    return console.info(`✔ an empty <expandable-text> element was removed`);
+  }
   const shadow = createOrRetrieveShadowRoot(componentNode);
   shadow.adoptedStyleSheets = [setComponentStyleFor(componentNode, componentStyle)];
-  connectContent(componentNode, shadow);
+  connectContent(componentNode, fullContent, shadow);
   shadow.addEventListener(`click`, handleShadowroot);
 }
 
-function connectContent(componentNode, shadow) {
-  const fullContent = createFullContent(componentNode);
+function connectContent(componentNode, fullContent, shadow) {
   addCustomStylesheet(shadow, fullContent);
-  const titleText = componentNode.dataset.title.trim().replace(/\s{2,}/g, ` `);
+  const titleText = getTitle(fullContent, componentNode);
   const title = createElement( `div`, { className: `expand-title` }, { expanded: 0, } );
   const titleTextElement =  createElement( `div`, {
     className: `title`,  textContent: titleText, title: `${titleText} - click to expand` } );
@@ -30,13 +34,29 @@ function connectContent(componentNode, shadow) {
   shadow.append(title, content);
 }
 
+function getTitle(fullContent, componentNode) {
+  const titleInTemplate = fullContent.querySelector(`.expand-ttl`);
+  const titleText = titleInTemplate?.textContent ??
+    componentNode.dataset?.title?.trim()?.replace(/\s{2,}/g, ` `) ?? ``;
+  titleInTemplate?.remove();
+  return titleText.length > 0 ? titleText : `--NO TITLE--`;
+}
+
 function createFullContent(componentNode) {
   if (componentNode.html) { return componentNode.html; }
-  const fullContent = componentNode.innerHTML.trim().length
-    ? createElement(`div`, {innerHTML: componentNode.innerHTML})
-    : document.querySelector(`#${componentNode.dataset.contentId}`).content;
-  componentNode.innerHTML = ``;
-  return fullContent;
+  
+  const embeddedTemplate = componentNode.querySelector(`template`);
+  const maybeTemplate = document.querySelector(`#${componentNode.dataset?.contentId ?? `_`}`);
+  
+  if (embeddedTemplate) {
+    const fullContent = embeddedTemplate.content.cloneNode(true);
+    embeddedTemplate.remove();
+    return fullContent;
+  }
+  
+  return componentNode.innerHTML.trim().length
+      ? createElement(`div`, {innerHTML: componentNode.innerHTML})
+      : maybeTemplate?.content;
 }
 
 function addCustomStylesheet(shadow, fullContent) {
@@ -83,7 +103,9 @@ function getStyling() {
     position: relative;
     margin-top: 1em;
     font: 14px/17px system-ui, sans-serif;
-
+    
+    .expand-ttl { display: none; }
+    
     .expand-title {
       display: block;
       user-select: none;
