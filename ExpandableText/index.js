@@ -64,10 +64,9 @@ function addCustomStylesheet(shadow, fullContent) {
   
   if (!extraStyling) { return; }
   
-  const xtra = extraStyling.innerHTML;
-  extraStyling.remove();
   const xtraSheet = new CSSStyleSheet();
-  xtraSheet.replaceSync(xtra);
+  xtraSheet.replaceSync(extraStyling.innerHTML);
+  extraStyling.remove();
   shadow.adoptedStyleSheets.push(xtraSheet);
 }
 
