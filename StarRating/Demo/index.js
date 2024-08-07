@@ -147,7 +147,7 @@ function initialize() {
       padding: 4px;
       background-color: #EEE;
     }`,
-    `.q h3 { margin: 0.3em; }`
+    `.q h3 { margin: 0.3em; }`,
   );
   
   const logScreen = $(`#log2screen`);

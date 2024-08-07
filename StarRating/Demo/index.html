@@ -10,13 +10,8 @@
 
   <template id="headerText">
     <style>
-      .starContainer {
-        color: #76b578;
-        border-top: 1px solid darkslateblue;
-        padding-top: 3px;
-      }
       :host {
-        color: #444;
+        color: #333;
         [data-expanded='0'] ~ .expand-content {
           max-height: 1.5em;
           opacity: 1;
@@ -50,8 +45,10 @@
       }
     </style>
     <div>
-      <span class="ellipsis">...</span> Here is a web component (autonomous custom element) for creating star ratings.
+      <span class="ellipsis"></span>
+      Here is a web component (autonomous custom element) for creating star ratings.
     </div>
+
     <p>The custom element is <code>&lt;star-rater></code></p>
 
     <p>After importing the creation factory (here as
@@ -88,18 +85,6 @@
       Subsequent calls to the creator function will do nothing, apart from showing
       a message in the console.
     </p>
-    <div class="starContainer">
-      <div class="stars">
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-      </div>
-      By the way: I am <code><i>div.starContainer</i></code>.
-      Although a css class called <code>.starContainer</code> exists within
-      the web component (is encapsulated by it) it will only apply to the
-      contents of the component. For the document itself <i>div.starContainer</i>
-      has its own css-class (green color).
-    </div>
   </template>
 </body>
 </html>
