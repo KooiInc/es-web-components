@@ -13,9 +13,10 @@
         :host {
           color: #333;
           [data-expanded='0'] ~ .expand-content {
-            max-height: 1.5em;
+            max-height: 8em;
             opacity: 1;
-            mask-image: linear-gradient(to right, #000, transparent);
+            max-width: 80%;
+            mask-image: linear-gradient(#000, transparent);
           }
           [data-expanded='1'] ~ .expand-content  {
             padding: 1em;
