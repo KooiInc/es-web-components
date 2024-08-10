@@ -22,7 +22,7 @@ function connectElement(componentNode) {
 }
 
 function connectContent(componentNode, fullContent, shadow) {
-  addCustomStylesheet(shadow, fullContent);
+  addCustomCssAndMaybeExternals(shadow, fullContent, componentNode);
   const titleText = getTitle(fullContent, componentNode);
   const title = createElement( `div`, { className: `expand-title` }, { expanded: 0, } );
   const titleTextElement =  createElement( `div`, {
@@ -48,7 +48,7 @@ function createFullContent(componentNode) {
   const embeddedTemplate = componentNode.querySelector(`template`);
   const maybeTemplate = document.querySelector(`#${componentNode.dataset?.contentId ?? `_`}`);
   const maybeHtml = componentNode.innerHTML.trim();
-  
+
   if (embeddedTemplate) {
     const fullContent = embeddedTemplate.content.cloneNode(true);
     embeddedTemplate.remove();
@@ -56,20 +56,28 @@ function createFullContent(componentNode) {
   }
   
   componentNode.textContent = ``;
+  
   return maybeHtml.length > 0
       ? createElement(`div`, {innerHTML: maybeHtml})
       : maybeTemplate?.content;
 }
 
-function addCustomStylesheet(shadow, fullContent) {
+function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
   const extraStyling = fullContent.querySelector(`style`);
+  const externalStylingId = componentNode.dataset?.externalCssId;
   
-  if (!extraStyling) { return; }
+  if (!extraStyling && !externalStylingId) { return; }
   
-  const xtraSheet = new CSSStyleSheet();
-  xtraSheet.replaceSync(extraStyling.innerHTML);
-  extraStyling.remove();
-  shadow.adoptedStyleSheets.push(xtraSheet);
+  if (externalStylingId) {
+    shadow.append(document.querySelector(`#${externalStylingId}`).cloneNode(true));
+  }
+  
+  if (extraStyling) {
+    const xtraSheet = new CSSStyleSheet();
+    xtraSheet.replaceSync(extraStyling.innerHTML);
+    extraStyling.remove();
+    shadow.adoptedStyleSheets.push(xtraSheet);
+  }
 }
 
 function handleShadowroot(evt) {
@@ -82,13 +90,11 @@ function handleShadowroot(evt) {
     const titleElement = headerElem.querySelector(`.title`);
     
     if (expander.dataset.isExpanded === `0`) {
-      headerElem.classList.add(`active`);
       headerElem.dataset.expanded = 1;
       titleElement.title = titleElement.title.replace(`click to expand`, `click to collapse`);
       return expander.dataset.isExpanded = 1;
     }
-    
-    headerElem.classList.remove(`active`);
+
     headerElem.dataset.expanded = 0;
     titleElement.title = titleElement.title.replace(`click to collapse`, `click to expand`);
     return expander.dataset.isExpanded = 0;
@@ -184,22 +190,24 @@ function getStyling() {
       margin-top: -0.4em;
       overflow: hidden;
       max-height: 0;
-      max-width: 40%;
       padding: 0;
       opacity: 0;
       transition: all 1s ease;
+      
       .ellipsis:after {
         display: inline-block;
         font-weight: bold;
         color: #777;
         font-size: 1.5em;
+        text-align: center;
+        width: 100%;
         content: '\\2026 ';
       }
     }
   
     [data-expanded='1'] ~ .expand-content {
       max-height: 50vh;
-      max-width: inherit;
+      max-width: 100%;
       overflow-y: auto;
       transition: all 1s ease;
       border: 1px dashed #ccc;
