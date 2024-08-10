@@ -16,7 +16,9 @@
         :host {
           color: #333;
 
-          .title {font-size: 1.3rem; }
+          .title {
+            font-size: 1.3rem;
+          }
 
           [data-expanded='0'] ~ .expand-content {
             max-height: 8em;
@@ -31,10 +33,9 @@
               display: block;
               margin-top: -2rem;
             }
-            }
           }
 
-          [data-expanded='1'] ~ .expand-content  {
+          [data-expanded='1'] ~ .expand-content {
             padding: 1em;
             margin-left: 0;
             mask-image: none;
