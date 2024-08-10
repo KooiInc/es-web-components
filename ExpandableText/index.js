@@ -90,18 +90,18 @@ function handleShadowroot(evt) {
   const isFoldElem = evt.target.closest(`.expand-content`);
   const isClosed = evt.target.getRootNode().querySelector(`[data-expanded='0']`);
   
-  
   if (!isFoldElem || isClosed) {
     const expander = headerContainer.querySelector(`[data-is-expanded]`);
     const headerElem = headerContainer.querySelector(`[data-expanded]`);
     const titleElement = headerElem.querySelector(`.title`);
+    const content = headerContainer.querySelector('.expand-content');
     
     if (expander.dataset.isExpanded === `0`) {
       headerElem.dataset.expanded = 1;
       titleElement.title = titleElement.title.replace(`click to expand`, `click to collapse`);
       return expander.dataset.isExpanded = 1;
     }
-
+    content.scrollTop = 0;
     headerElem.dataset.expanded = 0;
     titleElement.title = titleElement.title.replace(`click to collapse`, `click to expand`);
     return expander.dataset.isExpanded = 0;
