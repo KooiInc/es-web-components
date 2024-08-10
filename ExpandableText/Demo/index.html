@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo <expandable-text></title>
+  <link rel="stylesheet" href="prism.css" id="prismCss">
+  <script src="prism.js" id="prismES"></script>
+</head>
+<body>
+  <script type="module" src="./index.js"></script>
+  <expandable-text class="start">
+    <template>
+      <link rel="stylesheet" href="./prism.css"/>
+      <div class="expand-ttl">A web component to display html in a expandable/collapsible way</div>
+      <style>
+        :host {
+          color: #333;
+
+          .title {font-size: 1.3rem; }
+
+          [data-expanded='0'] ~ .expand-content {
+            max-height: 8em;
+            opacity: 1;
+            max-width: 80%;
+            mask-image: linear-gradient(#000, transparent);
+
+            .ellipsis:after {
+              color: red;
+              position: absolute;
+              font-size: 6rem;
+            }
+          }
+
+          [data-expanded='1'] ~ .expand-content  {
+            padding: 1em;
+            margin-left: 0;
+            mask-image: none;
+          }
+
+          code:not([class*=language-]) {
+            background-color: #eee;
+            color: green;
+            padding: 1px;
+          }
+
+          .expand-content {
+            ul {
+              margin: 0.5rem 0 0 -1.5rem;
+            }
+
+            ul li {
+              margin-top: 0.2rem;
+              list-style: '✓ ';
+            }
+
+            ul li:last-child {
+              padding-bottom: 0;
+              margin-bottom: 0;
+            }
+          }
+        }
+      </style>
+      <div class="ellipsis">
+        Here is a web component creating a (autonomous) custom element to display text
+        in an expandable/collapsible way.
+      </div>
+
+      <p>The custom element is <code>&lt;expandable-text></code></p>
+
+      <div>
+        The <i><b>content</b></i> of an <code>&lt;expandable-text></code> element can be created in three ways
+      </div>
+
+      <ul>
+        <li>Html within the element<br>
+          <b>Note</b>: with a lot of html the element may flash on page load
+          (while the custom element is initializing)</li>
+        <li>A <code>template</code> element within the element</li>
+        <li>An external <code>template</code> with an id.
+          <div>In this case the
+          <code>&lt;expandable-text></code> should have a <code>data-attribute</code>:<br>
+            &nbsp;&nbsp;<code>&lt;expandable-text data-content-id="[the template id]"></code></div>
+        </li>
+      </ul>
+
+      <p>
+        The <i><b>title</b></i> of an <code>&lt;expandable-text></code> element can be created in two ways
+      </p>
+
+      <ul>
+        <li>A div with class "expand-ttl" within the html of the custom element (either the
+          plain html or the template html):<br>
+          <code>&lt;div class="expand-ttl">[the title]&lt;/div></code>
+        </li>
+        <li>A <code>data-attribute</code>:<br>
+          <code>&lt;expandable-text data-title="[the title]"></code>
+        </li>
+        <li><b>Note</b>: the title can not contain html (it will be removed)</li>
+      </ul>
+
+      <p>
+        The title of a <code>&lt;expandable-text></code> display by default is displayed
+        as a bold title preceded by a small arrow down symbol.
+        It will always span one line. When the length of a title exceeds the line space
+        it is abbreviated with an ellipsis (&hellip;).
+        The title receives a <code>title attribute</code> that always contains the
+        full title.
+      </p>
+
+      <p>
+        By default the <code>&lt;expandable-text></code> content is hidden (so all you
+        see is the title). One can modify the styling of the content (and all other elements)
+        using a <code>&lt;style></code> element within the html.
+      </p>
+
+      <p>
+        A connected element has the following structure within its <code>shadowRoot</code>
+      </p>
+      <div id="bollocks">
+      <pre class="language-markup"><code class="language-html">&lt;div class="expand-title" data-expanded="[0/1]">
+  &lt;div data-isexpanded="[0/1]"><span class="gray">&lt!-- the arrow element --></span>&lt;/div>
+  &lt;div class="title" title="..."><span class="gray">&lt!-- the title --></span>&lt;/div>
+&lt;/div>
+&lt;div class="expand-content"><span class="gray">&lt!-- the content html --></span>&lt;/div></code></pre>
+      </div>
+    </template>
+  </expandable-text>
+
+
+</body>
+</html>
