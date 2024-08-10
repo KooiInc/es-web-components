@@ -203,7 +203,7 @@ function getStyling() {
     }
     
     [data-expanded='0'] ~ .expand-content.preview {
-      max-height: 125px;
+      max-height: 80px;
       opacity: 1;
       max-width: 80%;
       mask-image: linear-gradient(#000, transparent);
