@@ -195,7 +195,7 @@ function getStyling() {
       transition: all 1s ease;
       
       .ellipsis:after {
-        display: inline-block;
+        display: block;
         font-weight: bold;
         color: #777;
         font-size: 1.5em;
