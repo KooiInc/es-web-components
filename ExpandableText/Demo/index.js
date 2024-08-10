@@ -91,7 +91,7 @@ function initialize() {
 `<expandable-text>
   <template>
     <style>
-      /* styling always should be within :host *?
+      /* styling always should be within :host */
       /* nested */
       :host {
         .title { color: rgba(242, 19, 19, 0.6); font-style: italic;}
