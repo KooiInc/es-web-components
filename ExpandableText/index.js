@@ -30,6 +30,11 @@ function connectContent(componentNode, fullContent, shadow) {
   title.append(titleTextElement);
   title.prepend( createElement( `div`, { className: `arrow` }, { isExpanded: 0 }) );
   const content = createElement( `div`, { className: `expand-content` } );
+  
+  if (componentNode.dataset.preview) {
+    content.classList.add(`preview`);
+  }
+  
   content.append(fullContent);
   shadow.append(title, content);
 }
@@ -83,8 +88,10 @@ function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
 function handleShadowroot(evt) {
   const headerContainer = evt.target.getRootNode();
   const isFoldElem = evt.target.closest(`.expand-content`);
+  const isClosed = evt.target.getRootNode().querySelector(`[data-expanded='0']`);
   
-  if (!isFoldElem) {
+  
+  if (!isFoldElem || isClosed) {
     const expander = headerContainer.querySelector(`[data-is-expanded]`);
     const headerElem = headerContainer.querySelector(`[data-expanded]`);
     const titleElement = headerElem.querySelector(`.title`);
@@ -193,16 +200,14 @@ function getStyling() {
       padding: 0;
       opacity: 0;
       transition: all 1s ease;
-      
-      .ellipsis:after {
-        display: block;
-        font-weight: bold;
-        color: #777;
-        font-size: 1.5em;
-        text-align: center;
-        width: 100%;
-        content: '\\2026 ';
-      }
+    }
+    
+    [data-expanded='0'] ~ .expand-content.preview {
+      max-height: 125px;
+      opacity: 1;
+      max-width: 80%;
+      mask-image: linear-gradient(#000, transparent);
+      cursor: pointer;
     }
   
     [data-expanded='1'] ~ .expand-content {
@@ -214,6 +219,7 @@ function getStyling() {
       padding: 8px;
       margin: 0.3em auto 0.7em auto;
       .ellipsis { display: none; }
+      cursor: default;
     }
   }`;
 }
