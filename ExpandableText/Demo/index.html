@@ -26,12 +26,14 @@
             max-width: 80%;
             mask-image: linear-gradient(#000, transparent);
 
+            /*.ellipsis { height: 8em; mask-image: none}*/
             .ellipsis:after {
               color: red;
               position: absolute;
-              font-size: 5rem;
+              font-size: 64pt;
+              line-height: 8em;
               display: block;
-              margin-top: -2rem;
+              background-color: transparent;
             }
           }
 
@@ -64,7 +66,9 @@
           }
         }
       </style>
-      <div class="ellipsis">
+      <div class="ellipsis"></div>
+
+      <div>
         Here is a web component creating a (autonomous) custom element to display text
         in an expandable/collapsible way.
       </div>
