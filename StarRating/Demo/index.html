@@ -6,18 +6,12 @@
 </head>
 <body>
   <script type="module" src="./index.js"></script>
-  <expandable-text>
+  <expandable-text data-preview="1">
     <template>
-      <div class="expand-ttl">Ranking The Stars</div>
+      <div class="expand-ttl">A web component to create a custom element to rate with stars</div>
       <style>
         :host {
           color: #333;
-          [data-expanded='0'] ~ .expand-content {
-            max-height: 8em;
-            opacity: 1;
-            max-width: 80%;
-            mask-image: linear-gradient(#000, transparent);
-          }
           [data-expanded='1'] ~ .expand-content  {
             padding: 1em;
             margin-left: 0;
@@ -46,7 +40,6 @@
         }
       </style>
       <div>
-        <span class="ellipsis"></span>
         Here is a web component (autonomous custom element) for creating star ratings.
       </div>
 
@@ -81,11 +74,11 @@
       <p>The values are compared with the aforementioned limits. When out of bounds,
         they are substituted by default limit values.
       </p>
-      <p>
+      <div>
         <b>Note</b>: the <code>&lt;star-rater></code> component can be created once.
         Subsequent calls to the creator function will do nothing, apart from showing
         a message in the console.
-      </p>
+      </div>
     </template>
   </expandable-text>
 
