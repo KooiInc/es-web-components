@@ -8,7 +8,7 @@
 </head>
 <body>
   <script type="module" src="./index.js"></script>
-  <expandable-text class="start">
+  <expandable-text class="start" data-preview="1">
     <template>
       <link rel="stylesheet" href="./prism.css"/>
       <div class="expand-ttl">A web component to display html in a expandable/collapsible way</div>
@@ -18,21 +18,6 @@
 
           .title {
             font-size: 1.3rem;
-          }
-
-          [data-expanded='0'] ~ .expand-content {
-            max-height: 8em;
-            opacity: 1;
-            max-width: 80%;
-            mask-image: linear-gradient(#000, transparent);
-
-            .ellipsis:after {
-              color: red;
-              position: absolute;
-              font-size: 64pt;
-              display: block;
-              background-color: transparent;
-            }
           }
 
           [data-expanded='1'] ~ .expand-content {
@@ -64,7 +49,6 @@
           }
         }
       </style>
-      <div class="ellipsis"></div>
 
       <div>
         Here is a web component creating a (autonomous) custom element to display text
@@ -120,14 +104,24 @@
       </p>
 
       <p>
+        <code>&lt;expandable-text></code> can be connected with a default
+        <i><b>preview area</b></i> with a maximum height of 125 pixels
+        and a vertical gradient (vertical 'fade out').
+        <br>To use this, create the element with
+        <code>&lt;expandable-text data-preview="1"></code>. See last example.
+      </p>
+
+      <p>
         A connected element has the following structure within its <code>shadowRoot</code>
       </p>
-      <div id="bollocks">
+      <div id="styleHtml">
       <pre class="language-markup"><code class="language-html">&lt;div class="expand-title" data-expanded="[0/1]">
   &lt;div data-isexpanded="[0/1]"><span class="gray">&lt!-- the arrow element --></span>&lt;/div>
   &lt;div class="title" title="..."><span class="gray">&lt!-- the title --></span>&lt;/div>
 &lt;/div>
-&lt;div class="expand-content"><span class="gray">&lt!-- the content html --></span>&lt;/div></code></pre>
+&lt;div class="expand-content [preview]">
+  <span class="gray">&lt!-- the html provided --></span>
+&lt;/div></code></pre>
       </div>
     </template>
   </expandable-text>

@@ -8,7 +8,7 @@ const wrapHTML = html => `<pre class="language-markup"><code class="language-htm
 log2Screen(`!!<h2>Examples</h2>`);
 examples.forEach( example => log2Screen(`${example}${wrapHTML(example)}`) );
 
-Prism.highlightAllUnder(document.querySelector(`.start`).shadowRoot.querySelector(`#bollocks`));
+Prism.highlightAllUnder(document.querySelector(`.start`).shadowRoot.querySelector(`#styleHtml`));
 
 function initialize() {
   const {log: log2Screen, logTop} = logFactory();
@@ -105,7 +105,13 @@ function initialize() {
     <!-- ^ title from element -->
     ${loremIpsum}
   </template>
-</expandable-text>`];//.map(el => el.replace(/\n^ {4}/g, ``));
+</expandable-text>`,
+`<expandable-text data-preview="1">
+  <template>
+    <div class="expand-ttl">An element with a default preview area</div>
+    ${loremIpsum}
+  </template>
+</expandable-text>`  ];
   const logScreen = $(`#log2screen`);
   $(`<div class="container">`).append(logScreen);
   logScreen.prepend($(`<li class="head">`).append($(`expandable-text`)));
