@@ -26,7 +26,7 @@ function connectContent(componentNode, fullContent, shadow) {
   const titleText = getTitle(fullContent, componentNode);
   const title = createElement( `div`, { className: `expand-title` }, { expanded: 0, } );
   const titleTextElement =  createElement( `div`, {
-    className: `title`,  textContent: titleText, title: `${titleText} - click to expand` } );
+    className: `title`,  textContent: titleText, title: `${titleText}` } );
   title.append(titleTextElement);
   title.prepend( createElement( `div`, { className: `arrow` }, { isExpanded: 0 }) );
   const content = createElement( `div`, { className: `expand-content` } );
@@ -88,22 +88,20 @@ function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
 function handleShadowroot(evt) {
   const headerContainer = evt.target.getRootNode();
   const isFoldElem = evt.target.closest(`.expand-content`);
-  const isClosed = evt.target.getRootNode().querySelector(`[data-expanded='0']`);
+  const isClosed = headerContainer.querySelector(`[data-expanded='0']`);
   
   if (!isFoldElem || isClosed) {
     const expander = headerContainer.querySelector(`[data-is-expanded]`);
     const headerElem = headerContainer.querySelector(`[data-expanded]`);
-    const titleElement = headerElem.querySelector(`.title`);
     const content = headerContainer.querySelector('.expand-content');
     
     if (expander.dataset.isExpanded === `0`) {
       headerElem.dataset.expanded = 1;
-      titleElement.title = titleElement.title.replace(`click to expand`, `click to collapse`);
       return expander.dataset.isExpanded = 1;
     }
+    
     content.scrollTop = 0;
     headerElem.dataset.expanded = 0;
-    titleElement.title = titleElement.title.replace(`click to collapse`, `click to expand`);
     return expander.dataset.isExpanded = 0;
   }
   
@@ -146,15 +144,18 @@ function getStyling() {
       font-size: 1.3em;
       text-align: center;
     }
-  
+    
     .expand-title [data-is-expanded]::before {
       font-size: 1.3rem;
       margin-right: 5px;
       text-shadow: -1px 1px 2px #999;
     }
   
+    .expand-title .title:hover {
+      color: green;
+    }
     .expand-title [data-is-expanded]:hover:after,
-    .expand-title [data-is-expanded] ~ .title:hover::before {
+    .expand-title .title:hover:before {
       color: #777;
       margin-left: 0.5em;
       font-weight: normal;
@@ -162,7 +163,8 @@ function getStyling() {
       line-height: 1rem;
       background-color: white;
       position: absolute;
-      margin-top: 0.5em;
+      margin-top: 1.4em;
+      margin-left: 0.3em;
       border: 1px solid #AAA;
       padding: 3px;
       z-index: 10;
@@ -170,12 +172,14 @@ function getStyling() {
       box-shadow: 1px 1px 5px #999;
       white-space: nowrap;
     }
-  
-    .expand-title [data-is-expanded='0']:hover:after {
+    
+    .expand-title [data-is-expanded='0']:hover:after,
+    .expand-title[data-expanded='0'] .title:hover:before {
       content: 'click to expand';
     }
   
-    .expand-title [data-is-expanded='1']:hover:after {
+    .expand-title [data-is-expanded='1']:hover:after,
+    .expand-title[data-expanded='1'] .title:hover:before{
       content: 'click to collapse';
     }
   
