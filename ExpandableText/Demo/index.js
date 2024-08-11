@@ -6,11 +6,11 @@ const log2Screen = initialize();
 const wrapHTML = html => `<pre class="language-markup"><code class="language-html">${
    html.replace(/</g, `&lt;`)}</code></pre>`;
 log2Screen(`!!<h2>Examples</h2>`);
-examples.forEach( example => log2Screen(`${example}${wrapHTML(example)}`) );
-console.log(document.querySelector(`.start`)
-  .shadowRoot.querySelector(`expandable-text`).shadowRoot.querySelector(`#styleHtml`));
+examples.forEach( example => log2Screen(`${example}<div class="htmlHeader">HTML for the above</div>${
+  wrapHTML(example)}</div>`) );
 Prism.highlightAllUnder(document.querySelector(`.start`)
-  .shadowRoot.querySelector(`expandable-text`).shadowRoot.querySelector(`#styleHtml`));
+  .shadowRoot.querySelector(`expandable-text`)
+    .shadowRoot.querySelector(`#styleHtml`));
 
 function initialize() {
   const {log: log2Screen, logTop} = logFactory();
@@ -23,6 +23,13 @@ function initialize() {
       #log2screen {
         margin: 0 auto;
         margin-bottom: 2rem;
+      }
+      
+      #log2screen li div.htmlHeader:not([class*='language-']) {
+        font-weight: bold;
+        color: #888;
+        margin-top: 1em;
+        font-size: 1.1em;
       }
 
       @media(width <= 3200px) {
@@ -74,8 +81,8 @@ function initialize() {
   );
   $.allowTag(`template`);
   loremIpsum = `<div>Hi, let's lorem</div>
-    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit... </div>
-    <div>Curabitur pretium tincidunt lacus, ut dapibus purus tincidunt a. Nulla facilisi... </div>`;
+    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</div>
+    <div>Curabitur pretium tincidunt lacus, ut dapibus purus tincidunt a. Nulla facilisi...</div>`;
   $(`<template id="loremExternal">${loremIpsum}</template>`);
   examples = [
 `<expandable-text data-title="A default element with html inside">
@@ -101,16 +108,17 @@ function initialize() {
         [data-expanded='1'] ~ .expand-content { font-size: 1.2rem; }
       }
       /* not nested */
-      :host .expand-content div:first-child { color: blue; font-weight: bold; margin-bottom: 1rem; }
+      :host .expand-content div:first-child {
+        color: blue;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
       :host .expand-title [data-is-expanded]:before {
         content: '☝';
         display: inline-block;
       }
       :host .expand-title [data-is-expanded='0']:before {
-        transform: rotate(120deg);
-      }
-      :host .expand-title [data-is-expanded='1']:before {
-        transform: rotate(-60deg);
+        transform: rotate(180deg);
       }
     </style>
     </style>
