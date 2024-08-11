@@ -10,7 +10,6 @@
   <script type="module" src="./index.js"></script>
   <expandable-text class="start" data-preview="1">
     <template>
-      <link rel="stylesheet" href="./prism.css"/>
       <div class="expand-ttl">A web component to display html in a expandable/collapsible way</div>
       <style>
         :host {
@@ -23,7 +22,6 @@
           [data-expanded='1'] ~ .expand-content {
             padding: 1em;
             margin-left: 0;
-            mask-image: none;
           }
 
           code:not([class*=language-]) {
@@ -33,6 +31,19 @@
           }
 
           .expand-content {
+            h3 {
+              margin: 0.5em auto 0.2em auto;
+              color: #888;
+            }
+
+            h3 ~ p {
+              margin-top: 0;
+            }
+
+            ul ~ h3 {
+              margin-top: 1em;
+            }
+
             ul {
               margin: 0.5rem 0 0 -1.5rem;
             }
@@ -57,6 +68,7 @@
 
       <p>The custom element is <code>&lt;expandable-text></code></p>
 
+      <h3>Expandable fragment content</h3>
       <div>
         The <i><b>content</b></i> of an <code>&lt;expandable-text></code> element can be created in three ways
       </div>
@@ -73,6 +85,7 @@
         </li>
       </ul>
 
+      <h3>Expandable fragment title</h3>
       <p>
         The <i><b>title</b></i> of an <code>&lt;expandable-text></code> element can be created in two ways
       </p>
@@ -88,6 +101,14 @@
         <li><b>Note</b>: the title can not contain html (it will be removed)</li>
       </ul>
 
+      <h3>Expandable fragment styling</h3>
+      <p>
+        One can modify the styling of the title and content of a
+        <code>&lt;expandable-text></code> element using a <code>&lt;style></code> element
+        within the html (either plain HTML, or the inner/external template). See
+        the fourth example to get an idea of that.
+      </p>
+
       <p>
         The title of a <code>&lt;expandable-text></code> display by default is displayed
         as a bold title preceded by a small arrow down symbol.
@@ -97,27 +118,50 @@
         full title.
       </p>
 
+      <h3>Preview mode</h3>
       <p>
         By default the <code>&lt;expandable-text></code> content is hidden (so all you
-        see is the title). One can modify the styling of the content (and all other elements)
-        using a <code>&lt;style></code> element within the html.
+        see is the title).
       </p>
 
       <p>
         <code>&lt;expandable-text></code> can be connected with a default
         <i><b>preview area</b></i> with a maximum height of 80 pixels
         and a vertical gradient (vertical 'fade out').
-        <br>To use this, create the element with
-        <code>&lt;expandable-text data-preview="1"></code>. See last example.
-        <br><b>Note</b>: when a preview is active and the
-        <code>&lt;expandable-text></code> is collapsed, the user can
-        also click the preview to expand the content.
       </p>
 
       <p>
-        A connected element has the following structure within its <code>shadowRoot</code>
+        To activate preview mode, create the element with
+        <code>&lt;expandable-text data-preview="1"></code>. See last example.
+        <br><b>Note</b>: when a preview is active and the
+        <code>&lt;expandable-text></code> is collapsed, the user can
+        also click the preview area to expand the content.
       </p>
-      <div id="styleHtml">
+
+      <expandable-text data-title="HTML structure within the shadowroot of a connected element">
+        <link rel="stylesheet" href="./prism.css"/>
+        <style>
+          :host {
+            .title { color: #888; }
+            [data-expanded='1'] ~ .expand-content {
+              border: none;
+              padding: 0;
+              margin-top: -0.5em;
+            }
+
+            .expand-title [data-is-expanded]:before {
+              content: '🢅';
+              display: inline-block;
+              transform: rotate(90deg);
+              color: green;
+            }
+
+            .expand-title [data-is-expanded='1']:before {
+              transform: rotate(-90deg);
+            }
+          }
+        </style>
+        <div id="styleHtml">
       <pre class="language-markup"><code class="language-html">&lt;div class="expand-title" data-expanded="[0/1]">
   &lt;div data-isexpanded="[0/1]"><span class="gray">&lt!-- the arrow element --></span>&lt;/div>
   &lt;div class="title" title="..."><span class="gray">&lt!-- the title --></span>&lt;/div>
@@ -125,7 +169,7 @@
 &lt;div class="expand-content [preview]">
   <span class="gray">&lt!-- the html provided --></span>
 &lt;/div></code></pre>
-      </div>
+        </div></expandable-text>
     </template>
   </expandable-text>
 

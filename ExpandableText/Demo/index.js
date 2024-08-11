@@ -7,8 +7,10 @@ const wrapHTML = html => `<pre class="language-markup"><code class="language-htm
    html.replace(/</g, `&lt;`)}</code></pre>`;
 log2Screen(`!!<h2>Examples</h2>`);
 examples.forEach( example => log2Screen(`${example}${wrapHTML(example)}`) );
-
-Prism.highlightAllUnder(document.querySelector(`.start`).shadowRoot.querySelector(`#styleHtml`));
+console.log(document.querySelector(`.start`)
+  .shadowRoot.querySelector(`expandable-text`).shadowRoot.querySelector(`#styleHtml`));
+Prism.highlightAllUnder(document.querySelector(`.start`)
+  .shadowRoot.querySelector(`expandable-text`).shadowRoot.querySelector(`#styleHtml`));
 
 function initialize() {
   const {log: log2Screen, logTop} = logFactory();
@@ -100,6 +102,17 @@ function initialize() {
       }
       /* not nested */
       :host .expand-content div:first-child { color: blue; font-weight: bold; margin-bottom: 1rem; }
+      :host .expand-title [data-is-expanded]:before {
+        content: '☝';
+        display: inline-block;
+      }
+      :host .expand-title [data-is-expanded='0']:before {
+        transform: rotate(120deg);
+      }
+      :host .expand-title [data-is-expanded='1']:before {
+        transform: rotate(-60deg);
+      }
+    </style>
     </style>
     <div class="expand-ttl">A default element with a template inside and some styling</div>
     <!-- ^ title from element -->
