@@ -156,15 +156,14 @@ function getStyling() {
     }
     .expand-title [data-is-expanded]:hover:after,
     .expand-title .title:hover:before {
-      color: #777;
+      color: #333;
       margin-left: 0.5em;
       font-weight: normal;
       font-size: 10pt;
       line-height: 1rem;
       background-color: white;
       position: absolute;
-      margin-top: 1.4em;
-      margin-left: 0.3em;
+      margin: -0.2em auto auto -0.2em;
       border: 1px solid #AAA;
       padding: 3px;
       z-index: 10;
