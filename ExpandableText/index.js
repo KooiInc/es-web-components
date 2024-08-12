@@ -121,7 +121,6 @@ function getStyling() {
     .expand-title {
       display: block;
       user-select: none;
-      font-size: 1.2em;
       font-weight: bold;
       cursor: pointer;
       position: relative;
@@ -129,6 +128,7 @@ function getStyling() {
       .title {
         display: inline-block;
         overflow: hidden;
+        font-size: 14pt;
         text-overflow: ellipsis;
         white-space: nowrap;
         max-width: 90%;
@@ -187,7 +187,8 @@ function getStyling() {
     }
   
     .expand-title [data-is-expanded='1']:before {
-      transform: rotatex(-180deg) translateY(-5px);
+      transform: rotateX(3.14rad);
+      vertical-align: text-bottom;
     }
   
     .expand-title [data-is-expanded='1'] {

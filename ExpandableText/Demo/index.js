@@ -116,6 +116,7 @@ function initialize() {
       }
       :host .expand-title [data-is-expanded]:before {
         content: '▼';
+        vertical-align: bottom;
       }
       :host .expand-title [data-is-expanded='1']:before {
         transform: rotate(0deg) rotateX(3.14rad);
