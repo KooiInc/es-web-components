@@ -145,15 +145,10 @@ function getStyling() {
       text-align: center;
     }
     
-    .expand-title [data-is-expanded]::before {
-      font-size: 1.3rem;
-      margin-right: 5px;
-      text-shadow: -1px 1px 2px #999;
-    }
-  
     .expand-title .title:hover {
       color: green;
     }
+    
     .expand-title [data-is-expanded]:hover:after,
     .expand-title .title:hover:before {
       color: #333;
@@ -181,13 +176,18 @@ function getStyling() {
     .expand-title[data-expanded='1'] .title:hover:before{
       content: 'click to collapse';
     }
-  
-    .expand-title [data-is-expanded='0']:before {
+    
+    .expand-title [data-is-expanded]::before {
+      font-size: 1.3rem;
+      margin-right: 5px;
+      text-shadow: -1px 1px 2px #999;
       content: '↘';
+      transition: all 1s ease;
+      display: inline-block;
     }
   
     .expand-title [data-is-expanded='1']:before {
-      content: '↖';
+      transform: rotatex(-180deg) translateY(-5px);
     }
   
     .expand-title [data-is-expanded='1'] {
