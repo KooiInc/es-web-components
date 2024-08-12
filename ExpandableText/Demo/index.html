@@ -150,7 +150,7 @@
               margin-top: -0.5em;
             }
 
-            .expand-title [data-is-expanded]:before {
+            .expand-title[data-expanded] .arrow:before {
               content: '\21f2';
               display: inline-block;
               color: green;
@@ -160,14 +160,14 @@
               transition: all 1s ease;
             }
 
-            .expand-title [data-is-expanded='1']:before {
+            .expand-title[data-expanded='1'] .arrow:before {
               transform: rotate(-90deg);
             }
           }
         </style>
         <div id="styleHtml">
       <pre class="language-markup"><code class="language-html">&lt;div class="expand-title" data-expanded="[0/1]">
-  &lt;div data-is-expanded="[0/1]"><span class="gray">&lt!-- the arrow element --></span>&lt;/div>
+  &lt;div class="arrow"><span class="gray">&lt!-- the arrow element --></span>&lt;/div>
   &lt;div class="title" title="..."><span class="gray">&lt!-- the title --></span>&lt;/div>
 &lt;/div>
 &lt;div class="expand-content [preview]">

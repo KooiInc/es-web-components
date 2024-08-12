@@ -95,7 +95,7 @@ function initialize() {
   </template>
 </expandable-text>`,
 `<expandable-text
-  data-title="A default element with a template outside (#loremExternal)"
+  data-title="A default element with an external template (<template#loremExternal>)"
   data-content-id="loremExternal">
 </expandable-text>`,
 `<expandable-text>
@@ -114,11 +114,11 @@ function initialize() {
         font-weight: bold;
         margin-bottom: 1rem;
       }
-      :host .expand-title [data-is-expanded]:before {
+      :host .expand-title[data-expanded] .arrow:before {
         content: '▼';
         vertical-align: bottom;
       }
-      :host .expand-title [data-is-expanded='1']:before {
+      :host .expand-title[data-expanded='1'] .arrow:before {
         transform: rotate(0deg) rotateX(3.14rad);
       }
     </style>
