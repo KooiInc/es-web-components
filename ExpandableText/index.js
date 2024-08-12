@@ -30,7 +30,7 @@ function connectContent(componentNode, fullContent, shadow) {
     className: `title`, textContent: titleText, title: `${titleText}`
   });
   title.append(titleTextElement);
-  title.prepend(createElement(`div`, {className: `arrow`}, {isExpanded: 0}));
+  title.prepend(createElement(`div`, {className: `arrow`}));
   const content = createElement(`div`, {className: `expand-content`});
   
   if (componentNode.dataset.preview) {
@@ -91,18 +91,10 @@ function handleShadowroot(evt) {
   const canExpand = !!!evt.target.closest(`.expand-content`) || shadowRoot.querySelector(`[data-expanded='0']`);
   
   if (canExpand) {
-    const expander = shadowRoot.querySelector(`[data-is-expanded]`);
     const headerElem = shadowRoot.querySelector(`[data-expanded]`);
-    const content = shadowRoot.querySelector('.expand-content');
-    
-    if (expander.dataset.isExpanded === `0`) {
-      headerElem.dataset.expanded = 1;
-      return expander.dataset.isExpanded = 1;
-    }
-    
-    content.scrollTop = 0;
-    headerElem.dataset.expanded = 0;
-    return expander.dataset.isExpanded = 0;
+    const expandedState = +headerElem.dataset.expanded;
+    shadowRoot.querySelector('.expand-content').scrollTop = 0;
+    return headerElem.dataset.expanded = +(!!!expandedState);
   }
   
   return true;
@@ -137,7 +129,7 @@ function getDefaultStyling() {
       }
     }
   
-    .expand-title [data-is-expanded] {
+    .expand-title[data-expanded] .arrow {
       display: inline-block;
       margin: auto;
       color: #a15a57;
@@ -149,7 +141,7 @@ function getDefaultStyling() {
       color: green;
     }
     
-    .expand-title [data-is-expanded]:hover:after,
+    .expand-title[data-expanded] .arrow:hover:after,
     .expand-title .title:hover:before {
       color: #333;
       margin-left: 0.5em;
@@ -167,17 +159,17 @@ function getDefaultStyling() {
       white-space: nowrap;
     }
     
-    .expand-title [data-is-expanded='0']:hover:after,
+    .expand-title[data-expanded='0'] .arrow:hover:after,
     .expand-title[data-expanded='0'] .title:hover:before {
       content: 'click to expand';
     }
   
-    .expand-title [data-is-expanded='1']:hover:after,
-    .expand-title[data-expanded='1'] .title:hover:before{
+    .expand-title[data-expanded='1'] .arrow:hover:after,
+    .expand-title[data-expanded='1'] .title:hover:before {
       content: 'click to collapse';
     }
     
-    .expand-title [data-is-expanded]::before {
+    .expand-title[data-expanded] .arrow:before {
       font-size: 1.3rem;
       margin-right: 5px;
       text-shadow: -1px 1px 2px #999;
@@ -186,17 +178,11 @@ function getDefaultStyling() {
       display: inline-block;
     }
   
-    .expand-title [data-is-expanded='1']:before {
+    .expand-title[data-expanded='1'] .arrow:before {
       transform: rotateX(3.14rad);
       vertical-align: text-bottom;
     }
-  
-    .expand-title [data-is-expanded='1'] {
-      margin-bottom: 0.3rem;
-      z-index: 10;
-      line-height: 1.1rem;
-    }
-  
+   
     [data-expanded='0'] ~ .expand-content {
       margin-top: -0.4em;
       overflow: hidden;
