@@ -141,7 +141,7 @@ function getDefaultStyling() {
       color: green;
     }
     
-    .expand-title[data-expanded] .arrow:hover:after,
+    .expand-title .arrow:hover:after,
     .expand-title .title:hover:before {
       color: #333;
       margin-left: 0.5em;
@@ -169,7 +169,7 @@ function getDefaultStyling() {
       content: 'click to collapse';
     }
     
-    .expand-title[data-expanded] .arrow:before {
+    .expand-title .arrow:before {
       font-size: 1.3rem;
       margin-right: 5px;
       text-shadow: -1px 1px 2px #999;
@@ -183,7 +183,7 @@ function getDefaultStyling() {
       vertical-align: text-bottom;
     }
    
-    [data-expanded='0'] ~ .expand-content {
+    .expand-title[data-expanded='0'] ~ .expand-content {
       margin-top: -0.4em;
       overflow: hidden;
       max-height: 0;
@@ -192,14 +192,14 @@ function getDefaultStyling() {
       transition: all 1s ease;
     }
     
-    [data-expanded='0'] ~ .expand-content.preview {
+    .expand-title[data-expanded='0'] ~ .expand-content.preview {
       max-height: 80px;
       opacity: 1;
       mask-image: linear-gradient(#000, transparent);
       cursor: pointer;
     }
   
-    [data-expanded='1'] ~ .expand-content {
+    .expand-title[data-expanded='1'] ~ .expand-content {
       max-height: 50vh;
       max-width: 100%;
       overflow-y: auto;

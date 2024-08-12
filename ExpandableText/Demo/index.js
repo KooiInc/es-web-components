@@ -101,12 +101,12 @@ function initialize() {
 `<expandable-text>
   <template>
     <style>
-      /* styling always should be within :host */
+      /* encapsulation: styling always should be within :host */
       /* nested */
       :host {
         .title { color: rgba(242, 19, 19, 0.6); font-style: italic;}
         .expand-content div:last-child { margin-top: 1rem; color: green; }
-        [data-expanded='1'] ~ .expand-content { font-size: 1.2rem; }
+        .expand-title[data-expanded='1'] ~ .expand-content { font-size: 1.2rem; }
       }
       /* not nested */
       :host .expand-content div:first-child {
