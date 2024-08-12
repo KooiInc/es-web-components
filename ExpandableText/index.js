@@ -5,31 +5,33 @@ import {
   setComponentStyleFor,
 } from "../es-webcomponent-factory/Src/WebComponentFactory.js";
 
-const componentStyle = getStyling();
+const componentStyle = getDefaultStyling();
 
 CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
 
 function connectElement(componentNode) {
-  const fullContent = createFullContent(componentNode);
-  if (!fullContent) {
-    componentNode.remove();
-    return console.info(`✔ an empty <expandable-text> element was removed`);
-  }
+  const fullContent = componentNode.content ?? createFullContent(componentNode);
+  return !fullContent ? emptyComponent() : doConnect(componentNode, fullContent);
+}
+
+function doConnect(componentNode, fullContent) {
+  componentNode.content = componentNode.content ?? fullContent;
   const shadow = createOrRetrieveShadowRoot(componentNode);
   shadow.adoptedStyleSheets = [setComponentStyleFor(componentNode, componentStyle)];
+  addCustomCssAndMaybeExternals(shadow, fullContent, componentNode);
   connectContent(componentNode, fullContent, shadow);
   shadow.addEventListener(`click`, handleShadowroot);
 }
 
 function connectContent(componentNode, fullContent, shadow) {
-  addCustomCssAndMaybeExternals(shadow, fullContent, componentNode);
   const titleText = getTitle(fullContent, componentNode);
-  const title = createElement( `div`, { className: `expand-title` }, { expanded: 0, } );
-  const titleTextElement =  createElement( `div`, {
-    className: `title`,  textContent: titleText, title: `${titleText}` } );
+  const title = createElement(`div`, {className: `expand-title`}, {expanded: 0,});
+  const titleTextElement = createElement(`div`, {
+    className: `title`, textContent: titleText, title: `${titleText}`
+  });
   title.append(titleTextElement);
-  title.prepend( createElement( `div`, { className: `arrow` }, { isExpanded: 0 }) );
-  const content = createElement( `div`, { className: `expand-content` } );
+  title.prepend(createElement(`div`, {className: `arrow`}, {isExpanded: 0}));
+  const content = createElement(`div`, {className: `expand-content`});
   
   if (componentNode.dataset.preview) {
     content.classList.add(`preview`);
@@ -39,32 +41,31 @@ function connectContent(componentNode, fullContent, shadow) {
   shadow.append(title, content);
 }
 
+function emptyComponent(componentNode) {
+  componentNode.remove();
+  return console.info(`✔ an empty <expandable-text> element was removed`);
+}
+
 function getTitle(fullContent, componentNode) {
   const titleInTemplate = fullContent.querySelector(`.expand-ttl`);
-  const titleText = titleInTemplate?.textContent ??
-    componentNode.dataset?.title?.trim()?.replace(/\s{2,}/g, ` `) ?? ``;
+  const titleText = (titleInTemplate?.textContent ??
+      componentNode.dataset?.title?.trim()?.replace(/\s{2,}/g, ` `).replace(/\n/g, ``) ?? ``)
+    .trim();
   titleInTemplate?.remove();
   return titleText.length > 0 ? titleText : `--NO TITLE--`;
 }
 
 function createFullContent(componentNode) {
-  if (componentNode.html) { return componentNode.html; }
-  
-  const embeddedTemplate = componentNode.querySelector(`template`);
-  const maybeTemplate = document.querySelector(`#${componentNode.dataset?.contentId ?? `_`}`);
+  const embeddedTemplate = componentNode.querySelector(`template`)?.cloneNode(true);
+  const maybeTemplate = document.querySelector(`#${componentNode.dataset?.contentId}`);
   const maybeHtml = componentNode.innerHTML.trim();
-
-  if (embeddedTemplate) {
-    const fullContent = embeddedTemplate.content.cloneNode(true);
-    embeddedTemplate.remove();
-    return fullContent;
-  }
-  
   componentNode.textContent = ``;
   
-  return maybeHtml.length > 0
-      ? createElement(`div`, {innerHTML: maybeHtml})
-      : maybeTemplate?.content;
+  return embeddedTemplate
+    ? embeddedTemplate.content
+      : maybeHtml.length > 0
+        ? createElement(`div`, {innerHTML: maybeHtml})
+        : maybeTemplate?.content;
 }
 
 function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
@@ -86,14 +87,13 @@ function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
 }
 
 function handleShadowroot(evt) {
-  const headerContainer = evt.target.getRootNode();
-  const isFoldElem = evt.target.closest(`.expand-content`);
-  const isClosed = headerContainer.querySelector(`[data-expanded='0']`);
+  const shadowRoot = evt.target.getRootNode();
+  const canExpand = !!!evt.target.closest(`.expand-content`) || shadowRoot.querySelector(`[data-expanded='0']`);
   
-  if (!isFoldElem || isClosed) {
-    const expander = headerContainer.querySelector(`[data-is-expanded]`);
-    const headerElem = headerContainer.querySelector(`[data-expanded]`);
-    const content = headerContainer.querySelector('.expand-content');
+  if (canExpand) {
+    const expander = shadowRoot.querySelector(`[data-is-expanded]`);
+    const headerElem = shadowRoot.querySelector(`[data-expanded]`);
+    const content = shadowRoot.querySelector('.expand-content');
     
     if (expander.dataset.isExpanded === `0`) {
       headerElem.dataset.expanded = 1;
@@ -108,7 +108,7 @@ function handleShadowroot(evt) {
   return true;
 }
 
-function getStyling() {
+function getDefaultStyling() {
   return `
   :host {
     display: block;
