@@ -11,6 +11,7 @@ examples.forEach( example => log2Screen(`${example}<div class="htmlHeader">HTML 
 Prism.highlightAllUnder(document.querySelector(`.start`)
   .shadowRoot.querySelector(`expandable-text`)
     .shadowRoot.querySelector(`#styleHtml`));
+$(`.container`).append(`<p>&nbsp;</p>`);
 
 function initialize() {
   const {log: log2Screen, logTop} = logFactory();
@@ -114,11 +115,10 @@ function initialize() {
         margin-bottom: 1rem;
       }
       :host .expand-title [data-is-expanded]:before {
-        content: '☝';
-        display: inline-block;
+        content: '▼';
       }
-      :host .expand-title [data-is-expanded='0']:before {
-        transform: rotate(180deg);
+      :host .expand-title [data-is-expanded='1']:before {
+        transform: rotate(0deg) rotateX(3.14rad);
       }
     </style>
     </style>
