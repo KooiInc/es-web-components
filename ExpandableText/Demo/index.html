@@ -144,10 +144,12 @@
         <style>
           :host {
             .title { color: #888; }
-            [data-expanded='1'] ~ .expand-content {
+
+            .expand-title[data-expanded='1'] + .expand-content {
               border: none;
               padding: 0;
               margin-top: -0.5em;
+              font: 14px/17px normal verdana, arial, sans-serif;
             }
 
             .expand-title[data-expanded] .arrow:before {

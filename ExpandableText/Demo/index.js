@@ -26,7 +26,7 @@ function initialize() {
         margin-bottom: 2rem;
       }
       
-      #log2screen li div.htmlHeader:not([class*='language-']) {
+      #log2screen li div.htmlHeader {
         font-weight: bold;
         color: #888;
         margin-top: 1em;
@@ -66,17 +66,6 @@ function initialize() {
       margin-top: 0.3rem;
       font-style: italic;
     }`,
-  `#log2screen li div.q div.head { margin-bottom: 1rem; }`,
-  `.qResult {
-      font-weight: bold;
-      color: #607ca1;
-      min-width: 320px;
-      max-width: 360px;
-      white-space: nowrap;
-      padding: 4px;
-      background-color: #EEE;
-    }`,
-  `.q h3 { margin: 0.3em; }`,
   `expandable-text.start { margin-top: 2em; }`,
   `#log2screen li { vertical-align: top; }`
   );
