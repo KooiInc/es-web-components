@@ -1,8 +1,6 @@
 :host {
   display: block;
   position: relative;
-  margin-top: 1em;
-  font: 14px/17px system-ui, sans-serif;
 
   .expand-ttl {
     display: none;
