@@ -65,8 +65,13 @@ function initialize() {
   `#log2screen li div.q div:not(.head, .qResult) {
       margin-top: 0.3rem;
       font-style: italic;
-    }`,
-  `expandable-text.start { margin-top: 2em; }`,
+   }`,
+   `expandable-text {
+      font-weight: normal;
+      .start {
+        margin-top: 2rem;
+      }
+   }`,
   `#log2screen li { vertical-align: top; }`
   );
   $.allowTag(`template`);
