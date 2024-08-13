@@ -66,7 +66,7 @@ function initialize() {
       margin-top: 0.3rem;
       font-style: italic;
    }`,
-   `expandable-text {
+   `#log2screen li expandable-text {
       font-weight: normal;
       .start {
         margin-top: 2rem;
