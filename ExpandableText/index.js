@@ -2,11 +2,9 @@ import {createElement} from "../Common/CommonHelpers.js";
 import {
   default as CreateComponent,
   createOrRetrieveShadowRoot,
-  setComponentStyleFor,
 } from "../es-webcomponent-factory/Src/WebComponentFactory.js";
 
-const componentStyle = getDefaultStyling();
-
+const defaultStyling = createDefaultStyling();
 CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
 
 function connectElement(componentNode) {
@@ -17,10 +15,10 @@ function connectElement(componentNode) {
 function doConnect(componentNode, fullContent) {
   componentNode.content = componentNode.content ?? fullContent;
   const shadow = createOrRetrieveShadowRoot(componentNode);
-  shadow.adoptedStyleSheets = [setComponentStyleFor(componentNode, componentStyle)];
-  addCustomCssAndMaybeExternals(shadow, fullContent, componentNode);
   connectContent(componentNode, fullContent, shadow);
+  addCustomCssAndMaybeExternals(shadow, fullContent, componentNode);
   shadow.addEventListener(`click`, handleShadowroot);
+  console.log(shadow.querySelector(`.title`).textContent, shadow.styleSheets);
 }
 
 function connectContent(componentNode, fullContent, shadow) {
@@ -38,7 +36,7 @@ function connectContent(componentNode, fullContent, shadow) {
   }
   
   content.append(fullContent);
-  shadow.append(title, content);
+  shadow.append(defaultStyling.cloneNode(), title, content);
 }
 
 function emptyComponent(componentNode) {
@@ -100,115 +98,7 @@ function handleShadowroot(evt) {
   return true;
 }
 
-function getDefaultStyling() {
-  return `
-  :host {
-    display: block;
-    position: relative;
-    margin-top: 1em;
-    font: 14px/17px system-ui, sans-serif;
-    
-    .expand-ttl { display: none; }
-    
-    .expand-title {
-      display: block;
-      user-select: none;
-      font-weight: bold;
-      cursor: pointer;
-      position: relative;
-  
-      .title {
-        display: inline-block;
-        overflow: hidden;
-        font-size: 14pt;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-width: 90%;
-        height: 1.4em;
-        vertical-align: middle;
-      }
-    }
-  
-    .expand-title[data-expanded] .arrow {
-      display: inline-block;
-      margin: auto;
-      color: #a15a57;
-      font-size: 1.3em;
-      text-align: center;
-    }
-    
-    .expand-title .title:hover {
-      color: green;
-    }
-    
-    .expand-title .arrow:hover:after,
-    .expand-title .title:hover:before {
-      color: #333;
-      margin-left: 0.5em;
-      font-weight: normal;
-      font-size: 10pt;
-      line-height: 1rem;
-      background-color: white;
-      position: absolute;
-      margin: -0.2em auto auto -0.2em;
-      border: 1px solid #AAA;
-      padding: 3px;
-      z-index: 10;
-      opacity: 0.9;
-      box-shadow: 1px 1px 5px #999;
-      white-space: nowrap;
-    }
-    
-    .expand-title[data-expanded='0'] .arrow:hover:after,
-    .expand-title[data-expanded='0'] .title:hover:before {
-      content: 'click to expand';
-    }
-  
-    .expand-title[data-expanded='1'] .arrow:hover:after,
-    .expand-title[data-expanded='1'] .title:hover:before {
-      content: 'click to collapse';
-    }
-    
-    .expand-title .arrow:before {
-      font-size: 1.3rem;
-      margin-right: 5px;
-      text-shadow: -1px 1px 2px #999;
-      content: '↘';
-      transition: all 1s ease;
-      display: inline-block;
-    }
-  
-    .expand-title[data-expanded='1'] .arrow:before {
-      transform: rotateX(3.14rad);
-      vertical-align: text-bottom;
-    }
-   
-    .expand-title[data-expanded='0'] ~ .expand-content {
-      margin-top: -0.4em;
-      overflow: hidden;
-      max-height: 0;
-      padding: 0;
-      opacity: 0;
-      transition: all 1s ease;
-    }
-    
-    .expand-title[data-expanded='0'] ~ .expand-content.preview {
-      max-height: 80px;
-      opacity: 1;
-      mask-image: linear-gradient(#000, transparent);
-      cursor: pointer;
-    }
-  
-    .expand-title[data-expanded='1'] ~ .expand-content {
-      max-height: 50vh;
-      max-width: 100%;
-      overflow-y: auto;
-      transition: all 1s ease;
-      border: 1px dashed #ccc;
-      padding: 8px;
-      margin: 0.3em auto 0.7em auto;
-      .ellipsis { display: none; }
-      cursor: default;
-    }
-  }`;
+function createDefaultStyling() {
+  const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
+  return createElement( Object.assign(`link`), { rel: `stylesheet`, href: `${loadPath}ExpandableText.css`,} );
 }
