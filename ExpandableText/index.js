@@ -2,9 +2,10 @@ import {createElement} from "../Common/CommonHelpers.js";
 import {
   default as CreateComponent,
   createOrRetrieveShadowRoot,
+  setComponentStyleFor,
 } from "../es-webcomponent-factory/Src/WebComponentFactory.js";
 
-const defaultStyling = createDefaultStyling();
+const defaultStyling = await preloadStyling();
 CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
 
 function connectElement(componentNode) {
@@ -15,28 +16,25 @@ function connectElement(componentNode) {
 function doConnect(componentNode, fullContent) {
   componentNode.content = componentNode.content ?? fullContent;
   const shadow = createOrRetrieveShadowRoot(componentNode);
+  shadow.adoptedStyleSheets = [setComponentStyleFor(componentNode, defaultStyling)];
   connectContent(componentNode, fullContent, shadow);
   addCustomCssAndMaybeExternals(shadow, fullContent, componentNode);
   shadow.addEventListener(`click`, handleShadowroot);
-  console.log(shadow.querySelector(`.title`).textContent, shadow.styleSheets);
 }
 
 function connectContent(componentNode, fullContent, shadow) {
   const titleText = getTitle(fullContent, componentNode);
   const title = createElement(`div`, {className: `expand-title`}, {expanded: 0,});
   const titleTextElement = createElement(`div`, {
-    className: `title`, textContent: titleText, title: `${titleText}`
-  });
+    className: `title`, textContent: titleText, title: `${titleText}` } );
   title.append(titleTextElement);
   title.prepend(createElement(`div`, {className: `arrow`}));
   const content = createElement(`div`, {className: `expand-content`});
   
-  if (componentNode.dataset.preview) {
-    content.classList.add(`preview`);
-  }
+  if (componentNode.dataset.preview) { content.classList.add(`preview`); }
   
   content.append(fullContent);
-  shadow.append(defaultStyling.cloneNode(), title, content);
+  shadow.append(title, content);
 }
 
 function emptyComponent(componentNode) {
@@ -98,7 +96,7 @@ function handleShadowroot(evt) {
   return true;
 }
 
-function createDefaultStyling() {
+async function preloadStyling() {
   const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
-  return createElement( Object.assign(`link`), { rel: `stylesheet`, href: `${loadPath}ExpandableText.css`,} );
+  return await fetch(`${loadPath}ExpandableText.css`).then(r => r.text());
 }
