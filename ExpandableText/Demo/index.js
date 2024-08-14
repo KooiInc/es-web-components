@@ -95,6 +95,7 @@ function initialize() {
 </expandable-text>`,
 `<expandable-text>
   <template>
+    <!-- extra styling -->
     <style>
       /* encapsulation: styling always should be within :host */
       /* nested */
@@ -117,7 +118,7 @@ function initialize() {
         transform: rotate(0deg) rotateX(3.14rad);
       }
     </style>
-    </style>
+    
     <div class="expand-ttl">An &lt;expandable-text> with a template inside and some styling</div>
     <!-- ^ title from element -->
     ${loremIpsum}
