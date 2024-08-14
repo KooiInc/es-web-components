@@ -49,6 +49,7 @@ function initialize() {
       @media(width <= 1024px) {
         #log2screen {
           max-width: 90vw;
+          margin-right: 5%;
         }
       }
     }`,
@@ -56,6 +57,7 @@ function initialize() {
       color: #777;
       font-weight: normal;
       margin-top: -0.5rem;
+    }
     }`,
   `#log2screen li div {
       margin-top: 0
