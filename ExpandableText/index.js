@@ -17,8 +17,8 @@ function doConnect(componentNode, fullContent) {
   componentNode.content = componentNode.content ?? fullContent;
   const shadow = createOrRetrieveShadowRoot(componentNode);
   shadow.adoptedStyleSheets = [setComponentStyleFor(componentNode, defaultStyling)];
-  connectContent(componentNode, fullContent, shadow);
   addCustomCssAndMaybeExternals(shadow, fullContent, componentNode);
+  connectContent(componentNode, fullContent, shadow);
   shadow.addEventListener(`click`, handleShadowroot);
 }
 
@@ -32,7 +32,6 @@ function connectContent(componentNode, fullContent, shadow) {
   const content = createElement(`div`, {className: `expand-content`});
   
   if (componentNode.dataset.preview) { content.classList.add(`preview`); }
-  
   content.append(fullContent);
   shadow.append(title, content);
 }
