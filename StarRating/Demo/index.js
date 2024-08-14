@@ -1,4 +1,4 @@
-await import(`../../ExpandableText/index.js`);
+import "../../ExpandableText/index.js";
 import {$, logFactory} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@main/index.browser.js?version=makeitso";
 import createStarRatingComponent from "../index.js";
 

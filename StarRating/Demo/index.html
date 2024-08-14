@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Demo Star Rating web component</title>
 </head>
 <body>
-  <script type="module" src="./index.js"></script>
   <expandable-text data-preview="1">
     <template>
       <div class="expand-ttl">A web component to create a custom element to rate with stars</div>
       <style>
         :host {
-          color: #333;
-          [data-expanded='1'] ~ .expand-content  {
+          font-weight: normal;
+
+          [data-expanded='1'] + .expand-content  {
             padding: 1em;
             margin-left: 0;
-            mask-image: none;
           }
+
           code {
             background-color: #eee;
             color: green;
             padding: 1px;
           }
+
           .expand-content {
             ul {
               margin: 0.5rem 0 0 -1.5rem;
@@ -36,6 +38,15 @@
               padding-bottom: 0;
               margin-bottom: 0;
             }
+          }
+
+          .expand-title[data-expanded] .arrow:before {
+            content: '▼';
+            vertical-align: bottom;
+          }
+
+          .expand-title[data-expanded='1'] .arrow:before {
+            transform: rotate(0deg) rotateX(3.14rad);
           }
         }
       </style>
@@ -82,6 +93,6 @@
     </template>
   </expandable-text>
 
-
+  <script type="module" src="./index.js"></script>
 </body>
 </html>
