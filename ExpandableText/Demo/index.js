@@ -9,9 +9,10 @@ log2Screen(`!!<h2>Examples</h2>`);
 examples.forEach( example => log2Screen(`${example}<div class="htmlHeader">HTML for the above</div>${
   wrapHTML(example)}</div>`) );
 Prism.highlightAllUnder(document.querySelector(`.start`)
-  .shadowRoot.querySelector(`expandable-text`)
+  .shadowRoot.querySelector(`expandable-text.markup`)
     .shadowRoot.querySelector(`#styleHtml`));
 $(`.container`).append(`<p>&nbsp;</p>`);
+Prism.highlightAll();
 
 function initialize() {
   const {log: log2Screen, logTop} = logFactory();
@@ -80,16 +81,16 @@ function initialize() {
     <div>Curabitur pretium tincidunt lacus, ut dapibus purus tincidunt a. Nulla facilisi...</div>`;
   $(`<template id="loremExternal">${loremIpsum}</template>`);
   examples = [
-`<expandable-text data-title="A default element with html inside">
+`<expandable-text data-title="An &lt;expandable-text> element with html inside">
     ${loremIpsum}
 </expandable-text>`,
-`<expandable-text data-title="A default element with a template inside">
+`<expandable-text data-title="An &lt;expandable-text> element with a template inside">
   <template>
     ${loremIpsum}
   </template>
 </expandable-text>`,
 `<expandable-text
-  data-title="A default element with an external template (<template#loremExternal>)"
+  data-title="An &lt;expandable-text> element with an external template (<template#loremExternal>)"
   data-content-id="loremExternal">
 </expandable-text>`,
 `<expandable-text>
@@ -117,14 +118,14 @@ function initialize() {
       }
     </style>
     </style>
-    <div class="expand-ttl">A default element with a template inside and some styling</div>
+    <div class="expand-ttl">An &lt;expandable-text> with a template inside and some styling</div>
     <!-- ^ title from element -->
     ${loremIpsum}
   </template>
 </expandable-text>`,
 `<expandable-text data-preview="1">
   <template>
-    <div class="expand-ttl">An element with a default preview area</div>
+    <div class="expand-ttl">An &lt;expandable-text> element with a default preview area</div>
     ${loremIpsum}
   </template>
 </expandable-text>`  ];
