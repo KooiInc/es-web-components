@@ -33,7 +33,23 @@
     }
 
     :host-context(expandable-text:not(.start)) {
-      .expand-title .title {color: #888; font-size: 1rem;}
+      .expand-title .title {
+        font-weight: 400;
+        color: #557492;
+        font-size: 1rem;
+      }
+
+      .expand-title[data-expanded='1'] .title {
+        color: #557492;
+        font-weight: normal;
+        text-shadow: 1px 1px 0px #999;
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .expand-title .title:hover {
+          color: #548855;
+        }
+      }
     }
 
     :host {
