@@ -13,7 +13,7 @@
         display: inline-block;
         color: green;
         font-weight: normal;
-        font-size: 1.1em;
+        font-size: 0.9em;
         vertical-align: middle;
         transition: all 1s ease;
       }
@@ -28,7 +28,7 @@
         border: none;
         padding: 0;
         margin-top: -0.5em;
-        font: 14px/17px normal verdana, arial, sans-serif;
+        font: 14px/17px normal system-ui, Verdana, Arial, sans-serif;
       }
     }
 
@@ -48,7 +48,8 @@
         margin-left: 0;
         max-height: 60vh;
 
-        div.p {margin-bottom: 0.6rem;}
+        div.p { margin-bottom: 0.6rem; }
+        p.last { margin-bottom: 0; }
       }
 
       code:not([class*=language-]) {
@@ -98,25 +99,13 @@
       </div>
 
       <p>
-        The custom element (we call it expandable fragment here) is
-        <code>&lt;expandable-text></code>
-      </p>
-
-      <p>
-        The styling for this module can be found in the file <code>ExpandableText.css</code> within
-        the module directory. It is preloaded on creating the custom element (so, on importing
-        the module).
-      </p>
-      <p>
-        Styling of an expandable fragment is kept minimal. In other words, if you don't add
-        css in the containing document for the <code>&lt;expandable-text></code> element
-        or within the <code>&lt;expandable-text></code> element content (see <i>Expandable
-        fragment styling</i> in the following) it will inherit its styling mostly from the parent
-        it resides in.
+        The custom element is <code>&lt;expandable-text></code>.
+        <br>The following chapters (in the form of nested <code>&lt;expandable-text></code>
+        elements) explain the usage of it.
       </p>
 
       <expandable-text class="chapter"
-                       data-title="Expandable fragment content"
+                       data-title="The content of an <expandable-text> element"
                        data-external-css-id="headerBlockStyling">
         <div>
           The <i><b>content</b></i> of an <code>&lt;expandable-text></code> element
@@ -135,15 +124,19 @@
             </div>
           </li>
         </ul>
+        <p class="last">
+          <b>Note</b>: when an <code>&lt;expandable-text></code> element does not contain
+          content, it will be removed. This will be reported in the console.
+        </p>
       </expandable-text>
 
       <expandable-text class="chapter"
-                       data-title="Expandable fragment title"
+                       data-title="The title of an <expandable-text> element"
                        data-external-css-id="headerBlockStyling">
         <div class="p">
           The title of a <code>&lt;expandable-text></code> display is displayed
-          as a bold title preceded by a small arrow down symbol.
-          It will always span one line. When the length of a title exceeds the line space
+          as bold text preceded by a small arrow down symbol.
+          It spans one line. When the length of a title exceeds the available line space
           it is abbreviated with an ellipsis (&hellip;).
           The title receives a <code>title attribute</code> containing the full title.
         </div>
@@ -161,13 +154,38 @@
           <li>A <code>data-attribute</code>:<br>
             <code>&lt;expandable-text data-title="[the title]"></code>
           </li>
-          <li><b>Note</b>: the title can not contain html (it will be removed)</li>
+        </ul>
+        <div class="p"></div>
+        <div><b>Notes</b>:</div>
+        <ul>
+          <li>the title can not contain html (it will be removed)</li>
+          <li>when <code>&lt;expandable-text></code> elements are nested deeper than
+            one level, for the deeper levels one can <i>only</i> use the second
+            method (<code>data-attribute</code>) to create the title.</li>
         </ul>
       </expandable-text>
 
       <expandable-text class="chapter"
-                       data-title="Custom expandable fragment styling"
+                       data-title="The styling of an <expandable-text> element"
                        data-external-css-id="headerBlockStyling">
+        <div class="p">
+          The default styling for this module can be found in the file
+          <code>ExpandableText.css</code>  within the module directory.
+          It is preloaded on creating the custom element (so, on importing the module).
+        </div>
+
+        <div>
+          The Styling of an expandable fragment is kept minimal. In other words, if you don't add
+          css in the containing document for the <code>&lt;expandable-text></code> element
+          or within the <code>&lt;expandable-text></code> element content (see <i>Expandable
+          fragment styling</i> in the following) it will inherit its styling mostly from the parent
+          it resides in.
+        </div>
+      </expandable-text>
+
+      <expandable-text class="chapter"
+                       data-external-css-id="headerBlockStyling">
+        <div class="expand-ttl">Custom styling of an &lt;expandable-text> element</div>
         <div class="p">
           One can modify the styling of the title and content of a single
           <code>&lt;expandable-text></code> element using a <code>&lt;style></code> element
@@ -190,8 +208,8 @@
       </expandable-text>
 
       <expandable-text class="chapter"
-                       data-title="Preview mode"
                        data-external-css-id="headerBlockStyling">
+        <div class="expand-ttl">Preview mode of an &lt;expandable-text> element</div>
         <div class="p">
           By default the <code>&lt;expandable-text></code> content is hidden (so all you
           see is the title).
@@ -213,9 +231,15 @@
       </expandable-text>
 
       <expandable-text class="markup chapter"
-                       data-title="HTML structure within the shadowroot of a connected element"
                        data-external-css-id="headerBlockStyling">
         <link rel="stylesheet" href="./prism.css"/>
+        <div class="expand-ttl">
+          HTML structure within the shadowroot of a connected &lt;expandable-text> element
+        </div>
+        <p>
+          The final HTML structure of a <i>connected</i> <code>&lt;expandable-text></code> element
+          may be useful when one wants to apply custom styling.
+        </p>
         <div id="styleHtml">
         <pre class="language-markup"><code class="language-html">&lt;div
   class="expand-title"

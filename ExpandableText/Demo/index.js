@@ -1,12 +1,13 @@
 import "../index.js";
-import {$, logFactory} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@main/index.browser.js?version=makeitso";
+import {$, logFactory} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@latest/index.browser.js";
 let examples = [];
 let loremIpsum;
 const log2Screen = initialize();
 const wrapHTML = html => `<pre class="language-markup"><code class="language-html">${
    html.replace(/</g, `&lt;`)}</code></pre>`;
 log2Screen(`!!<h2>Examples</h2>`);
-examples.forEach( example => log2Screen(`${example}<div class="htmlHeader">HTML for the above</div>${
+examples.forEach( example =>
+  log2Screen(`${example}<div class="htmlHeader">HTML for the above</div>${
   wrapHTML(example)}</div>`) );
 Prism.highlightAllUnder(document.querySelector(`.start`)
   .shadowRoot.querySelector(`expandable-text.markup`)
@@ -57,7 +58,6 @@ function initialize() {
       color: #777;
       font-weight: normal;
       margin-top: -0.5rem;
-    }
     }`,
   `#log2screen li div {
       margin-top: 0
@@ -78,10 +78,11 @@ function initialize() {
   `#log2screen li { vertical-align: top; }`
   );
   $.allowTag(`template`);
-  loremIpsum = `<div>Hi, let's lorem</div>
+  loremIpsum = `<div>Hi, we've got some useless text for you</div>
     <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</div>
     <div>Curabitur pretium tincidunt lacus, ut dapibus purus tincidunt a. Nulla facilisi...</div>`;
   $(`<template id="loremExternal">${loremIpsum}</template>`);
+  $.prohibitTag(`template`);
   examples = [
 `<expandable-text data-title="An &lt;expandable-text> element with html inside">
     ${loremIpsum}
