@@ -15,6 +15,8 @@ Prism.highlightAllUnder(document.querySelector(`.start`)
 $(`.container`).append(`<p>&nbsp;</p>`);
 Prism.highlightAll();
 
+handleHeaderExpandableLinks();
+
 function initialize() {
   const {log: log2Screen, logTop} = logFactory();
   
@@ -129,7 +131,7 @@ function initialize() {
 </expandable-text>`,
 `<expandable-text data-preview="1">
   <template>
-    <div class="expand-ttl">An &lt;expandable-text> element with a default preview area</div>
+    <div class="expand-ttl">An &lt;expandable-text> element with a preview area</div>
     ${loremIpsum}
   </template>
 </expandable-text>`  ];
@@ -148,4 +150,21 @@ function initialize() {
      </p>`);
   
   return log2Screen;
+}
+
+function handleHeaderExpandableLinks() {
+  [...document.querySelector(`#headerRoot`).shadowRoot.querySelectorAll(`expandable-text.chapter`)]
+    .filter(et =>et.shadowRoot.querySelector(`[data-open]`) )
+    .forEach(expText => expText.shadowRoot.addEventListener(`click`, clickOpener));
+  
+  function clickOpener(evt) {
+    const shadowRoot = evt.target.getRootNode();
+    const opener = evt.target.closest(`[data-open]`);
+    
+    if (opener) {
+      const ET2Open = shadowRoot.host.getRootNode().querySelector(`#${opener.dataset.open}`)?.shadowRoot;
+      return ET2Open &&  ET2Open.querySelector(`[data-expanded='0']`) &&
+          ET2Open.querySelector(`[data-expanded]`).click();
+    }
+  }
 }

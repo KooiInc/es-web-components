@@ -21,6 +21,8 @@
       .expand-title[data-expanded='1'] .arrow:before {
         transform: rotateX(3.14rad);
       }
+
+      [data-open] { color: #557492; cursor: pointer; }
     }
 
     :host-context(.markup) {
@@ -65,6 +67,7 @@
         max-height: 60vh;
 
         div.p { margin-bottom: 0.6rem; }
+        div.pp { margin: 0.6rem 0; }
         p.last { margin-bottom: 0; }
       }
 
@@ -106,7 +109,7 @@
   </style>
 </head>
 <body>
-  <expandable-text class="start" data-preview="1" data-external-css-id="headerBlockStyling">
+  <expandable-text class="start" id="headerRoot" data-preview="1" data-external-css-id="headerBlockStyling">
     <template>
       <div class="expand-ttl">A web component to display html in a expandable/collapsible way</div>
       <div>
@@ -140,10 +143,19 @@
             </div>
           </li>
         </ul>
-        <p class="last">
+
+        <div class="pp">
+          By default the content is invisible. Using a <code>data-attribute</code>
+          one can however enable a "preview mode".
+          <br>See <i data-open="previewMode">Preview mode of an &lt;expandable-text> element</i>.
+        </div>
+
+        <div>
           <b>Note</b>: when an <code>&lt;expandable-text></code> element does not contain
           content, it will be removed. This will be reported in the console.
-        </p>
+        </div>
+
+
       </expandable-text>
 
       <expandable-text class="chapter"
@@ -193,13 +205,14 @@
         <div>
           The Styling of an expandable fragment is kept minimal. In other words, if you don't add
           css in the containing document for the <code>&lt;expandable-text></code> element
-          or within the <code>&lt;expandable-text></code> element content (see <i>Expandable
-          fragment styling</i> in the following) it will inherit its styling mostly from the parent
-          it resides in.
+          or within the <code>&lt;expandable-text></code> element content (see
+          <i data-open="customStyling">Custom styling of
+          an &lt;expandable-text> element</i> in the following) it will inherit its styling mostly
+          from the parent it resides in.
         </div>
       </expandable-text>
 
-      <expandable-text class="chapter"
+      <expandable-text class="chapter" id="customStyling"
                        data-external-css-id="headerBlockStyling">
         <div class="expand-ttl">Custom styling of an &lt;expandable-text> element</div>
         <div class="p">
@@ -223,7 +236,7 @@
         </div>
       </expandable-text>
 
-      <expandable-text class="chapter"
+      <expandable-text class="chapter" id="previewMode"
                        data-external-css-id="headerBlockStyling">
         <div class="expand-ttl">Preview mode of an &lt;expandable-text> element</div>
         <div class="p">
