@@ -10,11 +10,11 @@ CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
 
 function connectElement(componentNode) {
   const fullContent = componentNode.content ?? createFullContent(componentNode);
-  return !fullContent ? emptyComponent() : doConnect(componentNode, fullContent);
+  return !fullContent ? emptyComponent(componentNode) : doConnect(componentNode, fullContent);
 }
 
 function doConnect(componentNode, fullContent) {
-  componentNode.content = componentNode.content ?? fullContent;
+  componentNode.content = fullContent;
   const shadow = createOrRetrieveShadowRoot(componentNode);
   shadow.adoptedStyleSheets = [setComponentStyleFor(componentNode, defaultStyling)];
   addCustomCssAndMaybeExternals(shadow, fullContent, componentNode);
@@ -37,7 +37,7 @@ function connectContent(componentNode, fullContent, shadow) {
 }
 
 function emptyComponent(componentNode) {
-  componentNode.remove();
+  componentNode?.remove();
   return console.info(`✔ an empty <expandable-text> element was removed`);
 }
 
