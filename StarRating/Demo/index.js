@@ -1,5 +1,5 @@
 import "../../ExpandableText/index.js";
-import {$, logFactory} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@main/index.browser.js?version=makeitso";
+import {$, logFactory} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@latest/index.browser.js";
 import createStarRatingComponent from "../index.js";
 
 createStarRatingComponent();
