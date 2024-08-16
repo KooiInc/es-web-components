@@ -153,8 +153,8 @@ function initialize() {
 }
 
 function handleHeaderExpandableLinks() {
-  [...document.querySelector(`#headerRoot`).shadowRoot.querySelectorAll(`expandable-text.chapter`)]
-    .filter(et =>et.shadowRoot.querySelector(`[data-open]`) )
+  [...document.querySelector(`#headerRoot`).shadowRoot.querySelectorAll(`.chapter`)]
+    .filter(et => et.shadowRoot.querySelector(`[data-open]`) )
     .forEach(expText => expText.shadowRoot.addEventListener(`click`, clickOpener));
   
   function clickOpener(evt) {
@@ -163,8 +163,14 @@ function handleHeaderExpandableLinks() {
     
     if (opener) {
       const ET2Open = shadowRoot.host.getRootNode().querySelector(`#${opener.dataset.open}`)?.shadowRoot;
-      return ET2Open &&  ET2Open.querySelector(`[data-expanded='0']`) &&
-          ET2Open.querySelector(`[data-expanded]`).click();
+      const parentContent = shadowRoot.host.getRootNode().host.shadowRoot.querySelector(`.expand-content`);
+      ET2Open && parentContent.scrollTo(0, ET2Open.host.offsetTop + 30);
+      
+      if (ET2Open &&  ET2Open.querySelector(`[data-expanded='0']`)) {
+        ET2Open.querySelector(`[data-expanded]`).click();
+      }
+      
+      return true;
     }
   }
 }
