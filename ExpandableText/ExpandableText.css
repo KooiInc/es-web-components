@@ -80,6 +80,7 @@
 
       [data-open-from-id], [data-close-all], [data-open-all] {
         color: #557492;
+        font-weight: 500;
         cursor: pointer;
       }
     }
@@ -88,6 +89,12 @@
   @media (hover: hover) and (pointer: fine) {
     .expand-title .title:hover {
       color: #506988;
+    }
+
+    [data-open-from-id]:hover,
+    [data-close-all]:hover,
+    [data-open-all]:hover {
+      text-decoration: underline;
     }
 
     .expand-title .arrow:hover:after,
