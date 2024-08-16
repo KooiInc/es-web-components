@@ -80,16 +80,17 @@ function checkForAndHandleSublinks(shadow) {
     const opener = evt.target.closest(`[data-open-from-id]`);
     
     if (opener) {
+      evt.stopImmediatePropagation();
       const ET2Open = shadowRoot.host.getRootNode().querySelector(`#${opener.dataset.openFromId}`)?.shadowRoot;
       const parentContent = shadowRoot.host.getRootNode().host.shadowRoot.querySelector(`.expand-content`);
       
       if (ET2Open) {
         ET2Open.querySelector(`[data-expanded='0']`) && ET2Open.querySelector(`[data-expanded]`).click();
-        parentContent.scrollTo(0, ET2Open.host.offsetTop + 30);
+        parentContent.scrollTop = 0;
+        ET2Open.querySelector(`.expand-title`).scrollIntoView({ behavior: 'smooth' });
       }
-      
-      return true;
     }
+    return false;
   }
 }
 
