@@ -20,6 +20,7 @@ function doConnect(componentNode, fullContent) {
   addCustomCssAndMaybeExternals(shadow, fullContent, componentNode);
   connectContent(componentNode, fullContent, shadow);
   shadow.addEventListener(`click`, handleShadowroot);
+  checkForAndHandleSublinks(shadow);
 }
 
 function connectContent(componentNode, fullContent, shadow) {
@@ -39,6 +40,69 @@ function connectContent(componentNode, fullContent, shadow) {
 function emptyComponent(componentNode) {
   componentNode?.remove();
   return console.info(`✔ an empty <expandable-text> element was removed`);
+}
+
+function handleShadowroot(evt) {
+  const shadowRoot = evt.target.getRootNode();
+  const canExpand = !!!evt.target.closest(`.expand-content`) || shadowRoot.querySelector(`[data-expanded='0']`);
+  const closeAll = !!evt.target.closest(`[data-close-all]`);
+  const openAll = !!evt.target.closest(`[data-open-all]`);
+  
+  if (canExpand) {
+    const headerElem = shadowRoot.querySelector(`[data-expanded]`);
+    const expandedState = +headerElem.dataset.expanded;
+    shadowRoot.querySelector('.expand-content').scrollTop = 0;
+    return headerElem.dataset.expanded = +(!!!expandedState);
+  }
+  
+  if (closeAll) {
+    return closeAllSubs(shadowRoot);
+  }
+  
+  if (openAll) {
+    return openAllSubs(shadowRoot);
+  }
+  
+  return;
+}
+
+function checkForAndHandleSublinks(shadow) {
+  const parentHost = shadow.host.getRootNode().host;
+  
+  if (parentHost) {
+    [...parentHost.shadowRoot.querySelectorAll(`expandable-text`)]
+      .filter(et => et?.shadowRoot?.querySelector(`[data-open-from-id]`) )
+      .forEach(expText => expText.shadowRoot.addEventListener(`click`, clickOpener));
+  }
+  
+  function clickOpener(evt) {
+    const shadowRoot = evt.target.getRootNode();
+    const opener = evt.target.closest(`[data-open-from-id]`);
+    
+    if (opener) {
+      const ET2Open = shadowRoot.host.getRootNode().querySelector(`#${opener.dataset.openFromId}`)?.shadowRoot;
+      const parentContent = shadowRoot.host.getRootNode().host.shadowRoot.querySelector(`.expand-content`);
+      
+      if (ET2Open) {
+        ET2Open.querySelector(`[data-expanded='0']`) && ET2Open.querySelector(`[data-expanded]`).click();
+        parentContent.scrollTo(0, ET2Open.host.offsetTop + 30);
+      }
+      
+      return true;
+    }
+  }
+}
+
+function closeAllSubs(shadowRoot) {
+  [...shadowRoot.querySelectorAll(`expandable-text`)]
+    .filter( et => et.shadowRoot?.querySelector(`.expand-title`).dataset.expanded === `1` )
+    .forEach( etOpen => etOpen.shadowRoot.firstChild.click() );
+}
+
+function openAllSubs(shadowRoot) {
+  [...shadowRoot.querySelectorAll(`expandable-text`)]
+    .filter( et => et.shadowRoot?.querySelector(`.expand-title`).dataset.expanded === `0` )
+    .forEach( etOpen => etOpen.shadowRoot.firstChild.click() );
 }
 
 function getTitle(fullContent, componentNode) {
@@ -79,20 +143,6 @@ function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
     extraStyling.remove();
     shadow.adoptedStyleSheets.push(xtraSheet);
   }
-}
-
-function handleShadowroot(evt) {
-  const shadowRoot = evt.target.getRootNode();
-  const canExpand = !!!evt.target.closest(`.expand-content`) || shadowRoot.querySelector(`[data-expanded='0']`);
-  
-  if (canExpand) {
-    const headerElem = shadowRoot.querySelector(`[data-expanded]`);
-    const expandedState = +headerElem.dataset.expanded;
-    shadowRoot.querySelector('.expand-content').scrollTop = 0;
-    return headerElem.dataset.expanded = +(!!!expandedState);
-  }
-  
-  return true;
 }
 
 async function preloadStyling() {

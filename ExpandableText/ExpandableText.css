@@ -77,6 +77,11 @@
       padding: 12px;
       margin: auto auto 0.7em auto;
       cursor: default;
+
+      [data-open-from-id], [data-close-all], [data-open-all] {
+        color: #557492;
+        cursor: pointer;
+      }
     }
   }
 
