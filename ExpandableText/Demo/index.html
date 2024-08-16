@@ -21,8 +21,6 @@
       .expand-title[data-expanded='1'] .arrow:before {
         transform: rotateX(3.14rad);
       }
-
-      [data-open] { color: #557492; cursor: pointer; }
     }
 
     :host-context(.markup) {
@@ -67,6 +65,7 @@
         max-height: 60vh;
 
         div.p { margin-bottom: 0.6rem; }
+        div.pt { margin-top: 0.6rem; }
         div.pp { margin: 0.6rem 0; }
         p.last { margin-bottom: 0; }
       }
@@ -123,8 +122,13 @@
         elements) explain the usage of it.
       </p>
 
-      <expandable-text class="chapter"
-                       data-title="The content of an <expandable-text> element"
+      <p>
+        <b data-close-all>Close all chapters below</b> |
+        <b data-open-all>Open all chapters below</b>.
+      </p>
+
+      <expandable-text data-title="The content of an <expandable-text> element"
+                       class="chapter"
                        data-external-css-id="headerBlockStyling">
         <div>
           The <i><b>content</b></i> of an <code>&lt;expandable-text></code> element
@@ -147,19 +151,42 @@
         <div class="pp">
           By default the content is invisible. Using a <code>data-attribute</code>
           one can however enable a "preview mode".
-          <br>See <i data-open="previewMode">Preview mode of an &lt;expandable-text> element</i>.
+          <br>See <i data-open-from-id="previewMode">Preview mode of an &lt;expandable-text>
+            element</i>.
         </div>
 
         <div>
           <b>Note</b>: when an <code>&lt;expandable-text></code> element does not contain
           content, it will be removed. This will be reported in the console.
         </div>
-
-
       </expandable-text>
 
-      <expandable-text class="chapter"
-                       data-title="The title of an <expandable-text> element"
+      <expandable-text data-title="Preview mode of an <expandable-text> element"
+                       class="chapter"
+                       id="previewMode"
+                       data-external-css-id="headerBlockStyling">
+        <div class="p">
+          By default the <code>&lt;expandable-text></code> content is hidden (so all you
+          see is the title).
+        </div>
+
+        <div class="p">
+          <code>&lt;expandable-text></code> can be connected with a default
+          <i><b>preview area</b></i> with a maximum height of 80 pixels
+          and a vertical gradient (vertical 'fade out').
+        </div>
+
+        <div>
+          To activate preview mode, create the element with
+          <code>&lt;expandable-text data-preview="1"></code>. See last example.
+          <br><b>Note</b>: when a preview is active and the
+          <code>&lt;expandable-text></code> is collapsed, the user can
+          also click the preview area to expand the content.
+        </div>
+      </expandable-text>
+
+      <expandable-text data-title="The title of an <expandable-text> element"
+                       class="chapter"
                        data-external-css-id="headerBlockStyling">
         <div class="p">
           The title of a <code>&lt;expandable-text></code> display is displayed
@@ -193,8 +220,9 @@
         </ul>
       </expandable-text>
 
-      <expandable-text class="chapter"
-                       data-title="The styling of an <expandable-text> element"
+      <expandable-text data-title="The styling of an <expandable-text> element"
+                       id="componentStyling"
+                       class="chapter"
                        data-external-css-id="headerBlockStyling">
         <div class="p">
           The default styling for this module can be found in the file
@@ -206,15 +234,16 @@
           The Styling of an expandable fragment is kept minimal. In other words, if you don't add
           css in the containing document for the <code>&lt;expandable-text></code> element
           or within the <code>&lt;expandable-text></code> element content (see
-          <i data-open="customStyling">Custom styling of
+          <i data-open-from-id="customStyling">Custom styling of
           an &lt;expandable-text> element</i> in the following) it will inherit its styling mostly
           from the parent it resides in.
         </div>
       </expandable-text>
 
-      <expandable-text class="chapter" id="customStyling"
+      <expandable-text data-title="Custom styling of an <expandable-text> element"
+                       class="chapter"
+                       id="customStyling"
                        data-external-css-id="headerBlockStyling">
-        <div class="expand-ttl">Custom styling of an &lt;expandable-text> element</div>
         <div class="p">
           One can modify the styling of the title and content of a single
           <code>&lt;expandable-text></code> element using a <code>&lt;style></code> element
@@ -236,26 +265,66 @@
         </div>
       </expandable-text>
 
-      <expandable-text class="chapter" id="previewMode"
+      <expandable-text data-title="Linking to a nested <expandable-text> element"
+                       class="chapter"
                        data-external-css-id="headerBlockStyling">
-        <div class="expand-ttl">Preview mode of an &lt;expandable-text> element</div>
         <div class="p">
-          By default the <code>&lt;expandable-text></code> content is hidden (so all you
-          see is the title).
+          When an <code>&lt;expandable-text></code> element contains several nested
+          <code>&lt;expandable-text></code> elements (like the one you are reading now)
+          it is possible to link to one of these nested <code>&lt;expandable-text></code> elements.
         </div>
 
         <div class="p">
-          <code>&lt;expandable-text></code> can be connected with a default
-          <i><b>preview area</b></i> with a maximum height of 80 pixels
-          and a vertical gradient (vertical 'fade out').
+          To link to another nested <code>&lt;expandable-text></code> element:
+        </div>
+
+        <ul>
+          <li>
+            First identify the element to link to, and give it an id
+            (<code>&lt;expandable-text id="something" ...></code>).
+          </li>
+          <li>
+            Next, in the content of the <code>&lt;expandable-text></code> element where the
+            link should reside create an element with the data-attribute
+            <code>data-open-from-id</code>, e.g.
+            <code>&lt;span data-open-from-id="something">&lt;/span></code>.
+          </li>
+        </ul>
+
+        <div class="pp">
+          That's it! The element containing the data-attribute has a different
+          color and cursor. Clicking it will expand the identified
+          <code>&lt;expandable-text></code> element (when not already expanded)
+          within its root <code>&lt;expandable-text></code> element
+          and will try to scroll to it (if applicable).
         </div>
 
         <div>
-          To activate preview mode, create the element with
-          <code>&lt;expandable-text data-preview="1"></code>. See last example.
-          <br><b>Note</b>: when a preview is active and the
-          <code>&lt;expandable-text></code> is collapsed, the user can
-          also click the preview area to expand the content.
+          <b>Example</b>
+          <span data-open-from-id="componentStyling">
+           "The styling of an &lt;expandable-text> element".
+          </span>
+        </div>
+
+      </expandable-text>
+
+      <expandable-text data-title="Open/close all open nested <expandable-text> elements"
+                       class="chapter"
+                       data-external-css-id="headerBlockStyling">
+        <div>
+          When an <code>&lt;expandable-text></code> element contains several nested
+          <code>&lt;expandable-text></code> elements (like the one you are reading now)
+          it is possible to create a link to open or close all open/closed
+          nested <code>&lt;expandable-text></code> elements in it.
+        </div>
+
+        <div class="pt">
+          This is done by creating an element containing either <code>data-close-all</code>
+          or <code>data-open-all</code> at the top
+          level of the <code>&lt;expandable-text></code> element containing nested
+          <code>&lt;expandable-text></code> elements.
+          <br>So: <code>&lt;span data-close-all>...&lt;/span></code> or
+          <code>&lt;span data-open-all>...&lt;/span></code>
         </div>
       </expandable-text>
 
