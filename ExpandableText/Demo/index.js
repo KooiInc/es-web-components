@@ -15,8 +15,6 @@ Prism.highlightAllUnder(document.querySelector(`.start`)
 $(`.container`).append(`<p>&nbsp;</p>`);
 Prism.highlightAll();
 
-handleHeaderExpandableLinks();
-
 function initialize() {
   const {log: log2Screen, logTop} = logFactory();
   
@@ -150,27 +148,4 @@ function initialize() {
      </p>`);
   
   return log2Screen;
-}
-
-function handleHeaderExpandableLinks() {
-  [...document.querySelector(`#headerRoot`).shadowRoot.querySelectorAll(`.chapter`)]
-    .filter(et => et.shadowRoot.querySelector(`[data-open]`) )
-    .forEach(expText => expText.shadowRoot.addEventListener(`click`, clickOpener));
-  
-  function clickOpener(evt) {
-    const shadowRoot = evt.target.getRootNode();
-    const opener = evt.target.closest(`[data-open]`);
-    
-    if (opener) {
-      const ET2Open = shadowRoot.host.getRootNode().querySelector(`#${opener.dataset.open}`)?.shadowRoot;
-      const parentContent = shadowRoot.host.getRootNode().host.shadowRoot.querySelector(`.expand-content`);
-      ET2Open && parentContent.scrollTo(0, ET2Open.host.offsetTop + 30);
-      
-      if (ET2Open &&  ET2Open.querySelector(`[data-expanded='0']`)) {
-        ET2Open.querySelector(`[data-expanded]`).click();
-      }
-      
-      return true;
-    }
-  }
 }
