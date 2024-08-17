@@ -120,8 +120,7 @@ function checkForAndHandleSublinks(shadow) {
 
 function scrollIntoViewPort(parentContent, ET) {
   if (parentContent && ET) {
-    parentContent.scrollTop = 0;
-    setTimeout( _ => parentContent.scroll(0, ET.host.offsetTop - 50, {behavior: `smooth`}), 250);
+    setTimeout( _ => parentContent.scroll({top: ET.host.offsetTop - 50, behavior: `smooth`}), 250);
   }
 }
 
