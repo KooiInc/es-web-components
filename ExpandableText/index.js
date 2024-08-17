@@ -42,28 +42,53 @@ function emptyComponent(componentNode) {
   return console.info(`✔ an empty <expandable-text> element was removed`);
 }
 
+function doExpand(shadowRoot, scrollIntoView = false, all = false) {
+  const headerElem = shadowRoot.querySelector(`[data-expanded]`);
+  const expandedState = +headerElem.dataset.expanded;
+  shadowRoot.querySelector('.expand-content').scrollTop = 0;
+  headerElem.dataset.expanded = +(!!!expandedState);
+  
+  if (scrollIntoView ) {
+    const parentContent = shadowRoot.host.getRootNode()
+      .host.shadowRoot.querySelector(`.expand-content`);
+    return scrollIntoViewPort(parentContent, shadowRoot);
+  }
+  
+  !all && maybePositionIntoViewport(shadowRoot);
+}
+
+function maybePositionIntoViewport(shadowRoot) {
+  const parent = shadowRoot.host.getRootNode().host?.shadowRoot;
+  
+  if (!parent) { return; }
+  
+  const parentContent = parent.querySelector(`.expand-content`);
+  const parentSize = parentContent.offsetHeight + parentContent.scrollTop;
+  const myTop = shadowRoot.host.offsetTop;
+  
+  setTimeout(_ => {
+      if (myTop + 20 >= parentSize) {
+        parentContent.scroll({top: parentContent.scrollTop + 150, behavior: `smooth`});
+      }
+    }, 150);
+}
+
 function handleShadowroot(evt) {
   const shadowRoot = evt.target.getRootNode();
-  const canExpand = !!!evt.target.closest(`.expand-content`) || shadowRoot.querySelector(`[data-expanded='0']`);
+  const isPreviewAndClosed = evt.target.closest(`.expand-content.preview`)?.getRootNode()
+    .querySelector(`[data-expanded]`).dataset.expanded === '0';
+  const isContent = !!!evt.target.closest(`.expand-content`);
+  const isCollapsed = !!shadowRoot.querySelector(`[data-expanded='0']`);
+  const canExpand =  isContent || isPreviewAndClosed || isCollapsed;
   const closeAll = !!evt.target.closest(`[data-close-all]`);
   const openAll = !!evt.target.closest(`[data-open-all]`);
   
-  if (canExpand) {
-    const headerElem = shadowRoot.querySelector(`[data-expanded]`);
-    const expandedState = +headerElem.dataset.expanded;
-    shadowRoot.querySelector('.expand-content').scrollTop = 0;
-    return headerElem.dataset.expanded = +(!!!expandedState);
+  switch(true) {
+    case canExpand: return doExpand(shadowRoot);
+    case closeAll: return closeAllSubs(shadowRoot);
+    case openAll: return openAllSubs(shadowRoot);
+    default: return;
   }
-  
-  if (closeAll) {
-    return closeAllSubs(shadowRoot);
-  }
-  
-  if (openAll) {
-    return openAllSubs(shadowRoot);
-  }
-  
-  return;
 }
 
 function checkForAndHandleSublinks(shadow) {
@@ -80,30 +105,36 @@ function checkForAndHandleSublinks(shadow) {
     const opener = evt.target.closest(`[data-open-from-id]`);
     
     if (opener) {
-      evt.stopImmediatePropagation();
       const ET2Open = shadowRoot.host.getRootNode().querySelector(`#${opener.dataset.openFromId}`)?.shadowRoot;
       const parentContent = shadowRoot.host.getRootNode().host.shadowRoot.querySelector(`.expand-content`);
       
       if (ET2Open) {
-        ET2Open.querySelector(`[data-expanded='0']`) && ET2Open.querySelector(`[data-expanded]`).click();
-        parentContent.scrollTop = 0;
-        ET2Open.querySelector(`.expand-title`).scrollIntoView({ behavior: 'smooth' });
+        evt.stopImmediatePropagation();
+        return ET2Open.querySelector(`[data-expanded='0']`) &&
+          doExpand(ET2Open, true) || scrollIntoViewPort(parentContent, ET2Open);
       }
     }
     return false;
   }
 }
 
+function scrollIntoViewPort(parentContent, ET) {
+  if (parentContent && ET) {
+    parentContent.scrollTop = 0;
+    setTimeout( _ => parentContent.scroll(0, ET.host.offsetTop - 50, {behavior: `smooth`}), 250);
+  }
+}
+
 function closeAllSubs(shadowRoot) {
   [...shadowRoot.querySelectorAll(`expandable-text`)]
     .filter( et => et.shadowRoot?.querySelector(`.expand-title`).dataset.expanded === `1` )
-    .forEach( etOpen => etOpen.shadowRoot.firstChild.click() );
+    .forEach( etOpen => doExpand(etOpen.shadowRoot, false, true) );
 }
 
 function openAllSubs(shadowRoot) {
   [...shadowRoot.querySelectorAll(`expandable-text`)]
     .filter( et => et.shadowRoot?.querySelector(`.expand-title`).dataset.expanded === `0` )
-    .forEach( etOpen => etOpen.shadowRoot.firstChild.click() );
+    .forEach( etOpen => doExpand(etOpen.shadowRoot, false, true) );
 }
 
 function getTitle(fullContent, componentNode) {
