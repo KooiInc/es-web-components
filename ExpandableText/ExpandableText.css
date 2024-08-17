@@ -78,7 +78,7 @@
       margin: auto auto 0.7em auto;
       cursor: default;
 
-      [data-open-from-id], [data-close-all], [data-open-all] {
+      [data-open-from-id], [data-collapse-all], [data-expand-all] {
         color: #557492;
         font-weight: 500;
         cursor: pointer;
@@ -92,8 +92,8 @@
     }
 
     [data-open-from-id]:hover,
-    [data-close-all]:hover,
-    [data-open-all]:hover {
+    [data-collapse-all]:hover,
+    [data-expand-all]:hover {
       text-decoration: underline;
     }
 

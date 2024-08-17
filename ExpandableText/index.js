@@ -80,13 +80,13 @@ function handleShadowroot(evt) {
   const isContent = !!!evt.target.closest(`.expand-content`);
   const isCollapsed = !!shadowRoot.querySelector(`[data-expanded='0']`);
   const canExpand =  isContent || isPreviewAndClosed || isCollapsed;
-  const closeAll = !!evt.target.closest(`[data-close-all]`);
-  const openAll = !!evt.target.closest(`[data-open-all]`);
+  const collapseAll = !!evt.target.closest(`[data-collapse-all]`);
+  const expandAll = !!evt.target.closest(`[data-expand-all]`);
   
   switch(true) {
     case canExpand: return doExpand(shadowRoot);
-    case closeAll: return closeAllSubs(shadowRoot);
-    case openAll: return openAllSubs(shadowRoot);
+    case collapseAll: return collapseAllSubs(shadowRoot);
+    case expandAll: return expandAllSubs(shadowRoot);
     default: return;
   }
 }
@@ -125,13 +125,13 @@ function scrollIntoViewPort(parentContent, ET) {
   }
 }
 
-function closeAllSubs(shadowRoot) {
+function collapseAllSubs(shadowRoot) {
   [...shadowRoot.querySelectorAll(`expandable-text`)]
     .filter( et => et.shadowRoot?.querySelector(`.expand-title`).dataset.expanded === `1` )
     .forEach( etOpen => doExpand(etOpen.shadowRoot, false, true) );
 }
 
-function openAllSubs(shadowRoot) {
+function expandAllSubs(shadowRoot) {
   [...shadowRoot.querySelectorAll(`expandable-text`)]
     .filter( et => et.shadowRoot?.querySelector(`.expand-title`).dataset.expanded === `0` )
     .forEach( etOpen => doExpand(etOpen.shadowRoot, false, true) );

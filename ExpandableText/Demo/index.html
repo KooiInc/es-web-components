@@ -48,6 +48,7 @@
       @media (hover: hover) and (pointer: fine) {
         .expand-title .title:hover {
           color: #548855;
+          text-shadow: revert;
         }
       }
     }
@@ -123,8 +124,8 @@
       </p>
 
       <p>
-        <b data-close-all>Close all chapters below</b> |
-        <b data-open-all>Open all chapters below</b>.
+        <b data-collapse-all>Collapse all chapters below</b> |
+        <b data-expand-all>Expand all chapters below</b>.
       </p>
 
       <expandable-text data-title="The content of an <expandable-text> element"
@@ -308,23 +309,27 @@
 
       </expandable-text>
 
-      <expandable-text data-title="Open/close all open nested <expandable-text> elements"
+      <expandable-text data-title="Expand/collapse all open nested <expandable-text> elements"
                        class="chapter"
                        data-external-css-id="headerBlockStyling">
         <div>
           When an <code>&lt;expandable-text></code> element contains several nested
           <code>&lt;expandable-text></code> elements (like the one you are reading now)
-          it is possible to create a link to open or close all open/closed
+          it is possible to create a link to expand or collapse all open/closed
           nested <code>&lt;expandable-text></code> elements in it.
         </div>
 
-        <div class="pt">
-          This is done by creating an element containing either <code>data-close-all</code>
-          or <code>data-open-all</code> at the top
+        <div class="p">
+          This is done by creating an element containing either <code>data-collapse-all</code>
+          or <code>data-expand-all</code> at the top
           level of the <code>&lt;expandable-text></code> element containing nested
           <code>&lt;expandable-text></code> elements.
-          <br>So: <code>&lt;span data-close-all>...&lt;/span></code> or
-          <code>&lt;span data-open-all>...&lt;/span></code>
+        </div>
+
+        <div class="pt">
+          <b>Example</b>
+          <br>A span to collapse all <code>&lt;span data-collapse-all>...&lt;/span></code>.
+          <br>Idem to expand all: <code>&lt;span data-expand-all>...&lt;/span></code>.
         </div>
       </expandable-text>
 
