@@ -64,13 +64,10 @@ function maybePositionIntoViewport(shadowRoot) {
   
   const parentContent = parent.querySelector(`.expand-content`);
   const parentSize = parentContent.offsetHeight + parentContent.scrollTop;
-  const myTop = shadowRoot.host.offsetTop;
+  const shouldScroll = shadowRoot.host.offsetTop > parentSize - 30;
   
-  setTimeout(_ => {
-      if (myTop + 20 >= parentSize) {
-        parentContent.scroll({top: parentContent.scrollTop + 150, behavior: `smooth`});
-      }
-    }, 150);
+  setTimeout(_ =>
+    shouldScroll && parentContent.scroll({top: parentContent.scrollTop + 150, behavior: `smooth`}));
 }
 
 function handleShadowroot(evt) {
@@ -119,9 +116,8 @@ function checkForAndHandleSublinks(shadow) {
 }
 
 function scrollIntoViewPort(parentContent, ET) {
-  if (parentContent && ET) {
-    setTimeout( _ => parentContent.scroll({top: ET.host.offsetTop - 40, behavior: `smooth`}), 150);
-  }
+  parentContent && ET && setTimeout( _ =>
+    parentContent.scroll({top: ET.host.offsetTop - 40, behavior: `smooth`}));
 }
 
 function collapseAllSubs(shadowRoot) {
