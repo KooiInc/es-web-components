@@ -116,7 +116,7 @@ function checkForAndHandleSublinks(shadow) {
 }
 
 function scrollIntoViewPort(parentContent, ET) {
-  parentContent && ET && setTimeout( _ =>
+  setTimeout( _ => parentContent && ET &&
     parentContent.scroll({top: ET.host.offsetTop - 40, behavior: `smooth`}), 150);
 }
 
