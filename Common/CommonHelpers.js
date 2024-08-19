@@ -1,4 +1,10 @@
-export {createElement, numberFactory, maybe}
+export {
+  createElement,
+  numberFactory,
+  maybe,
+  addCustomCssAndMaybeExternals,
+  importComponentModule
+}
 
 function createElement(name, props = {}, data = {}) {
   const elem = Object.assign(document.createElement(name), props);
@@ -39,4 +45,32 @@ function maybe({trial, whenError = err => console.log(err)} = {}) {
   } catch (err) {
     return whenError?.constructor === Function ? whenError(err) : console.error(err);
   }
+}
+
+function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
+  const extraStyling = fullContent.querySelector(`style`);
+  const externalStylingId = componentNode.dataset?.externalCssId;
+  
+  if (!extraStyling && !externalStylingId) { return; }
+  
+  if (externalStylingId) {
+    shadow.append(document.querySelector(`#${externalStylingId}`).cloneNode(true));
+  }
+  
+  if (extraStyling) {
+    const xtraSheet = new CSSStyleSheet();
+    xtraSheet.replaceSync(extraStyling.innerHTML);
+    extraStyling.remove();
+    shadow.adoptedStyleSheets.push(xtraSheet);
+  }
+}
+
+async function importComponentModule() {
+  if (window.CreateComponent) { return Promise.resolve(_ => true); }
+  
+  const { default: CreateComponent, createOrRetrieveShadowRoot, setComponentStyleFor, } =
+    await import("../es-webcomponent-factory/Bundle/es-webcomponent-bundle.js").then(r => r);
+  window.CreateComponent = CreateComponent;
+  window.createOrRetrieveShadowRoot = createOrRetrieveShadowRoot;
+  window.setComponentStyleFor = setComponentStyleFor;
 }
