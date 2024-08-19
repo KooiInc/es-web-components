@@ -5,6 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link href="../../Img/dev_ico.png" rel="icon"/>
   <title>Password Helper component Demo</title>
+  <style>
+    body {
+      font: normal 14px/19px verdana, arial, sans-serif;
+      .container {
+        position: absolute;
+        inset: 0;
+
+        .pageContent {
+          width: 50vw;
+          padding-top: 2rem;
+          margin: 0 auto;
+        }
+
+        @media(width <= 3200px) {
+          .pageContent {
+            width: 33vw;
+          }
+        }
+
+        @media(width <= 2400px) {
+          .pageContent {
+            width: 43vw;
+          }
+        }
+
+        @media(width <= 1024px) {
+          .pageContent {
+            width: 90vw;
+          }
+        }
+      }
+    }
+  </style>
 </head>
 <body>
 <div class="container">
