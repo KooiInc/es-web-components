@@ -1,0 +1,273 @@
+<expandable-text id="generator">
+  <style>
+    :host {
+      margin-top: 2rem;
+
+      .expand-title[data-expanded] {
+        .arrow {
+          display: inline-block;
+          margin: auto;
+          color: #a15a57;
+          font-size: 1.3em;
+          text-align: center;
+          vertical-align: super;
+
+          &:before {
+            font-size: 1.3rem;
+            margin-right: 5px;
+            text-shadow: -1px 1px 2px #999;
+            content: ' ';
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-image: url('data:image/svg+xml;utf8,%3Csvg%20width%3D%22800px%22%20height%3D%22800px%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022c5.523%200%2010-4.477%2010-10S17.523%202%2012%202%202%206.477%202%2012s4.477%2010%2010%2010Z%22%20fill%3D%22%23000000%22%20fill-opacity%3D%22.16%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.5%22%20stroke-miterlimit%3D%220%22%2F%3E%3Cpath%20d%3D%22m8%2010%204%204%204-4%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E');
+            transition: all 1s ease;
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: middle;
+          }
+        }
+
+        .expand-title[data-expanded='1'] .arrow:before {
+          transform: rotate(-0.5turn);
+        }
+
+        &[data-expanded='0'] + .expand-content {
+          .gen #symChars {
+            display: none;
+          }
+        }
+
+        &[data-expanded='1'] + .expand-content {
+          margin: revert;
+          text-align: left;
+
+          button {
+            border: 2px solid #777;
+            background-color: azure;
+            text-align: center;
+            padding: 4px 10px;
+            margin-left: 0.3em;
+            display: inline;
+          }
+
+          button:hover {
+            box-shadow: 2px 1px 8px #777;
+            border-color: transparent;
+          }
+
+          #res button {
+            margin: 2px;
+          }
+
+          #res button#AllNone:before {
+            content: attr(data-state) ' ';
+          }
+
+          #allSyms[data-all='NO']:after {
+            content: 'Select all';
+          }
+
+          #allSyms[data-all='YES']:after {
+            content: 'Select none';
+          }
+
+          label {
+            cursor: pointer;
+          }
+
+          [type='number'] {
+            width: 3rem;
+            outline: none;
+            border: 1px solid #999;
+            color: #777;
+            border-radius: 4px;
+            font-weight: bold;
+          }
+
+          .gen:first-child {
+            margin: auto 1rem;
+            float: left;
+
+            @media(width <= 1024px) {
+              float: revert;
+              margin: revert;
+            }
+         }
+
+          #symChars {
+            padding: 8px;
+            font-family: monospace, 'Courier New', Courier;
+            font-size: 1.1rem;
+            box-shadow: 1px 1px 8px #999;
+            border-radius: 4px;
+            overflow-y: auto;
+            float: right;
+            margin-right: 1rem;
+
+            @media(width <= 1024px) {
+              float: revert;
+              margin-top: 1rem;
+              margin-right: revert;
+            }
+
+            div.row {
+              white-space: nowrap;
+              margin: 5px auto;
+            }
+
+            div.cb {
+              display: inline-block;
+              padding: 0 2px;
+            }
+
+            .cb [type='checkbox'] {
+              margin-right: 3px;
+              margin-left: 6px;
+              vertical-align: middle;
+            }
+
+            span.symbol {
+              color: orangered;
+              font-weight: bold;
+            }
+
+            div.header {
+              color: cornflowerblue;
+              text-align: center;
+            }
+
+            div.header {
+              font-size: 0.9rem;
+              margin: -8px 0 8px 0;
+              padding: 4px 0;
+              border-bottom: 1px dashed #999;
+            }
+
+            div.buttons {
+              margin-bottom: auto;
+              margin-top: 12px;
+              padding-top: 8px;
+              border-top: 1px dashed #999;
+              white-space: nowrap;
+              text-align: center;
+
+              button {
+                font-size: revert;
+              }
+            }
+          }
+        }
+      }
+    }
+  </style>
+  <div class="expand-ttl">Generate a password</div>
+  <div class="gen">
+    <div>
+      <input type="number" min="8" value="16" title="minimum 8 (enforced)"> Length
+    </div>
+    <div class="cbi">
+      <input type="checkbox" id="Sym">
+      <label for="Sym" title="Use selected non-letters (select characters in the 'Include' block)">
+        Use non-letters
+      </label>
+    </div>
+    <div class="cbi">
+      <input type="checkbox" id="Nrs">
+      <label for="Nrs">Use numbers</label>
+    </div>
+    <div class="cbi">
+      <input type="checkbox" id="UC" checked="">
+      <label for="UC">Use upper case</label>
+    </div>
+    <div class="cbi">
+      <input type="checkbox" id="AFrst">
+      <label for="AFrst">Start with letter</label>
+    </div>
+    <div id="res">
+      <button id="AllNone" data-state="All">of the above</button>
+      <br>
+      <button id="generate">Create</button>
+    </div>
+  </div>
+  <div class="gen">
+    <div id="symChars">
+      <div class="header">Include</div>
+      <div class="row">
+        <div class="cb">
+          <input type="checkbox" value="!" checked="" data-initial="1"><span class="symbol">!</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="?" checked="" data-initial="1"><span class="symbol">?</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="@" checked="" data-initial="1"><span class="symbol">@</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="#" checked="" data-initial="1"><span class="symbol">#</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="$" checked="" data-initial="1"><span class="symbol">$</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="%" checked="" data-initial="1"><span class="symbol">%</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="^" checked="" data-initial="1"><span class="symbol">^</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cb">
+          <input type="checkbox" value="&amp;" checked="" data-initial="1"><span class="symbol">&amp;</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="*" checked="" data-initial="1"><span class="symbol">*</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="=" checked="" data-initial="1"><span class="symbol">=</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="+" checked="" data-initial="1"><span class="symbol">+</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="_" checked="" data-initial="1"><span class="symbol">_</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value=";" checked="" data-initial="1"><span class="symbol">;</span>
+        </div>
+        <div class="cb">
+          <input type="checkbox" value="-" checked="" data-initial="1"><span class="symbol">-</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cb"><input type="checkbox" value="."><span class="symbol">.</span></div>
+        <div class="cb"><input type="checkbox" value=","><span class="symbol">,</span></div>
+        <div class="cb"><input type="checkbox" value="("><span class="symbol">(</span></div>
+        <div class="cb"><input type="checkbox" value=")"><span class="symbol">)</span></div>
+        <div class="cb"><input type="checkbox" value="["><span class="symbol">[</span></div>
+        <div class="cb"><input type="checkbox" value="]"><span class="symbol">]</span></div>
+        <div class="cb"><input type="checkbox" value="|"><span class="symbol">|</span></div>
+      </div>
+      <div class="row">
+        <div class="cb"><input type="checkbox" value="\"><span class="symbol">\</span></div>
+        <div class="cb"><input type="checkbox" value="/"><span class="symbol">/</span></div>
+        <div class="cb"><input type="checkbox" value=":"><span class="symbol">:</span></div>
+        <div class="cb"><input type="checkbox" value="~"><span class="symbol">~</span></div>
+        <div class="cb"><input type="checkbox" value=""><span class="symbol">"</span></div>
+        <div class="cb"><input type="checkbox" value="'"><span class="symbol">'</span></div>
+        <div class="cb"><input type="checkbox" value="<"><span class="symbol">&lt;</span></div>
+      </div>
+      <div class="row">
+        <div class="cb"><input type="checkbox" value=">"><span class="symbol">&gt;</span></div>
+        <div class="cb"><input type="checkbox" value="{"><span class="symbol">{</span></div>
+        <div class="cb"><input type="checkbox" value="}"><span class="symbol">}</span></div>
+        <div class="cb"><input type="checkbox" value=" "><span class="symbol">&lt;space&gt;</span>
+        </div>
+      </div>
+      <div class="buttons">
+        <button id="initialSyms">Initial selection</button>
+        <button id="allSyms" data-all="NO"></button>
+      </div>
+    </div>
+  </div>
+</expandable-text>

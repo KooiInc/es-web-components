@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link href="../../Img/dev_ico.png" rel="icon"/>
+  <script type="module" src="./index.js"></script>
+  <title>Password Helper component Demo</title>
+</head>
+<body>
+<div class="container">
+  <div class="pageContent">
+    <expandable-text data-title="A small password helper" data-preview="1">
+      <template>
+        <style>
+          :host {
+            @media(width <= 1024px) {
+              width: 80vw;
+            }
+            div.p {
+              margin-bottom: 0.6rem;
+            }
+
+            h3 {
+              margin-top: 0.6rem;
+              margin-bottom: 0.3rem;
+            }
+
+            code {
+              color: green;
+              background-color: #eee;
+              padding: 1px;
+            }
+          }
+        </style>
+        <div>
+          With this module the strenght of passwords can be checked and/or passwords with random
+          characters can be created. It creates an autonomous custom element.
+        </div>
+
+        <div class="p">
+          After importing the module, the custom element can be included
+          as <code>&lt;password-helper></code>.
+        </div>
+
+        <div>
+          Typing in the input box results in an extensive check on 'entropy' of the input. The input
+          can be cleared, or copied to the clipboard (<b>note</b>: only when the page is loaded
+          in a secure (https) environment)
+        </div>
+
+        <h3>Password generation</h3>
+        <div class="p">
+          Opening 'Generate a password' presents a small helper to create passwords with a length of
+          choice and more or less characters.
+        </div>
+
+        <div>
+          By default a password is generated using 26 lower case letters of the latin
+          alphabet (so a to z). Check one or more (Use-) non-letters/numbers/upper case
+          to include more characters in the generated password.
+          The 'non-letters'-option uses the characters selected within the
+          box 'Include'.
+        </div>
+      </template>
+    </expandable-text>
+
+    <password-helper data-title="Generate a password"></password-helper>
+  </div>
+</div>
+</body>
+</html>
