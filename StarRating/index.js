@@ -1,9 +1,5 @@
-import {createElement, numberFactory,} from "../Common/CommonHelpers.js";
-import {
-  default as createComponent,
-  createOrRetrieveShadowRoot,
-  setComponentStyleFor,
-} from "../es-webcomponent-factory/Bundle/es-webcomponent-bundle.js";
+import {createElement, numberFactory, importComponentModule} from "../Common/CommonHelpers.js";
+await importComponentModule();
 
 export default createStarRatingComponent;
 
@@ -19,7 +15,7 @@ function createStarRatingComponent( { min, max, nDefault } = {} ) {
     return console.info(existsInfo)
   }
   
-  createComponent({ componentName, onConnect, });
+  CreateComponent({ componentName, onConnect, });
   
   function onConnect(componentNode) {
     const shadow = createOrRetrieveShadowRoot(componentNode);

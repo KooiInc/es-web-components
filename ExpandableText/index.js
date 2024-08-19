@@ -1,9 +1,9 @@
-import {createElement} from "../Common/CommonHelpers.js";
 import {
-  default as CreateComponent,
-  createOrRetrieveShadowRoot,
-  setComponentStyleFor,
-} from "../es-webcomponent-factory/Src/WebComponentFactory.js";
+  createElement,
+  importComponentModule,
+  addCustomCssAndMaybeExternals
+} from "../Common/CommonHelpers.js";
+await importComponentModule();
 
 const defaultStyling = await preloadStyling();
 CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
@@ -63,11 +63,15 @@ function maybePositionIntoViewport(shadowRoot) {
   if (!parent) { return; }
   
   const parentContent = parent.querySelector(`.expand-content`);
-  const parentSize = parentContent.offsetHeight + parentContent.scrollTop;
-  const shouldScroll = shadowRoot.host.offsetTop > parentSize - 30;
   
-  setTimeout(_ =>
-    shouldScroll && parentContent.scroll({top: parentContent.scrollTop + 150, behavior: `smooth`}), 150);
+  if (parentContent) {
+    const parentSize = parentContent.offsetHeight + parentContent.scrollTop;
+    const shouldScroll = shadowRoot.host.offsetTop > parentSize - 30;
+    
+    setTimeout(_ =>
+      shouldScroll && parentContent.scroll({top: parentContent.scrollTop + 150, behavior: `smooth`}), 150);
+  }
+  
 }
 
 function handleShadowroot(evt) {
@@ -152,24 +156,6 @@ function createFullContent(componentNode) {
       : maybeHtml.length > 0
         ? createElement(`div`, {innerHTML: maybeHtml})
         : maybeTemplate?.content;
-}
-
-function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
-  const extraStyling = fullContent.querySelector(`style`);
-  const externalStylingId = componentNode.dataset?.externalCssId;
-  
-  if (!extraStyling && !externalStylingId) { return; }
-  
-  if (externalStylingId) {
-    shadow.append(document.querySelector(`#${externalStylingId}`).cloneNode(true));
-  }
-  
-  if (extraStyling) {
-    const xtraSheet = new CSSStyleSheet();
-    xtraSheet.replaceSync(extraStyling.innerHTML);
-    extraStyling.remove();
-    shadow.adoptedStyleSheets.push(xtraSheet);
-  }
 }
 
 async function preloadStyling() {
