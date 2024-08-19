@@ -141,7 +141,7 @@ function initialize() {
   `<a target="_blank" href="//stackblitz.com/@KooiInc"
           >All my projects</a><br>` : ``}
       ${/kooiinc\.github\.io/i.test(top.location.href) ?
-  `<a target="_top" href="https://github.com/KooiInc/es-web-components/tree/main/ExpandableText"
+  `<a target="_top" href="https://github.com/KooiInc/es-web-components/"
             >GitHub</a><br>` : ``}
       <a target="_blank" href="//github.com/KooiInc/es-webcomponent-factory"
         >Web component factory module @GitHub</a>

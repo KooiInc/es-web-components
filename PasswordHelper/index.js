@@ -205,7 +205,7 @@ function instructionText() {
       In general the <i>length</i> of a password is the main factor for its strength. For a strong
       password it may be wise to use a <i>password <b>line</b></i> that is easy to remember.
     </div>
-    <div class="p">
+    <div>
       <b>Example lines</b> (copy/paste them in the above input field!):
       <br><i>In the year 1993 our first, Jenny, was born</i>
       <br><i>If only I didn't have to worry about my bank balance</i>
