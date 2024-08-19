@@ -1,8 +1,5 @@
 import {$} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@latest/index.browser.js";
-import {importComponentModule} from "../../Common/CommonHelpers.js";
 import "../index.js";
-
-await importComponentModule();
 
 $.editCssRules(
   `body {
