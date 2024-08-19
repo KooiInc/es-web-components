@@ -93,7 +93,7 @@
               float: revert;
               margin: revert;
             }
-         }
+          }
 
           #symChars {
             padding: 8px;
@@ -102,18 +102,15 @@
             box-shadow: 1px 1px 8px #999;
             border-radius: 4px;
             overflow-y: auto;
-            float: right;
             margin-right: 1rem;
+            max-width: 70%;
+            float: right;
 
             @media(width <= 1024px) {
               float: revert;
               margin-top: 1rem;
               margin-right: revert;
-            }
-
-            div.row {
-              white-space: nowrap;
-              margin: 5px auto;
+              max-width: 98%;
             }
 
             div.cb {
@@ -193,77 +190,68 @@
   <div class="gen">
     <div id="symChars">
       <div class="header">Include</div>
-      <div class="row">
-        <div class="cb">
-          <input type="checkbox" value="!" checked="" data-initial="1"><span class="symbol">!</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="?" checked="" data-initial="1"><span class="symbol">?</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="@" checked="" data-initial="1"><span class="symbol">@</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="#" checked="" data-initial="1"><span class="symbol">#</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="$" checked="" data-initial="1"><span class="symbol">$</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="%" checked="" data-initial="1"><span class="symbol">%</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="^" checked="" data-initial="1"><span class="symbol">^</span>
-        </div>
+      <div class="cb">
+        <input type="checkbox" value="!" checked data-initial="1"><span class="symbol">!</span>
       </div>
-      <div class="row">
-        <div class="cb">
-          <input type="checkbox" value="&amp;" checked="" data-initial="1"><span class="symbol">&amp;</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="*" checked="" data-initial="1"><span class="symbol">*</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="=" checked="" data-initial="1"><span class="symbol">=</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="+" checked="" data-initial="1"><span class="symbol">+</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="_" checked="" data-initial="1"><span class="symbol">_</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value=";" checked="" data-initial="1"><span class="symbol">;</span>
-        </div>
-        <div class="cb">
-          <input type="checkbox" value="-" checked="" data-initial="1"><span class="symbol">-</span>
-        </div>
+      <div class="cb">
+        <input type="checkbox" value="?" checked data-initial="1"><span class="symbol">?</span>
       </div>
-      <div class="row">
-        <div class="cb"><input type="checkbox" value="."><span class="symbol">.</span></div>
-        <div class="cb"><input type="checkbox" value=","><span class="symbol">,</span></div>
-        <div class="cb"><input type="checkbox" value="("><span class="symbol">(</span></div>
-        <div class="cb"><input type="checkbox" value=")"><span class="symbol">)</span></div>
-        <div class="cb"><input type="checkbox" value="["><span class="symbol">[</span></div>
-        <div class="cb"><input type="checkbox" value="]"><span class="symbol">]</span></div>
-        <div class="cb"><input type="checkbox" value="|"><span class="symbol">|</span></div>
+      <div class="cb">
+        <input type="checkbox" value="@" checked data-initial="1"><span class="symbol">@</span>
       </div>
-      <div class="row">
-        <div class="cb"><input type="checkbox" value="\"><span class="symbol">\</span></div>
-        <div class="cb"><input type="checkbox" value="/"><span class="symbol">/</span></div>
-        <div class="cb"><input type="checkbox" value=":"><span class="symbol">:</span></div>
-        <div class="cb"><input type="checkbox" value="~"><span class="symbol">~</span></div>
-        <div class="cb"><input type="checkbox" value=""><span class="symbol">"</span></div>
-        <div class="cb"><input type="checkbox" value="'"><span class="symbol">'</span></div>
-        <div class="cb"><input type="checkbox" value="<"><span class="symbol">&lt;</span></div>
+      <div class="cb">
+        <input type="checkbox" value="#" checked data-initial="1"><span class="symbol">#</span>
       </div>
-      <div class="row">
-        <div class="cb"><input type="checkbox" value=">"><span class="symbol">&gt;</span></div>
-        <div class="cb"><input type="checkbox" value="{"><span class="symbol">{</span></div>
-        <div class="cb"><input type="checkbox" value="}"><span class="symbol">}</span></div>
-        <div class="cb"><input type="checkbox" value=" "><span class="symbol">&lt;space&gt;</span>
-        </div>
+      <div class="cb">
+        <input type="checkbox" value="$" checked data-initial="1"><span class="symbol">$</span>
       </div>
+      <div class="cb">
+        <input type="checkbox" value="%" checked data-initial="1"><span class="symbol">%</span>
+      </div>
+      <div class="cb">
+        <input type="checkbox" value="^" checked data-initial="1"><span class="symbol">^</span>
+      </div>
+      <div class="cb">
+        <input type="checkbox" value="&amp;" checked data-initial="1"><span class="symbol">&amp;</span>
+      </div>
+      <div class="cb">
+        <input type="checkbox" value="*" checked data-initial="1"><span class="symbol">*</span>
+      </div>
+      <div class="cb">
+        <input type="checkbox" value="=" checked data-initial="1"><span class="symbol">=</span>
+      </div>
+      <div class="cb">
+        <input type="checkbox" value="+" checked data-initial="1"><span class="symbol">+</span>
+      </div>
+      <div class="cb">
+        <input type="checkbox" value="_" checked data-initial="1"><span class="symbol">_</span>
+      </div>
+      <div class="cb">
+        <input type="checkbox" value=";" checked data-initial="1"><span class="symbol">;</span>
+      </div>
+      <div class="cb">
+        <input type="checkbox" value="-" checked data-initial="1"><span class="symbol">-</span>
+      </div>
+      <div class="cb"><input type="checkbox" value="."><span class="symbol">.</span></div>
+      <div class="cb"><input type="checkbox" value=","><span class="symbol">,</span></div>
+      <div class="cb"><input type="checkbox" value="("><span class="symbol">(</span></div>
+      <div class="cb"><input type="checkbox" value=")"><span class="symbol">)</span></div>
+      <div class="cb"><input type="checkbox" value="["><span class="symbol">[</span></div>
+      <div class="cb"><input type="checkbox" value="]"><span class="symbol">]</span></div>
+      <div class="cb"><input type="checkbox" value="|"><span class="symbol">|</span></div>
+      <div class="cb"><input type="checkbox" value="\"><span class="symbol">\</span></div>
+      <div class="cb"><input type="checkbox" value="/"><span class="symbol">/</span></div>
+      <div class="cb"><input type="checkbox" value=":"><span class="symbol">:</span></div>
+      <div class="cb"><input type="checkbox" value="~"><span class="symbol">~</span></div>
+      <div class="cb"><input type="checkbox" value=""><span class="symbol">"</span></div>
+      <div class="cb"><input type="checkbox" value="'"><span class="symbol">'</span></div>
+      <div class="cb"><input type="checkbox" value="<"><span class="symbol">&lt;</span></div>
+      <div class="cb"><input type="checkbox" value=">"><span class="symbol">&gt;</span></div>
+      <div class="cb"><input type="checkbox" value="{"><span class="symbol">{</span></div>
+      <div class="cb"><input type="checkbox" value="}"><span class="symbol">}</span></div>
+      <div class="cb"><input type="checkbox" value=" "><span class="symbol">&lt;space&gt;</span>
+      </div>
+
       <div class="buttons">
         <button id="initialSyms">Initial selection</button>
         <button id="allSyms" data-all="NO"></button>

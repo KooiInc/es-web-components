@@ -85,11 +85,13 @@ function checkAllOrNoneUsesState(bttn, root) {
 }
 
 function generatePwd(root) {
+  const passField = me.querySelector(`#pass`);
   const preferences = getSelectedPreferencesForPasswordGenerator();
   const len = +root.querySelector(`[type=number]`).value || 8;
   const pwdGenerated = generateRandomPWD( len, preferences );
-  me.querySelector(`#pass`).value = pwdGenerated;
+  passField.value = pwdGenerated;
   reportEntropy(pwdGenerated);
+  passField.scrollIntoView();
 }
 
 function getSelectedPreferencesForPasswordGenerator() {
