@@ -1,10 +1,5 @@
 import {$} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@latest/index.browser.js";
-$.editCssRules(
-
-);
-
 import "../index.js";
-
 $(`.container .pageContent`).prepend(
   $(`<p>
       ${/kooiinc\.github\.io/i.test(top.location.href) ?
