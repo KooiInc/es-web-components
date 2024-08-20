@@ -52,7 +52,7 @@ function handleGenerator(evt) {
   const allNoneBttn =  origin.closest(`#AllNone`);
   const initialSymsBttn = origin.closest(`#initialSyms`);
   const allSymsBttn = origin.closest(`#allSyms`);
-  const root = origin.closest(`.gen`);
+  const root = origin.closest(`.expand-content`);
   
   switch(true) {
     case !!allNoneBttn: return checkAllOrNoneUsesState(allNoneBttn, root);
@@ -95,7 +95,7 @@ function generatePwd(root) {
 }
 
 function getSelectedPreferencesForPasswordGenerator() {
-  const uses = [...generatorComponent.querySelectorAll(`.gen:first-child .cbi input`)]
+  const uses = [...generatorComponent.querySelectorAll(`.genLeft .cbi input`)]
     .reduce((acc, inp) => ( {...acc, [inp.id]: inp.checked} ), {});
   const syms = [...generatorComponent.querySelectorAll(`#symChars .cb input:checked`)]
     .map(inp => inp.value);
