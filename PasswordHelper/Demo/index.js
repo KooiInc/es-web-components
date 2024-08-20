@@ -1,4 +1,4 @@
-import {$} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@latest/index.browser.js";
+import {$} from "https://cdn.jsdelivr.net/gh/KooiInc/SBHelpers@latest/index.browser.bundled.js";
 import "../index.js";
 $(`.container .pageContent`).prepend(
   $(`<p>
@@ -8,3 +8,17 @@ $(`.container .pageContent`).prepend(
         >Web component module @GitHub</a>
     </p>`)
 );
+
+document.querySelector(`expandable-text`).shadowRoot.addEventListener('click', handle);
+
+function handle(evt) {
+  if (evt.target.dataset.click) {
+    const styling = $.node(`#local`);
+    $.Popup.show( {
+      content: $(`<pre>${
+        styling.innerHTML
+          .replace(/\n {4,4}/g, `\n`)
+          .replace(/password-helper/g, `<b style="color:red">password-helper</b>`)
+          .trim()}</pre>`)} );
+  }
+}

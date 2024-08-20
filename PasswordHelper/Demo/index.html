@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link href="../../Img/dev_ico.png" rel="icon"/>
   <title>Password Helper component Demo</title>
-  <style>
+  <style id="local">
     body {
       .container {
         position: absolute;
         inset: 0;
 
-        .pageContent {
+        .pageContent, password-helper {
           font: normal 14px/19px verdana, arial, sans-serif;
           width: 50vw;
           padding-top: 2rem;
@@ -19,19 +19,19 @@
         }
 
         @media(width <= 3200px) {
-          .pageContent {
+          .pageContent, password-helper {
             width: 33vw;
           }
         }
 
         @media(width <= 2400px) {
-          .pageContent {
+          .pageContent, password-helper {
             width: 43vw;
           }
         }
 
         @media(width <= 1024px) {
-          .pageContent {
+          .pageContent, password-helper {
             width: 90vw;
           }
         }
@@ -55,6 +55,15 @@
               margin-bottom: 0.3rem;
             }
 
+            [data-click] {
+              color: #557492;
+              cursor: pointer;
+            }
+
+            [data-click]:hover {
+              text-decoration: underline;
+            }
+
             code {
               color: green;
               background-color: #eee;
@@ -62,26 +71,37 @@
             }
           }
         </style>
-        <div>
+        <div class="p">
           With this module the strenght of passwords can be checked and/or passwords with random
           characters can be created. It creates an autonomous custom element.
         </div>
 
         <div class="p">
-          After importing the module, the custom element can be included
-          as <code>&lt;password-helper></code>.
+          To create a password helper instance import the module, and add
+          <code>&lt;password-helper></code> to the document. That's all.
         </div>
 
         <div>
-          Typing in the input box results in an extensive check on 'entropy' of the input. The input
+          <b>Note</b>: the dimensions of a <code>&lt;password-helper></code> element
+          are inherited from its parent element. One can style element dimensions in
+          the page css or inline just like any other HTML element. See the
+          <span data-click="1">page stylesheet</span> of this demo to see how it's done here.
+        </div>
+
+        <h3>Password strength check</h3>
+
+        <div>
+          The component by default displays a text input box.
+          Typing in it results in an extensive check on 'entropy' of the input. The input
           can be cleared, or copied to the clipboard (<b>note</b>: only when the page is loaded
-          in a secure (https) environment)
+          in a secure (https) environment).
         </div>
 
         <h3>Password generation</h3>
         <div class="p">
-          Opening 'Generate a password' presents a small helper to create passwords with a length of
-          choice and more or less characters.
+          The component also offers functionality to create a 'random' password.
+          Opening 'Generate a password' presents a small helper to create passwords
+          with a length of choice and more or less characters to use for it.
         </div>
 
         <div>
@@ -94,8 +114,8 @@
       </template>
     </expandable-text>
 
-    <password-helper data-title="Generate a password"></password-helper>
   </div>
+  <password-helper></password-helper>
 </div>
 <script defer type="module" src="./index.js"></script>
 </body>
