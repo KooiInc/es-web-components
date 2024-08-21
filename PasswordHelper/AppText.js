@@ -121,19 +121,21 @@ const reportEntropyTexts = {
 }
 
 function inWordsLanguage(calculated, years, days, lang = `EN`) {
-  return `${reportEntropyTexts.thats[lang]} ${
+  return calculated.entropy <= 2 ? `` : `${reportEntropyTexts.thats[lang]} ${
     inWords(calculated.intruderGuessAttempts, calculated.entropy, lang)}
       ${reportEntropyTexts.what[lang]} ${(100_000).toLocaleString(lang)} per ${
         reportEntropyTexts.second[lang]} ${reportEntropyTexts.wouldTake[lang]} ${
-        years.toLocaleString(lang)} ${reportEntropyTexts.years[lang]} ${reportEntropyTexts.and[lang]} ${
-          days} ${reportEntropyTexts.days[lang]} ${reportEntropyTexts.vergen[lang]}`;
+        years.toLocaleString(lang)} ${reportEntropyTexts.years[lang]} ${
+          reportEntropyTexts.and[lang]} ${ days} ${reportEntropyTexts.days[lang]} ${
+            reportEntropyTexts.vergen[lang]}`;
 }
 
 function inWords(intruderGuessAttempts, entropy, lang) {
   const entropyWord = entropyInWords(entropy, lang);
   return entropy >= 2
     ? `<b>${entropyWord}</b>. ${reportEntropyTexts.atLeast[lang]} ${
-      intruderGuessAttempts.toLocaleString(lang)} ${reportEntropyTexts.times[lang].toLocaleString(lang)}.`
+        intruderGuessAttempts.toLocaleString(lang)} ${
+          reportEntropyTexts.times[lang].toLocaleString(lang)}.`
     : `<b>${entropyWord}</b>`;
 }
 
