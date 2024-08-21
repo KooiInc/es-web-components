@@ -61,15 +61,15 @@
           }
 
           #res button#AllNone:before {
-            content: attr(data-state) ' ';
+            content: attr(data-state-lang)' ';
           }
 
           #allSyms[data-all='NO']:after {
-            content: 'Select all';
+            content: '{selectAllNO}';
           }
 
           #allSyms[data-all='YES']:after {
-            content: 'Select none';
+            content: '{selectAllYES}';
           }
 
           label {
@@ -152,39 +152,50 @@
           }
         }
       }
+      @media (hover: hover) and (pointer: fine) {
+        .expand-title[data-expanded='0'] .arrow:hover:after,
+        .expand-title[data-expanded='0'] .title:hover:before {
+          content: '{expand}' !important;
+        }
+
+        .expand-title[data-expanded='1'] .arrow:hover:after,
+        .expand-title[data-expanded='1'] .title:hover:before {
+          content: '{collapse}' !important;
+        }
+      }
     }
   </style>
-  <div class="expand-ttl">Generate a password</div>
+  <div class="expand-ttl">{generatePwd}</div>
   <div class="genLeft">
     <div>
-      <input type="number" min="8" value="16" title="minimum 8 (enforced)"> Length
+      <input type="number" min="8" value="16" title="{min8}"> Length
     </div>
     <div class="cbi">
       <input type="checkbox" id="Sym">
-      <label for="Sym" title="Use selected non-letters (select characters in the 'Include' block)">
-        Use non-letters
+      <label for="Sym" title="{symCBTtl}">
+        {symCBText}
       </label>
     </div>
     <div class="cbi">
       <input type="checkbox" id="Nrs">
-      <label for="Nrs">Use numbers</label>
+      <label for="Nrs">{useNumbers}</label>
     </div>
     <div class="cbi">
       <input type="checkbox" id="UC" checked="">
-      <label for="UC">Use upper case</label>
+      <label for="UC">{useUpperCase}</label>
     </div>
     <div class="cbi">
       <input type="checkbox" id="AFrst">
-      <label for="AFrst">Start with letter</label>
+      <label for="AFrst">{startWithLetter}</label>
     </div>
     <div id="res">
-      <button id="AllNone" data-state="All">of the above</button>
+      <button id="AllNone" data-state="{all}" data-state-lang="{allState}">{allTxt}</button>
       <br>
-      <button id="generate">Create</button>
+      <button id="generate">{createBttnTxt}</button>
     </div>
   </div>
   <div id="symChars">
-    <div class="header">Include</div>
+    <div class="header">{include}</div>
     <div class="cb">
       <input type="checkbox" value="!" checked data-initial="1"><span class="symbol">!</span>
     </div>
@@ -248,7 +259,7 @@
     </div>
 
     <div class="buttons">
-      <button id="initialSyms">Initial selection</button>
+      <button id="initialSyms">{initialSymBttnTxt}</button>
       <button id="allSyms" data-all="NO"></button>
     </div>
   </div>

@@ -1,47 +1,60 @@
-import { createElement, importComponentModule } from "../Common/CommonHelpers.js";
+import interpolate from "https://cdn.jsdelivr.net/gh/KooiInc/StringInterpolator@latest/Interpolate.module.min.js";
+import {createElement, importComponentModule} from "../Common/CommonHelpers.js";
 import "../ExpandableText/index.js";
+import appText from "./AppText.js";
 import {
   default as passGenerator,
   calculateEntropy,
-  entropyInWords} from "./PassWordFactory.js";
+  entropyInWords
+} from "./PassWordFactory.js";
+
 await importComponentModule();
+let language;
 const pwdGeneratorTemplate = await preloadGeneratorElement();
 const defaultStyling = await preloadStyling();
 const generateRandomPWD = passGenerator();
-const entropyLink = createElement( `a`, {
+const entropyLink = () => createElement(`a`, {
   target: `_blank`,
   href: `//en.wikipedia.org/wiki/Password_strength#Entropy_as_a_measure_of_password_strength`,
-  textContent: `Entropy`} );
-let generatorComponent, me, copiedTO;
+  textContent: appText.texts.entropy[language],
+});
+
+let generatorComponent, me;
+
 CreateComponent({componentName: `password-helper`, onConnect: connectElement});
 
 function connectElement(componentNode) {
-  const contentElem = createContent();
+  language = componentNode.dataset?.language || `EN`;
+  const contentElem = createContent(language);
   const shadow = createOrRetrieveShadowRoot(componentNode);
   shadow.adoptedStyleSheets = [setComponentStyleFor(componentNode, defaultStyling)];
   shadow.append(contentElem);
   generatorComponent = shadow.querySelector(`#generator`).shadowRoot;
   generatorComponent.addEventListener(`click`, handleGenerator);
   me = shadow;
-  [`click`, `keyup`].forEach( e => me.addEventListener(e, handleManualPasswordEntry) );
+  [`click`, `keyup`].forEach(e => me.addEventListener(e, handleManualPasswordEntry));
 }
 
-function createContent() {
+function createContent(language) {
   const inputContent = createElement(`div`, {className: `content`});
+  const isEN = language === `EN`;
+  const bttnLanguage = isEN ? `NL` : `EN`
+  const bttnLanguageTtl = isEN ? `Dutch` : `English`;
   const inputDiv = createElement(`div`);
   inputDiv.append(
-    createElement(`input`, {id: `pass`, type: `text`, placeholder: `start typing...`}),
-    createElement(`button`, {id: `copy`, textContent: `Copy`, title: `copy to clipboard`}),
-    createElement(`button`, {id: `clear`, textContent: `Clear`}),
+    createElement(`input`, {id: `pass`, type: `text`, placeholder: appText.texts.placeHolder[language]}),
+    createElement(`button`, {id: `copy`, textContent: appText.buttons.copy[language], title: appText.texts.copyTtl[language]}),
+    createElement(`button`, {id: `clear`, textContent: appText.buttons.clear[language]}),
+    createElement(`button`, {id: `switchLang`, title: bttnLanguageTtl}, {language: bttnLanguage}),
     createElement(`span`, {id: `copied`}),
     createElement(`div`, {className: `entropyBox`, textContent: ` `}),
-    createElement(`p`, {className: `instruction`, innerHTML: instructionText()}),
+    createElement(`p`, {className: `instruction`, innerHTML: appText.instruction[language]}),
   );
   inputContent.append(
     inputDiv,
     createElement(`div`, {id: `symCharsClone`, className: `hidden`}),
   );
-  inputContent.insertAdjacentHTML(`beforeend`, pwdGeneratorTemplate);
+  inputContent.insertAdjacentHTML(`beforeend`, translateGeneratorElement(language));
   return inputContent;
 }
 
@@ -49,24 +62,29 @@ function createContent() {
 function handleGenerator(evt) {
   const origin = evt.target;
   const generateBttn = origin.closest(`#generate`);
-  const allNoneBttn =  origin.closest(`#AllNone`);
+  const allNoneBttn = origin.closest(`#AllNone`);
   const initialSymsBttn = origin.closest(`#initialSyms`);
   const allSymsBttn = origin.closest(`#allSyms`);
   const root = origin.closest(`.expand-content`);
   
-  switch(true) {
-    case !!allNoneBttn: return checkAllOrNoneUsesState(allNoneBttn, root);
-    case !!generateBttn: return generatePwd(root);
-    case !!allSymsBttn: return checkAllSyms(allSymsBttn, root);
-    case !!initialSymsBttn: return checkInitialSyms(initialSymsBttn, root);
-    default: return true;
+  switch (true) {
+    case !!allNoneBttn:
+      return checkAllOrNoneUsesState(allNoneBttn, root);
+    case !!generateBttn:
+      return generatePwd(root);
+    case !!allSymsBttn:
+      return checkAllSyms(allSymsBttn, root);
+    case !!initialSymsBttn:
+      return checkInitialSyms(initialSymsBttn, root);
+    default:
+      return true;
   }
 }
 
 function checkAllSyms(bttn, root) {
   const allSelected = bttn.dataset.all === `YES`;
   root.querySelectorAll(`#symChars input`)
-      .forEach(cb => cb.checked = !allSelected);
+    .forEach(cb => cb.checked = !allSelected);
   
   return bttn.dataset.all = allSelected ? `NO` : `YES`;
 }
@@ -79,7 +97,9 @@ function checkInitialSyms(bttn, root) {
 
 function checkAllOrNoneUsesState(bttn, root) {
   const currentStateIsAll = bttn.dataset.state === `All`;
-  bttn.dataset.state = currentStateIsAll ? `None` : `All`;
+  bttn.dataset.state = currentStateIsAll ? appText.texts.none[language] : appText.texts.all[language];
+  bttn.dataset.stateLang = currentStateIsAll ? appText.texts.nonState[language] : appText.texts.allState[language];
+  
   return root.querySelectorAll(`.cbi [type=checkbox]`)
     .forEach(cb => cb.checked = currentStateIsAll);
 }
@@ -88,7 +108,7 @@ function generatePwd(root) {
   const passField = me.querySelector(`#pass`);
   const preferences = getSelectedPreferencesForPasswordGenerator();
   const len = +root.querySelector(`[type=number]`).value || 8;
-  const pwdGenerated = generateRandomPWD( len, preferences );
+  const pwdGenerated = generateRandomPWD(len, preferences);
   passField.value = pwdGenerated;
   reportEntropy(pwdGenerated);
   passField.scrollIntoView();
@@ -96,45 +116,42 @@ function generatePwd(root) {
 
 function getSelectedPreferencesForPasswordGenerator() {
   const uses = [...generatorComponent.querySelectorAll(`.genLeft .cbi input`)]
-    .reduce((acc, inp) => ( {...acc, [inp.id]: inp.checked} ), {});
+    .reduce((acc, inp) => ({...acc, [inp.id]: inp.checked}), {});
   const syms = [...generatorComponent.querySelectorAll(`#symChars .cb input:checked`)]
     .map(inp => inp.value);
   return {...uses, Sym: uses.Sym ? syms : false};
 }
+
 /* Handling END */
 
 /* Generic Handling START */
 function reportEntropy(value) {
   const calculated = calculateEntropy(value);
   const guessDuration = BigInt(calculated.guessDurationInDays);
-  const years = (guessDuration/365n).toLocaleString();
-  const days = (guessDuration % 365n).toLocaleString();
+  const years = (guessDuration / 365n);
+  const days = (guessDuration % 365n);
   const report = me.querySelector(`.entropyBox`);
   report.classList.remove(`copyReport`);
   report.textContent = ``;
-  const text = calculated.entropy <= 2
-    ? ``
-    :  `that's ${ inWords(calculated.intruderGuessAttempts, calculated.entropy) },
-        which - without a dictionary and at a guess rate of ${(100_000).toLocaleString()}/second -
-        would take ${years} year(s) and ${days} day(s).`
+  const text = appText.inWordsLanguage(calculated, years, days, language);
   report.append(
-    entropyLink,
-    createElement(`b`, { textContent: ` ${Math.round(calculated.entropy)} bits` }),
-    createElement(`div`, { innerHTML: text } )
+    entropyLink(),
+    createElement(`b`, {textContent: ` ${Math.round(calculated.entropy)} bits`}),
+    createElement(`div`, {innerHTML: text})
   );
 }
 
-function inWords(intruderGuessAttempts, entropy) {
-  return entropy >= 2
-    ? `<b>${entropyInWords(entropy)}</b> (a hacker needs to guess <i>at least</i> ${
-        intruderGuessAttempts.toLocaleString()} times)`
-    : `<b>${entropyInWords(entropy)}</b>`;
-}
 /* Generic Handling END */
 
 /* Pass entry handling START */
 function handleManualPasswordEntry(evt) {
   const inp = me.querySelector(`#pass`);
+  
+  if (evt.target.id === `switchLang`) {
+    return me.host.replaceWith(
+      createElement(`password-helper`, {}, {language: evt.target.dataset.language}) );
+  }
+  
   if (evt.target.closest(`li`)) {
     inp.value = evt.target.closest(`li`).textContent;
     return inp.click();
@@ -160,7 +177,29 @@ function handleManualPasswordEntry(evt) {
   }
   
 }
+
 /* Pass entry handling END */
+function translateGeneratorElement(language="EN") {
+  return interpolate(`${pwdGeneratorTemplate}`, {
+    symCBTtl: appText.texts.symCBTtl[language],
+    symCBText: appText.texts.symCBText[language],
+    min8: appText.texts.min8[language],
+    useNumbers: appText.texts.useNumbers[language],
+    startWithLetter: appText.texts.startWithLetter[language],
+    useUpperCase: appText.texts.useUpperCase[language],
+    createBttnTxt: appText.texts.createBttnTxt[language],
+    all: appText.texts.all[language],
+    allState: appText.texts.allState[language],
+    allTxt: appText.texts.allTxt[language],
+    initialSymBttnTxt: appText.texts.initialSymBttnTxt[language],
+    include: appText.texts.include[language],
+    generatePwd: appText.texts.generatePwd[language],
+    expand: appText.texts.expand[language],
+    collapse: appText.texts.collapse[language],
+    selectAllNO: appText.texts.selectAllNO[language],
+    selectAllYES: appText.texts.selectAllYES[language],
+  });
+}
 
 async function preloadGeneratorElement() {
   const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
@@ -178,51 +217,22 @@ async function copyPwd2Clipboard() {
   reportCopy.classList.add(`copyReport`)
   
   if (location.protocol === `http:`) {
-    return reportCopy.textContent = `Copy to clipboard: only for a securely loaded page (https:)`;
+    return reportCopy.innerHTML = appText.texts.cantCopy[language];
   }
   
   if (!navigator.clipboard) {
-    return reportCopy.textContent = `The browser does not support this. Please update.`;
+    return reportCopy.innerHTM = appText.texts.browserTooOld[language];
   }
   
   if (pwdField.value.trim() === ``) {
-    return reportCopy.textContent = `Please supply a password value`;
+    return reportCopy.innerHTML = appText.texts.noValue[language];
   }
   
   if (pwdField) {
     const type = `text/plain`;
-    const value = new Blob([pwdField.value], { type });
+    const value = new Blob([pwdField.value], {type});
     navigator.clipboard.write([new ClipboardItem({[type]: value})])
-      .then(_ => reportCopy.textContent = `Copied!`)
-      .catch(err => reportCopy.textContent = `Copy failed, sorry for that` + err.message);
+      .then(_ => reportCopy.textContent = appText.texts.copied[language])
+      .catch(_ => reportCopy.textContent = appText.texts.copyFailed[language]);
   }
-  return;
-}
-
-function instructionText() {
-  return `
-    <div class="p">
-      Start filling out the input field above or click
-      '<i>Generate a password</i>' to create a 'random' password.
-    </div>
-    <div class="p">
-      The strength of a password needed depends on its use: for a web shop one may need a less strong
-      password (strength: <b>ok</b> to <b>fine</b>) than for online banking (minimal strength <b>fine</b>).
-    </div>
-    <div class="p">
-      In general the <i>length</i> of a password is the main factor for its strength. For a strong
-      password it may be wise to use a <i>password <b>line</b></i> that is easy to remember.
-    </div>
-    <div>
-      <b>Example lines</b> (click a line to check its strength):
-      
-      <ul>
-      <li><i>Oh no! I need a password!</i></li>
-      <li><i>Passwords are not my forte</i></li>
-      <li><i>If only I didn't have to worry about my bank balance</i></li>
-      <li><i>Cicero said: the apex of old age is influence.</i></li>
-      </ul>
-      
-    </div>`
-  
 }

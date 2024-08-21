@@ -10,6 +10,11 @@
 */
 export { passGenerator as default, calculateEntropy, uuid4, entropyInWords };
 
+const inWordLanguages = {
+  NL: `heel zwak,zwak,goed,prima,uitstekend`.split(`,`),
+  EN: `very weak,weak,ok,fine,excellent`.split(`,`)
+}
+
 function passGenerator() {
   return function(len, use = pwdDefaults.defaultSettings) {
     len = validateLen(len);
@@ -122,10 +127,10 @@ function uuid4() {
     .join(``);
 }
 
-function entropyInWords(entropy) {
-  return entropy < 25 ? `very weak`
-    : entropy < 40 ? `weak`
-      : entropy < 60 ? `ok`
-        : entropy < 80 ? `fine`
-          : `excellent`;
+function entropyInWords(entropy, lang = `EN`) {
+  return entropy < 25 ? inWordLanguages[lang][0]
+    : entropy < 50 ? inWordLanguages[lang][1]
+      : entropy < 70 ? inWordLanguages[lang][2]
+        : entropy < 80 ? inWordLanguages[lang][3]
+          : inWordLanguages[lang][4];
 }
