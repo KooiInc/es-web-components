@@ -8,7 +8,7 @@ $(`.container .pageContent`).prepend(
         >Web component module @GitHub</a>
     </p>`)
 );
-
+$.editCssRule(`pre {margin: 0.2rem auto;}`);
 document.querySelector(`expandable-text`).shadowRoot.addEventListener('click', handle);
 
 function handle(evt) {
@@ -17,7 +17,7 @@ function handle(evt) {
     $.Popup.show( {
       content: $(`<pre>${
         styling.innerHTML
-          .replace(/\n {4,4}/g, `\n`)
+          .replace(/\n {4}/g, `\n`)
           .replace(/password-helper/g, `<b style="color:red">password-helper</b>`)
           .trim()}</pre>`)} );
   }
