@@ -18,8 +18,14 @@ const inWordLanguages = {
 function passGenerator() {
   return function(len, use = pwdDefaults.defaultSettings) {
     len = validateLen(len);
+    pwdDefaults.Sym = use.Sym ? use.Symbols : pwdDefaults.Sym;
+    delete use.Symbols;
     const chrs2Use = getChars2Use(use);
-    return finalize([...Array(len)].map( _ => chrs2Use[randomNumber(chrs2Use.length - 1)]), use);
+    const chrsLen = chrs2Use.length - 1;
+    const thePassRaw = [...Array(len)].map( _ => chrs2Use[randomNumber(chrsLen)]);
+    const final = finalize(thePassRaw, use);
+    thePassRaw.length !== len || final.length !== len && console.log(`godgloeiondo en WTF`, `\n[${thePassRaw.join(``)}]\n[${final}]`);
+    return final;
   };
 }
 
@@ -35,10 +41,10 @@ const pwdDefaults = {
 };
 
 function getChars2Use(use) {
-  return shuffle( Object.entries(use).reduce( (acc, [key, ]) =>
-    pwdDefaults[key] && use[key] ? [...acc, ...pwdDefaults[key]] : acc )
-    .concat(use.Sym || [], pwdDefaults.LC).flat()
-  );
+  const a = Object.entries(use)
+    .reduce( (acc, [key, _]) => use[key] && pwdDefaults[key] ? [...acc, ...pwdDefaults[key]] : acc, [])
+    .flat();
+  return shuffle(a.concat(pwdDefaults.LC));
 }
 
 function finalize(pass, use) {
@@ -50,7 +56,7 @@ function finalize(pass, use) {
     pass[1] = randomNumber(9);
   }
   
-  if (use.Sym && !pass.find(v => ~use.Sym.findIndex(s => v === s ) ) ) {
+  if (use.Sym && use.Sym.length && !pass.find(v => ~use.Sym.findIndex(s => v === s ) ) ) {
     pass[1] = use.Sym[randomNumber(use.Sym.length-1) || 0];
   }
   
