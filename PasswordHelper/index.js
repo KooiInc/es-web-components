@@ -134,6 +134,12 @@ function inWords(intruderGuessAttempts, entropy) {
 
 /* Pass entry handling START */
 function handleManualPasswordEntry(evt) {
+  const inp = me.querySelector(`#pass`);
+  if (evt.target.closest(`li`)) {
+    inp.value = evt.target.closest(`li`).textContent;
+    return inp.click();
+  }
+  
   if (evt.target.id === `clear`) {
     const inp = me.querySelector(`#pass`);
     inp.value = ``;
@@ -197,21 +203,26 @@ function instructionText() {
   return `
     <div class="p">
       Start filling out the input field above or click
-      'Generate a password' to create a 'random' password.
+      '<i>Generate a password</i>' to create a 'random' password.
     </div>
     <div class="p">
       The strength of a password needed depends on its use: for a web shop one may need a less strong
-      password (strength: 'Ok' to 'Fine') than for online banking (minimal strength 'Fine').
+      password (strength: <b>ok</b> to <b>fine</b>) than for online banking (minimal strength <b>fine</b>).
     </div>
     <div class="p">
       In general the <i>length</i> of a password is the main factor for its strength. For a strong
       password it may be wise to use a <i>password <b>line</b></i> that is easy to remember.
     </div>
     <div>
-      <b>Example lines</b> (copy/paste them in the above input field!):
-      <br><i>In the year 1993 our first, Jenny, was born</i>
-      <br><i>If only I didn't have to worry about my bank balance</i>
-      <br><i>Cicero said: the apex of old age is influence.</i>
+      <b>Example lines</b> (click a line to check its strength):
+      
+      <ul>
+      <li><i>Oh no! I need a password!</i></li>
+      <li><i>Passwords are not my forte</i></li>
+      <li><i>If only I didn't have to worry about my bank balance</i></li>
+      <li><i>Cicero said: the apex of old age is influence.</i></li>
+      </ul>
+      
     </div>`
   
 }
