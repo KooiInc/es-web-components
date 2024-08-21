@@ -124,9 +124,9 @@ function inWordsLanguage(calculated, years, days, lang = `EN`) {
   return `${reportEntropyTexts.thats[lang]} ${
     inWords(calculated.intruderGuessAttempts, calculated.entropy, lang)}
       ${reportEntropyTexts.what[lang]} ${(100_000).toLocaleString(lang)} per ${
-        reportEntropyTexts.second[lang]} ${reportEntropyTexts.wouldTake[lang]}
-      ${years.toLocaleString(lang)} ${reportEntropyTexts.years[lang]} ${reportEntropyTexts.and[lang]} ${
-        days} ${reportEntropyTexts.days[lang]} ${reportEntropyTexts.vergen[lang]}`;
+        reportEntropyTexts.second[lang]} ${reportEntropyTexts.wouldTake[lang]} ${
+        years.toLocaleString(lang)} ${reportEntropyTexts.years[lang]} ${reportEntropyTexts.and[lang]} ${
+          days} ${reportEntropyTexts.days[lang]} ${reportEntropyTexts.vergen[lang]}`;
 }
 
 function inWords(intruderGuessAttempts, entropy, lang) {
