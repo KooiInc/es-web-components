@@ -5,7 +5,6 @@ import appText from "./AppText.js";
 import {
   default as passGenerator,
   calculateEntropy,
-  entropyInWords
 } from "./PassWordFactory.js";
 
 await importComponentModule();
@@ -198,6 +197,7 @@ function translateGeneratorElement(language="EN") {
     collapse: appText.texts.collapse[language],
     selectAllNO: appText.texts.selectAllNO[language],
     selectAllYES: appText.texts.selectAllYES[language],
+    space: appText.texts.space[language],
   });
 }
 

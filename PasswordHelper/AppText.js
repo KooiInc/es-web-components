@@ -44,6 +44,7 @@ const allText = {
     expand: {EN: `click to expand`, NL: `klik om te tonen`},
     collapse: {EN: `click to collapse`, NL: `klik om verbergen`},
     entropy: {EN: `Entropy`, NL: `Entropie`},
+    space: {EN: `space`, NL: `spatie`},
   },
   inWordsLanguage,
   instruction: {
