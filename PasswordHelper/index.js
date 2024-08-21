@@ -118,7 +118,7 @@ function getSelectedPreferencesForPasswordGenerator() {
     .reduce((acc, inp) => ({...acc, [inp.id]: inp.checked}), {});
   const syms = [...generatorComponent.querySelectorAll(`#symChars .cb input:checked`)]
     .map(inp => inp.value);
-  return {...uses, Sym: uses.Sym ? syms : false};
+  return {...uses, Symbols: syms};
 }
 
 /* Handling END */
