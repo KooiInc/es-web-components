@@ -123,9 +123,9 @@ function uuid4() {
 }
 
 function entropyInWords(entropy) {
-  return entropy < 25 ? `Very weak`
-    : entropy < 40 ? `Weak`
-      : entropy < 60 ? `Ok`
-        : entropy < 80 ? `Fine`
-          : `Excellent`;
+  return entropy < 25 ? `very weak`
+    : entropy < 40 ? `weak`
+      : entropy < 60 ? `ok`
+        : entropy < 80 ? `fine`
+          : `excellent`;
 }
