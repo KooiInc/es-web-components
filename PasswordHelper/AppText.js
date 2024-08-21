@@ -74,7 +74,7 @@ const allText = {
         </div>`,
       NL: `
           <div class="p">
-          Vul het invoerveld hierboven in of klik op '<i>Wachtwoord genereren</i>'
+          Vul het invoerveld hierboven in of klik op '<i>Maak een wachtwoord</i>'
           om een wachtwoord met onwillekeurige tekens te laten maken.
         </div>
         <div class="p">
