@@ -43,7 +43,7 @@ const allText = {
     generatePwd: {EN: `Generate a password`, NL: `Maak een wachtwoord`},
     expand: {EN: `click to expand`, NL: `klik om te tonen`},
     collapse: {EN: `click to collapse`, NL: `klik om verbergen`},
-    entropy: {EN: `Entropy`, NL: `Entropie`},
+    entropy: {EN: `Shannon entropy (total)`, NL: `Shannon entropie (totaal)`},
     space: {EN: `space`, NL: `spatie`},
   },
   inWordsLanguage,
