@@ -48,6 +48,8 @@ function getChars2Use(use) {
 }
 
 function finalize(pass, use) {
+  const symSet = pwdDefaults.Sym;
+  
   if (use.AFrst && !/[a-z]/i.test(pass[0])) {
     pass[0] = randomLetter(true);
   }
@@ -56,8 +58,8 @@ function finalize(pass, use) {
     pass[1] = randomNumber(9);
   }
   
-  if (use.Sym && use.Sym.length && !pass.find(v => ~use.Sym.findIndex(s => v === s ) ) ) {
-    pass[1] = use.Sym[randomNumber(use.Sym.length-1) || 0];
+  if (use.Sym && symSet.length && !pass.find(v => symSet.findIndex( s => v === s ) > -1) ) {
+    pass[1] = symSet[randomNumber(symSet.length-1) || 0];
   }
   
   pass = [pass[0], ...shuffle(pass.slice(1))];
