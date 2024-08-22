@@ -8,7 +8,7 @@
   2024/08/18
   - Adapted for Web Component
 */
-export { passGenerator as default, calculateEntropy, uuid4, entropyInWords };
+export { passGenerator as default, calculateEntropy, entropyInWords };
 
 const inWordLanguages = {
   NL: `heel zwak,zwak,goed,prima,uitstekend`.split(`,`),
@@ -116,21 +116,11 @@ function numberRange({start = 0, len = 10, remap} = {}) {
 // Shannon entropy
 function calculateEntropy(str) {
   const len = str.length
-  const freqs = [...str].reduce((freq, c) => ({...freq, [c]: (freq[c] || 0) + 1}), {});
+  const freqs = [...str].reduce((freq, chr) => ({...freq, [chr]: (freq[chr] || 0) + 1}), {});
   const entropy = Object.values( freqs ).reduce( (sum, f) => sum - f/len * Math.log2(f/len), 0) * len;
   const intruderGuessAttempts = entropy > 2 ? BigInt((2**(Math.floor(entropy)))/2) : 0;
   const guessDurationInDays =  BigInt( Math.floor((2**(Math.floor(entropy)))/2/100000/86400) );
   return {entropy, guessDurationInDays, intruderGuessAttempts};
-}
-
-// refactored from
-// https://stackoverflow.com/a/64976228/58186
-function uuid4() {
-  return [...crypto.getRandomValues(new Uint8Array(16))]
-    .map( (v, i) => `${
-      (i === 8 ? v & 0b00111111 | 0b10000000 : i === 6  ? v & 0b00001111 | 0b01000000 : v)
-        .toString(16).padStart(2, `0`)}${!!~[3,5,7,9].indexOf(i) ? `-` : ``}` )
-    .join(``);
 }
 
 function entropyInWords(entropy, lang = `EN`) {
