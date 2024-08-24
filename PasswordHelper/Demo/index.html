@@ -64,6 +64,12 @@
               text-decoration: underline;
             }
 
+            .expand-title {
+              &[data-expanded='0'] + .expand-content {
+                transition: all 0.2s ease !important;
+              }
+            }
+
             code {
               color: green;
               background-color: #eee;
