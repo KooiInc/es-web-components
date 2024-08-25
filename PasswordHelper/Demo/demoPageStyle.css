@@ -1,0 +1,31 @@
+body {
+  .container {
+    position: absolute;
+    inset: 0;
+
+    .pageContent, password-helper {
+      font: normal 14px/19px verdana, arial, sans-serif;
+      width: 50vw;
+      padding-top: 2rem;
+      margin: 0 auto;
+    }
+
+    @media(width <= 3200px) {
+      .pageContent, password-helper {
+        width: 33vw;
+      }
+    }
+
+    @media(width <= 2400px) {
+      .pageContent, password-helper {
+        width: 43vw;
+      }
+    }
+
+    @media(width <= 1024px) {
+      .pageContent, password-helper {
+        width: 90vw;
+      }
+    }
+  }
+}

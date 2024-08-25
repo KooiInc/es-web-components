@@ -1,0 +1,85 @@
+<expandable-text
+    data-title="A small password helper"
+    data-preview="1"
+    id="prefix">
+  <template>
+    <style>
+      :host {
+        div.p {
+          margin-bottom: 0.6rem;
+        }
+
+        h3 {
+          margin-top: 0.6rem;
+          margin-bottom: 0.3rem;
+        }
+
+        [data-click] {
+          color: #268bed;
+          cursor: pointer;
+        }
+
+        [data-click]:hover {
+          text-decoration: underline;
+        }
+
+        .expand-title {
+          &[data-expanded='0'] + .expand-content {
+            transition: all 0.2s ease !important;
+          }
+        }
+
+        code {
+          color: green;
+          background-color: #eee;
+          padding: 1px;
+        }
+      }
+    </style>
+    <div class="p">
+      With this module the strenght of passwords can be checked and/or passwords with random
+      characters can be created. It creates an autonomous custom element.
+    </div>
+
+    <div class="p">
+      To create a password helper instance, import the module and add
+      <code>&lt;password-helper/></code> to the document. That's all.
+    </div>
+
+    <div>
+      <b>Note</b>: the dimensions (and most styling) of a <code>&lt;password-helper></code> element
+      are inherited from its parent element. One can style element dimensions in the page css or
+      inline just like any other HTML element. See the <span data-click="1">page stylesheet</span>
+      of this demo to see how it's done here.
+    </div>
+
+    <h3>Language</h3>
+    <div>
+      The module is bi-lingual: english (default) and dutch. To use a dutch component, use <code>&lt;password-helper
+      data-language="NL"/></code>. To switch language, click the flag within the connected
+      component.
+    </div>
+
+    <h3>Password strength check</h3>
+
+    <div>
+      The component by default displays a text input box. Typing in it results in an extensive check
+      on 'entropy' of the input. The input can be cleared, or copied to the clipboard (<b>note</b>:
+      only when the page is loaded in a secure (https) environment).
+    </div>
+
+    <h3>Password generation</h3>
+    <div class="p">
+      The component also offers functionality to create a 'random' password. Opening 'Generate a
+      password' presents a small helper to create passwords with a length of choice and more or less
+      characters to use for it.
+    </div>
+
+    <div>
+      By default a password is generated using 26 lower case letters of the latin alphabet (so a to
+      z). Check one or more (Use-) non-letters/numbers/upper case to include more characters in the
+      generated password. The 'non-letters'-option uses the characters selected within the box
+      'Include'.
+    </div>
+  </template>
+</expandable-text>
