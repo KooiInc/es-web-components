@@ -1,11 +1,10 @@
 import "../index.js";
 import {$} from "https://cdn.jsdelivr.net/gh/KooiInc/SBHelpers@latest/index.browser.bundled.js";
-$.allowTag(`template`);
-$.editCssRule(`pre {margin: 0.2rem auto;}`);
-$(document.body).style({display: "none"})
 buildPage();
 
 function buildPage() {
+  $.editCssRules(`pre {margin: 0.2rem auto;}`, `.hidden {display: none;}`);
+  const body = $(document.body).addClass(`hidden`);
   fetch(`./demoPrefix.html`)
     .then(r => r.text())
     .then(createElements)
@@ -13,11 +12,12 @@ function buildPage() {
       fetch(`./demoPageStyle.css`)
         .then(r => r.text())
         .then(r => $.node(`head`).insertAdjacentHTML(`beforeend`, `<style id="local">${r}</style>`))
-        .then(_ => $(document.body).style({display: ""}) )
-  );
+        .then(_ => body.removeClass(`hidden`) )
+    );
 }
 
 function createElements(template) {
+  $.allowTag(`template`);
   $(`<div class="container">
         <div class="pageContent">${template}</div>
      </div`);
