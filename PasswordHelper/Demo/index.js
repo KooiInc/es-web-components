@@ -27,7 +27,7 @@ function createElements(template) {
     `<a target="_top" href="https://github.com/KooiInc/es-web-components/">GitHub</a><br>` : ``}
         <a target="_blank" href="//github.com/KooiInc/es-webcomponent-factory">Web component module @GitHub</a>
       </p>`) );
-  $(`.container`).append($(`password-helper`));
+  $(`.container`).append($(`<password-helper data-language="EN">`));
   $.node(`expandable-text#prefix`).shadowRoot.addEventListener('click', handle);
 }
 
