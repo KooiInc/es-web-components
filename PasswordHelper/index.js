@@ -1,13 +1,17 @@
+const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
 import interpolate from "https://cdn.jsdelivr.net/gh/KooiInc/StringInterpolator@latest/Interpolate.module.min.js";
-import {createElement, importComponentModule} from "../Common/CommonHelpers.js";
-import "../ExpandableText/index.js";
+import {
+  createElement,
+  CreateComponent,
+  setComponentStyleFor,
+  createOrRetrieveShadowRoot, } from "../Common/CommonHelpers.js";
+import "./expandable-text.bundle.js";
 import appText from "./AppText.js";
 import {
   default as passGenerator,
   calculateEntropy,
 } from "./PassWordFactory.js";
 
-await importComponentModule();
 let language;
 const pwdGeneratorTemplate = await preloadGeneratorElement();
 const defaultStyling = await preloadStyling();
@@ -201,16 +205,6 @@ function translateGeneratorElement(language="EN") {
   });
 }
 
-async function preloadGeneratorElement() {
-  const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
-  return await fetch(`${loadPath}GeneratorTemplate.html`).then(r => r.text());
-}
-
-async function preloadStyling() {
-  const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
-  return await fetch(`${loadPath}PasswordHelper.css`).then(r => r.text());
-}
-
 async function copyPwd2Clipboard() {
   const pwdField = me.querySelector(`#pass`);
   const reportCopy = me.querySelector(`.entropyBox`);
@@ -236,3 +230,13 @@ async function copyPwd2Clipboard() {
       .catch(_ => reportCopy.textContent = appText.texts.copyFailed[language]);
   }
 }
+
+// TAG REBUILD
+async function preloadGeneratorElement() {
+  return await fetch(`${loadPath}GeneratorTemplate.html`).then(r => r.text());
+}
+
+async function preloadStyling() {
+  return await fetch(`${loadPath}PasswordHelper.css`).then(r => r.text());
+}
+

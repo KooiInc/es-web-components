@@ -1,5 +1,8 @@
-import {createElement, numberFactory, importComponentModule} from "../Common/CommonHelpers.js";
-await importComponentModule();
+import {createElement,
+  numberFactory,
+  CreateComponent,
+  setComponentStyleFor,
+  createOrRetrieveShadowRoot,} from "../Common/CommonHelpers.js";
 
 export default createStarRatingComponent;
 

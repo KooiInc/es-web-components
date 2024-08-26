@@ -1,9 +1,9 @@
 import {
   createElement,
-  importComponentModule,
-  addCustomCssAndMaybeExternals
-} from "../Common/CommonHelpers.js";
-await importComponentModule();
+  addCustomCssAndMaybeExternals,
+  CreateComponent,
+  createOrRetrieveShadowRoot,
+  setComponentStyleFor, } from "../Common/CommonHelpers.js";
 
 const defaultStyling = await preloadStyling();
 CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
