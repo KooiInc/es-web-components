@@ -1,4 +1,4 @@
-import "../index.js";
+import "../index.bundle.js";
 import {$, logFactory} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@latest/index.browser.js";
 let examples = [];
 let loremIpsum;
