@@ -231,7 +231,7 @@ async function copyPwd2Clipboard() {
   }
 }
 
-// TAG REBUILD
+// MARK FULL
 async function preloadGeneratorElement() {
   return await fetch(`${loadPath}GeneratorTemplate.html`).then(r => r.text());
 }
@@ -239,4 +239,3 @@ async function preloadGeneratorElement() {
 async function preloadStyling() {
   return await fetch(`${loadPath}PasswordHelper.css`).then(r => r.text());
 }
-

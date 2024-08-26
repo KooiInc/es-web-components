@@ -158,6 +158,7 @@ function createFullContent(componentNode) {
         : maybeTemplate?.content;
 }
 
+// MARK FULL
 async function preloadStyling() {
   const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
   return await fetch(`${loadPath}ExpandableText.css`).then(r => r.text());
