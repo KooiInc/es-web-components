@@ -2,6 +2,8 @@ const  {default: CreateComponent, createOrRetrieveShadowRoot, setComponentStyleF
   await import("https://kooiinc.github.io/es-webcomponent-factory/Bundle/es-webcomponent-bundle.js")
     .then(r => r);
 
+connectCopyrightComponent();
+
 export {
   createElement,
   numberFactory,
@@ -9,7 +11,30 @@ export {
   addCustomCssAndMaybeExternals,
   CreateComponent,
   createOrRetrieveShadowRoot,
-  setComponentStyleFor
+  setComponentStyleFor,
+  copyRight,
+}
+
+function copyRight() {
+  return createElement(
+    `copyright-slot`, {
+    innerHTML: `<span slot="year" class="yr">${new Date().getFullYear()}</span>`} );
+}
+
+function connectCopyrightComponent() {
+  CreateComponent( {
+    componentName: `copyright-slot`,
+    onConnect(elem) {
+      const shadow = createOrRetrieveShadowRoot(elem);
+      const componentStyle = Object.assign(
+        document.createElement("style"),
+        { textContent: `:host{color:#777;display:inline-block;bottom:0.5rem;float:right;z-index:2;font-size:12px;.yr{font-weight:bold;color:green;display:inline-block;} a[target]{text-decoration:none;font-weight:bold;} a[target]:before{color:rgba(0,0,238,0.7);font-size:1.1rem;padding-right:2px;vertical-align:baseline;} a[target="_blank"]:before{content:"↗";} a[target="_top"]:before{content:"↺";} a[target]:after{content:' | ';color:#000;font-weight:normal;} a[target]:last-child:after{content:'';} }` } );
+      const content = Object.assign(
+        document.createElement(`div`), {
+          innerHTML: `&copy; <span class="yr"><slot name="year"></slot></span> KooiInc <slot name="link"></slot></slot>`})
+      shadow.append(componentStyle, content);
+    }
+  });
 }
 
 function createElement(name, props = {}, data = {}) {

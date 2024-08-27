@@ -2,6 +2,7 @@ const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
 import interpolate from "https://cdn.jsdelivr.net/gh/KooiInc/StringInterpolator@latest/Interpolate.module.min.js";
 import {
   createElement,
+  copyRight,
   CreateComponent,
   setComponentStyleFor,
   createOrRetrieveShadowRoot, } from "../Common/CommonHelpers.js";
@@ -52,6 +53,7 @@ function createContent(language) {
     createElement(`span`, {id: `copied`}),
     createElement(`div`, {className: `entropyBox`, textContent: ` `}),
     createElement(`p`, {className: `instruction`, innerHTML: appText.instruction[language]}),
+    copyRight(),
   );
   inputContent.append(
     inputDiv,
