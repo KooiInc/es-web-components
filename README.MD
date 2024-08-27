@@ -6,3 +6,8 @@
    ([DEMO](https://kooiinc.github.io/es-web-components/ExpandableText/Demo/))
 - [Password helper](https://github.com/KooiInc/es-web-components/tree/main/ExpandableText)
     ([DEMO](https://kooiinc.github.io/es-web-components/PasswordHelper/Demo/))
+
+## Bundles
+Every component is bundled. See the `./Bundle` subdirectory within the component directories. 
+
+Every bundle can be used completely on its own (no need for auxillary files).
