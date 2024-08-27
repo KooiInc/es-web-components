@@ -5,7 +5,7 @@ import {
   CreateComponent,
   setComponentStyleFor,
   createOrRetrieveShadowRoot, } from "../Common/CommonHelpers.js";
-import "./Bundle/expandable-text.bundle.js";
+import "../ExpandableText/Bundle/expandable-text.bundle.js";
 import appText from "./AppText.js";
 import {
   default as passGenerator,
