@@ -1,9 +1,9 @@
 import {
   createElement,
-  importComponentModule,
-  addCustomCssAndMaybeExternals
-} from "../Common/CommonHelpers.js";
-await importComponentModule();
+  addCustomCssAndMaybeExternals,
+  CreateComponent,
+  createOrRetrieveShadowRoot,
+  setComponentStyleFor, } from "../Common/CommonHelpers.js";
 
 const defaultStyling = await preloadStyling();
 CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
@@ -158,6 +158,7 @@ function createFullContent(componentNode) {
         : maybeTemplate?.content;
 }
 
+// FULL BUILD MARK
 async function preloadStyling() {
   const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
   return await fetch(`${loadPath}ExpandableText.css`).then(r => r.text());

@@ -1,5 +1,8 @@
-import {createElement, numberFactory, importComponentModule} from "../Common/CommonHelpers.js";
-await importComponentModule();
+import {createElement,
+  numberFactory,
+  CreateComponent,
+  setComponentStyleFor,
+  createOrRetrieveShadowRoot,} from "../Common/CommonHelpers.js";
 
 export default createStarRatingComponent;
 
@@ -132,51 +135,7 @@ function createStarRatingComponent( { min, max, nDefault } = {} ) {
       limits: limitsContract( starLimits , limitsDefault ),
       appStrings: btnActivationStrings.concat(appStrings).concat(existsInfo),
       componentName,
-      componentStyle: `
-          :host {
-            font-weight: normal;
-            display: block;
-            font-style: normal;
-            .initial:after, .reset:after {
-              letter-spacing: initial;
-              font-weight: bold;
-              color: #c45525;
-              background-color: #EEE;
-              padding: 2px 4px;
-              position: relative;
-              text-align: center;
-              margin-left: 5px;
-              top: -5px;
-              cursor: pointer;
-              min-width: 48px;
-            }
-            .starContainer {
-              padding: 0.4rem 0;
-              display: inline-block;
-              .initial, .reset { display: inline-block; }
-              .reset:after { content: '\u21B6 'attr(data-set-score)'/'attr(data-stars); }
-              .initial:after { content: '↺ 'attr(data-set-score)'/'attr(data-stars); }
-              .reset.inactive, .initial.inactive { display: none;  }
-              .stars {
-                display: inline-block;
-                cursor: pointer;
-                letter-spacing: 2px;
-                .star {
-                  font-size: 2rem;
-                  -webkit-text-stroke: 1px #999;
-                  text-shadow: 1px 1px 4px #999;
-                  color: white;
-                  &:before { content: '★'; }
-                  &.rated:before { color: gold; }
-                  &:hover:before {
-                    color: gold;
-                    -webkit-text-stroke: 1px #c45525;
-                    text-shadow: 1px 1px 4px #c45525;
-                  }
-                }
-              }
-            }
-          }`,
+      componentStyle: `:host{font-weight:normal;display:block;font-style:normal;.initial:after,.reset:after{letter-spacing:initial;font-weight:bold;color:#c45525;background-color:#EEE;padding:2px 4px;position:relative;text-align:center;margin-left:5px;top:-5px;cursor:pointer;min-width:48px;}.starContainer{padding:0.4rem 0;display:inline-block;.initial,.reset{display:inline-block;}.reset:after{content:'↶ 'attr(data-set-score)'/'attr(data-stars);}.initial:after{content:'↺ 'attr(data-set-score)'/'attr(data-stars);}.reset.inactive,.initial.inactive{display:none;}.stars{display:inline-block;cursor:pointer;letter-spacing:2px;.star{font-size:2rem;-webkit-text-stroke:1px #999;text-shadow:1px 1px 4px #999;color:white;&:before{content:'★';} &.rated:before{color:gold;}&:hover:before{color:gold;-webkit-text-stroke:1px #c45525;text-shadow:1px 1px 4px #c45525;}}}}}`,
       createStar(rated) { return createElement(`span`, {className: `star${rated ? ` rated` : ``}`}); },
     };
   }

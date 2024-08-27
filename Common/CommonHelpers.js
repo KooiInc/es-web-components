@@ -1,9 +1,15 @@
+const  {default: CreateComponent, createOrRetrieveShadowRoot, setComponentStyleFor} =
+  await import("https://kooiinc.github.io/es-webcomponent-factory/Bundle/es-webcomponent-bundle.js")
+    .then(r => r);
+
 export {
   createElement,
   numberFactory,
   maybe,
   addCustomCssAndMaybeExternals,
-  importComponentModule
+  CreateComponent,
+  createOrRetrieveShadowRoot,
+  setComponentStyleFor
 }
 
 function createElement(name, props = {}, data = {}) {
@@ -63,14 +69,4 @@ function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
     extraStyling.remove();
     shadow.adoptedStyleSheets.push(xtraSheet);
   }
-}
-
-async function importComponentModule() {
-  if (window.CreateComponent) { return Promise.resolve(_ => true); }
-  
-  const { default: CreateComponent, createOrRetrieveShadowRoot, setComponentStyleFor, } =
-    await import("../es-webcomponent-factory/Bundle/es-webcomponent-bundle.js").then(r => r);
-  window.CreateComponent = CreateComponent;
-  window.createOrRetrieveShadowRoot = createOrRetrieveShadowRoot;
-  window.setComponentStyleFor = setComponentStyleFor;
 }
