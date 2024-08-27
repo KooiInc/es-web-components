@@ -28,10 +28,11 @@ function connectCopyrightComponent() {
       const shadow = createOrRetrieveShadowRoot(elem);
       const componentStyle = Object.assign(
         document.createElement("style"),
-        { textContent: `:host{color:#777;display:inline-block;bottom:0.5rem;float:right;z-index:2;font-size:12px;.yr{font-weight:bold;color:green;display:inline-block;} a[target]{text-decoration:none;font-weight:bold;} a[target]:before{color:rgba(0,0,238,0.7);font-size:1.1rem;padding-right:2px;vertical-align:baseline;} a[target="_blank"]:before{content:"↗";} a[target="_top"]:before{content:"↺";} a[target]:after{content:' | ';color:#000;font-weight:normal;} a[target]:last-child:after{content:'';} }` } );
+        { textContent: `:host{color:#777;display:inline-block;bottom:0.5rem;float:right;z-index:2;font-size:12px;.yr{font-weight:bold;color:green;display:inline-block;}.links a[target]{text-decoration:none;font-weight:bold;}.links a[target]:before{color:rgba(0,0,238,0.7);font-size:1.1rem;padding-right:2px;vertical-align:baseline;}.links a[target="_blank"]:before{content:"↗";}.links a[target="_top"]:before{content:"↺";}.links a[target]:after{content:' | ';color:#000;font-weight:normal;}.links a[target]:last-child:after{content:'';}}` } );
       const content = Object.assign(
         document.createElement(`div`), {
-          innerHTML: `&copy; <span class="yr"><slot name="year"></slot></span> KooiInc <slot name="link"></slot></slot>`})
+          innerHTML: `&copy; <span class="yr"><slot name="year"></slot></span> KooiInc
+              <span class="links"><slot name="links"></slot></span>`})
       shadow.append(componentStyle, content);
     }
   });
