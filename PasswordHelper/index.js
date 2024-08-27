@@ -1,5 +1,4 @@
 const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
-console.log(loadPath);
 import interpolate from "https://cdn.jsdelivr.net/gh/KooiInc/StringInterpolator@latest/Interpolate.module.min.js";
 import {
   createElement,
