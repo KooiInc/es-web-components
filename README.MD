@@ -10,4 +10,4 @@
 ## Bundles
 Every component is bundled. See the `./Bundle` subdirectory within the component directories. 
 
-Every bundle can be used completely on its own (no need for auxillary files).
+Every bundled component can be used *stand-alone* (so, include the `[*].bundle.js` file, no need for auxillary files).
