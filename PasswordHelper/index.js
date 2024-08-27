@@ -1,11 +1,12 @@
 const loadPath = import.meta.resolve(`./`).replace(`index.js`, ``);
+console.log(loadPath);
 import interpolate from "https://cdn.jsdelivr.net/gh/KooiInc/StringInterpolator@latest/Interpolate.module.min.js";
 import {
   createElement,
   CreateComponent,
   setComponentStyleFor,
   createOrRetrieveShadowRoot, } from "../Common/CommonHelpers.js";
-import "./expandable-text.bundle.js";
+import "./Bundle/expandable-text.bundle.js";
 import appText from "./AppText.js";
 import {
   default as passGenerator,
@@ -231,7 +232,7 @@ async function copyPwd2Clipboard() {
   }
 }
 
-// MARK FULL
+// FULL BUILD MARK
 async function preloadGeneratorElement() {
   return await fetch(`${loadPath}GeneratorTemplate.html`).then(r => r.text());
 }

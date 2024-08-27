@@ -1,4 +1,5 @@
-import "../index.bundle.js";
+//import "../index.bundle.js";
+import "../index.js";
 import $ from "https://cdn.jsdelivr.net/gh/KooiInc/JQL@latest/Bundle/jql.min.js";
 buildPage();
 
