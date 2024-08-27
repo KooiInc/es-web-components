@@ -1,6 +1,6 @@
-import "../../ExpandableText/index.js";
+import "../../ExpandableText/Bundle/expandable-text.bundle.js";
 import {$, logFactory} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@latest/index.browser.js";
-import createStarRatingComponent from "../index.js";
+import createStarRatingComponent from "../Bundle/star-rating.bundle.js";
 
 createStarRatingComponent();
 
