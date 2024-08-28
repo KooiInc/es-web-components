@@ -1,5 +1,6 @@
 import {
   createElement,
+  copyRight,
   addCustomCssAndMaybeExternals,
   CreateComponent,
   createOrRetrieveShadowRoot,
@@ -7,6 +8,8 @@ import {
 
 const defaultStyling = await preloadStyling();
 CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
+
+export {copyRight};
 
 function connectElement(componentNode) {
   const fullContent = componentNode.content ?? createFullContent(componentNode);
@@ -76,17 +79,19 @@ function maybePositionIntoViewport(shadowRoot) {
 
 function handleShadowroot(evt) {
   const shadowRoot = evt.target.getRootNode();
+  const rootElemCollapseAll = shadowRoot.host.closest(`[data-collapse-all]`);
+  const rootElemExpandAll = shadowRoot.host.closest(`[data-expand-all]`);
   const isPreviewAndClosed = evt.target.closest(`.expand-content.preview`)?.getRootNode()
     .querySelector(`[data-expanded]`).dataset.expanded === '0';
   const isContent = !!!evt.target.closest(`.expand-content`);
   const isCollapsed = !!shadowRoot.querySelector(`[data-expanded='0']`);
   const canExpand =  isContent || isPreviewAndClosed || isCollapsed;
-  const collapseAll = !!evt.target.closest(`[data-collapse-all]`);
-  const expandAll = !!evt.target.closest(`[data-expand-all]`);
+  const collapseAll = !!evt.target.closest(`[data-collapse-all]`) || !!shadowRoot.host.closest(`[data-collapse-all]`);
+  const expandAll = !!evt.target.closest(`[data-expand-all]`) || !!shadowRoot.host.closest(`[data-expand-all]`);
   
   switch(true) {
-    case canExpand: return doExpand(shadowRoot);
-    case collapseAll: return collapseAllSubs(shadowRoot);
+    case canExpand: return doExpand(rootElemExpandAll || shadowRoot);
+    case collapseAll: return collapseAllSubs(rootElemCollapseAll || shadowRoot);
     case expandAll: return expandAllSubs(shadowRoot);
     default: return;
   }
