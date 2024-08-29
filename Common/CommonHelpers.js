@@ -101,6 +101,6 @@ function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
   if (extraStyling) {
     const style = createStylesheet(extraStyling.textContent);
     extraStyling.remove();
-    shadow.adoptedStyleSheets.push(xtraSheet);
+    shadow.adoptedStyleSheets.push(style);
   }
 }
