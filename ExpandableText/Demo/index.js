@@ -1,4 +1,5 @@
 import "../Bundle/expandable-text.bundle.js";
+// import "../index.js"; /* for debug */
 import {$, logFactory} from "//cdn.jsdelivr.net/gh/KooiInc/SBHelpers@latest/index.browser.js";
 let examples = [];
 let loremIpsum;
