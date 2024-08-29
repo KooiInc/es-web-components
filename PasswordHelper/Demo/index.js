@@ -1,5 +1,5 @@
-import "../Bundle/password-helper.bundle.js";
-//import "../index.js"; // for debugging
+//import "../Bundle/password-helper.bundle.js";
+import "../index.js"; // for debugging
 import $ from "https://cdn.jsdelivr.net/gh/KooiInc/JQL@latest/Bundle/jql.min.js";
 buildPage();
 
