@@ -77,6 +77,16 @@ function maybe({trial, whenError = err => console.log(err)} = {}) {
   }
 }
 
+function createStylesheet(text) {
+  const xtraSheet = new CSSStyleSheet();
+  
+  if (text?.constructor === String && text.trim().length > 0) {
+    xtraSheet.replaceSync(text);
+  }
+  
+  return xtraSheet;
+}
+
 function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
   const extraStyling = fullContent.querySelector(`style`);
   const externalStylingId = componentNode.dataset?.externalCssId;
@@ -84,12 +94,12 @@ function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
   if (!extraStyling && !externalStylingId) { return; }
   
   if (externalStylingId) {
-    shadow.append(document.querySelector(`#${externalStylingId}`).cloneNode(true));
+    const style = createStylesheet(document.querySelector(`#${externalStylingId}`).textContent);
+    shadow.adoptedStyleSheets.push(style);
   }
   
   if (extraStyling) {
-    const xtraSheet = new CSSStyleSheet();
-    xtraSheet.replaceSync(extraStyling.innerHTML);
+    const style = createStylesheet(extraStyling.textContent);
     extraStyling.remove();
     shadow.adoptedStyleSheets.push(xtraSheet);
   }
