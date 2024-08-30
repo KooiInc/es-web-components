@@ -30,7 +30,6 @@ function doConnect(componentNode, fullContent) {
   connectContent(componentNode, fullContent, shadow);
   shadow.addEventListener(`click`, handleShadowroot);
   checkForAndHandleSublinks(shadow);
-  console.log(JSON.stringify(doConnect.cssCache));
 }
 
 function connectContent(componentNode, fullContent, shadow) {
