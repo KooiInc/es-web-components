@@ -1,7 +1,6 @@
 const  {default: CreateComponent, createOrRetrieveShadowRoot, setComponentStyleFor} =
   await import("https://kooiinc.github.io/es-webcomponent-factory/Bundle/es-webcomponent-bundle.js")
     .then(r => r);
-
 connectCopyrightComponent();
 
 export {
@@ -9,11 +8,15 @@ export {
   numberFactory,
   maybe,
   addCustomCssAndMaybeExternals,
+  retrieveStyleFromPath,
   CreateComponent,
   createOrRetrieveShadowRoot,
+  createStylesheet,
   setComponentStyleFor,
   copyRight,
 }
+
+const cssExternalPathCache = cssExternalPathCacheFactory();
 
 function copyRight() {
   return createElement(
@@ -47,6 +50,14 @@ function createElement(name, props = {}, data = {}) {
   }
   
   return elem;
+}
+
+function cssExternalPathCacheFactory() {
+  const theCache = {};
+  return {
+    add(path, value) { theCache[path] = value; },
+    from(path) { return theCache[path]; }
+  }
 }
 
 function numberFactory() {
@@ -87,11 +98,30 @@ function createStylesheet(text) {
   return xtraSheet;
 }
 
+async function retrieveStyleFromPath(path) {
+  return await fetch(path).then(res => res.text());
+}
+
 function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
   const extraStyling = fullContent.querySelector(`style`);
   const externalStylingId = componentNode.dataset?.externalCssId;
+  const externalStylePath = componentNode.dataset?.externalCssPath;
   
-  if (!extraStyling && !externalStylingId) { return; }
+  if (!extraStyling && !externalStylingId && !externalStylePath) { return; }
+  
+  if (externalStylePath) {
+    const exists = cssExternalPathCache.from(externalStylePath)
+    if (exists) {
+      const style = createStylesheet(cssExternalPathCache[externalStylePath]);
+      shadow.adoptedStyleSheets.push(style);
+    } else {
+      retrieveStyleFromPath(externalStylePath).then(r => {
+        const style = createStylesheet(r);
+        cssExternalPathCache.add(externalStylePath, r);
+        shadow.adoptedStyleSheets.push(style);
+      });
+    }
+  }
   
   if (externalStylingId) {
     const style = createStylesheet(document.querySelector(`#${externalStylingId}`).textContent);

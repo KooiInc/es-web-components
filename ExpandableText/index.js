@@ -4,10 +4,15 @@ import {
   addCustomCssAndMaybeExternals,
   CreateComponent,
   createOrRetrieveShadowRoot,
-  setComponentStyleFor, } from "../Common/CommonHelpers.js";
+  setComponentStyleFor,
+} from "../Common/CommonHelpers.js";
 
 const defaultStyling = await preloadStyling();
-CreateComponent({componentName: `expandable-text`, onConnect: connectElement});
+const componentName =`expandable-text`;
+
+if (!customElements.get(componentName)) {
+  CreateComponent({componentName, onConnect: connectElement});
+}
 
 export {copyRight};
 
@@ -17,6 +22,7 @@ function connectElement(componentNode) {
 }
 
 function doConnect(componentNode, fullContent) {
+  doConnect.cssCache = doConnect.cssCache || {};
   componentNode.content = fullContent;
   const shadow = createOrRetrieveShadowRoot(componentNode);
   shadow.adoptedStyleSheets = [setComponentStyleFor(componentNode, defaultStyling)];
@@ -24,6 +30,7 @@ function doConnect(componentNode, fullContent) {
   connectContent(componentNode, fullContent, shadow);
   shadow.addEventListener(`click`, handleShadowroot);
   checkForAndHandleSublinks(shadow);
+  console.log(JSON.stringify(doConnect.cssCache));
 }
 
 function connectContent(componentNode, fullContent, shadow) {
