@@ -100,19 +100,19 @@ async function cssFrom(path) {
 }
 
 function addStylingFromId(styleId, shadow) {
-  const theCustomStyle = document.querySelector(`#${styleId}`);
-  let styleFromLink = ``;
+  const theStyle = document.querySelector(`#${styleId}`);
+  let styleFromLinkOrSheet = ``;
   
-  if (!theCustomStyle) { return; }
+  if (!theStyle) { return; }
   
-  if (theCustomStyle.rel === 'stylesheet') {
-    theCustomStyle.sheet.cssRules.forEach(r => styleFromLink += r.cssText);
+  if (theStyle.sheet) {
+    theStyle.sheet.cssRules.forEach(r => styleFromLinkOrSheet += r.cssText);
   }
   
-  if (styleFromLink.length < 1 && !theCustomStyle?.textContent) { return; }
+  if (styleFromLinkOrSheet.length < 1 && !theStyle?.textContent) { return; }
   
-  const cssText = styleFromLink.length && styleFromLink || theCustomStyle.textContent;
-  shadow.adoptedStyleSheets.push( createStylesheet(cssText) );
+  const cssText = styleFromLinkOrSheet.length && styleFromLinkOrSheet || theStyle.textContent;
+  shadow.adoptedStyleSheets.push( createStylesheet(cssText));
 }
 
 function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
