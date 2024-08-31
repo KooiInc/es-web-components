@@ -106,7 +106,7 @@ function addStylingFromId(styleId, shadow) {
   if (!theStyle) { return; }
   
   if (theStyle.sheet) {
-    theStyle.sheet.cssRules.forEach(r => styleFromLinkOrSheet += r.cssText);
+    [...theStyle.sheet.cssRules].forEach(r => styleFromLinkOrSheet += r.cssText);
   }
   
   if (styleFromLinkOrSheet.length < 1 && !theStyle?.textContent) { return; }
