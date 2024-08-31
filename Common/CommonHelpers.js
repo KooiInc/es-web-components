@@ -1,6 +1,7 @@
-const  {default: CreateComponent, createOrRetrieveShadowRoot, setComponentStyleFor} =
+const {default: CreateComponent, createOrRetrieveShadowRoot, setComponentStyleFor} =
   await import("https://kooiinc.github.io/es-webcomponent-factory/Bundle/es-webcomponent-bundle.js")
     .then(r => r);
+
 connectCopyrightComponent();
 
 export {
@@ -8,32 +9,33 @@ export {
   numberFactory,
   maybe,
   addCustomCssAndMaybeExternals,
-  retrieveStyleFromPath,
   CreateComponent,
   createOrRetrieveShadowRoot,
   createStylesheet,
   setComponentStyleFor,
   copyRight,
+  cssFrom,
 }
 
-const cssExternalPathCache = cssExternalPathCacheFactory();
+let pathCache = {};
 
 function copyRight() {
   return createElement(
     `copyright-slot`, {
-    innerHTML: `<span slot="year">${new Date().getFullYear()}</span>` } );
+      innerHTML: `<span slot="year">${new Date().getFullYear()}</span>`
+    });
 }
 
 function connectCopyrightComponent() {
-  CreateComponent( {
+  CreateComponent({
     componentName: `copyright-slot`,
     onConnect(elem) {
       const shadow = createOrRetrieveShadowRoot(elem);
       const componentStyle = Object.assign(
         document.createElement("style"),
-        { textContent: `:host{color:#777;display:inline-block;bottom:0.7rem;position:relative;float:right;z-index:2;font-size:12px;.yr{font-weight:bold;color:green;opacity:0.8;display:inline-block;}::slotted(a[target]){text-decoration:none;font-weight:bold;}::slotted(a[target]):before{color:rgba(0,0,238,0.7);font-size:1.1rem;padding-right:2px;vertical-align:baseline;}::slotted(a[target="_blank"]):before{content:"↗";}::slotted(a[target="_top"]):before{content:"↺";}::slotted(a[target]):after{content:' | ';color:#000;font-weight:normal;}::slotted(a[target]:last-child):after{content:'';}}` } );
+        {textContent: `:host{color:#777;display:inline-block;bottom:0.7rem;position:relative;float:right;z-index:2;font-size:12px;.yr{font-weight:bold;color:green;opacity:0.8;display:inline-block;}::slotted(a[target]){text-decoration:none;font-weight:bold;}::slotted(a[target]):before{color:rgba(0,0,238,0.7);font-size:1.1rem;padding-right:2px;vertical-align:baseline;}::slotted(a[target="_blank"]):before{content:"↗";}::slotted(a[target="_top"]):before{content:"↺";}::slotted(a[target]):after{content:' | ';color:#000;font-weight:normal;}::slotted(a[target]:last-child):after{content:'';}}`});
       const content = Object.assign(
-        document.createElement(`span`), { innerHTML: `&copy; <span class="yr"><slot name="year"></slot></span> KooiInc <slot name="link"></slot>`});
+        document.createElement(`span`), {innerHTML: `&copy; <span class="yr"><slot name="year"></slot></span> KooiInc <slot name="link"></slot>`});
       shadow.append(componentStyle, content);
     }
   });
@@ -41,7 +43,7 @@ function connectCopyrightComponent() {
 
 function createElement(name, props = {}, data = {}) {
   const elem = Object.assign(document.createElement(name), props);
-  data = maybe( {trial: _ => Object.entries(data), whenError: _ => [] } );
+  data = maybe({trial: _ => Object.entries(data), whenError: _ => []});
   
   if (data.length) {
     for (let [key, value] of data) {
@@ -52,28 +54,23 @@ function createElement(name, props = {}, data = {}) {
   return elem;
 }
 
-function cssExternalPathCacheFactory() {
-  const theCache = {};
-  return {
-    add(path, value) { theCache[path] = value; },
-    from(path) { return theCache[path]; }
-  }
-}
-
 function numberFactory() {
   const isNumber = v => v?.constructor !== Array && (+v).constructor === Number && !isNaN(+v) && +v !== Infinity;
   const numberOrDefault = (v, defaultValue2Return) =>
     isNumber(v) ? +v : isNumber(defaultValue2Return) ? +defaultValue2Return : 0;
   const gte = (v, gtv) => {
-    v = numberOrDefault(v, -1); gtv = numberOrDefault(gtv);
+    v = numberOrDefault(v, -1);
+    gtv = numberOrDefault(gtv);
     return v >= gtv ? v : gtv;
   };
   const inRange = (v, min, max) => {
-    v = numberOrDefault(v, -1); min = numberOrDefault(min); max = numberOrDefault(max);
+    v = numberOrDefault(v, -1);
+    min = numberOrDefault(min);
+    max = numberOrDefault(max);
     return v >= min && v <= max;
   };
   
-  return { NR: numberOrDefault, gte, inRange, };
+  return {NR: numberOrDefault, gte, inRange,};
 }
 
 function maybe({trial, whenError = err => console.log(err)} = {}) {
@@ -98,34 +95,36 @@ function createStylesheet(text) {
   return xtraSheet;
 }
 
-async function retrieveStyleFromPath(path) {
+async function cssFrom(path) {
   return await fetch(path).then(res => res.text());
+}
+
+function addStylingFromId(styleId, shadow) {
+  const theCustomStyle = document.querySelector(`#${styleId}`);
+  let styleFromLink = ``;
+  
+  if (!theCustomStyle) { return; }
+  
+  if (theCustomStyle.rel === 'stylesheet') {
+    theCustomStyle.sheet.cssRules.forEach(r => styleFromLink += r.cssText);
+  }
+  
+  if (styleFromLink.length < 1 && !theCustomStyle?.textContent) { return; }
+  
+  const cssText = styleFromLink.length && styleFromLink || theCustomStyle.textContent;
+  shadow.adoptedStyleSheets.push( createStylesheet(cssText) );
 }
 
 function addCustomCssAndMaybeExternals(shadow, fullContent, componentNode) {
   const extraStyling = fullContent.querySelector(`style`);
-  const externalStylingId = componentNode.dataset?.externalCssId;
-  const externalStylePath = componentNode.dataset?.externalCssPath;
+  let externalStylingId = componentNode.dataset?.externalCssId;
   
-  if (!extraStyling && !externalStylingId && !externalStylePath) { return; }
-  
-  if (externalStylePath) {
-    const exists = cssExternalPathCache.from(externalStylePath)
-    if (exists) {
-      const style = createStylesheet(cssExternalPathCache[externalStylePath]);
-      shadow.adoptedStyleSheets.push(style);
-    } else {
-      retrieveStyleFromPath(externalStylePath).then(r => {
-        const style = createStylesheet(r);
-        cssExternalPathCache.add(externalStylePath, r);
-        shadow.adoptedStyleSheets.push(style);
-      });
-    }
+  if (!extraStyling && !externalStylingId) {
+    return;
   }
   
   if (externalStylingId) {
-    const style = createStylesheet(document.querySelector(`#${externalStylingId}`).textContent);
-    shadow.adoptedStyleSheets.push(style);
+    addStylingFromId(externalStylingId, shadow);
   }
   
   if (extraStyling) {

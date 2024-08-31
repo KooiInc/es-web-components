@@ -5,6 +5,7 @@ import {
   CreateComponent,
   createOrRetrieveShadowRoot,
   setComponentStyleFor,
+  createStylesheet,
 } from "../Common/CommonHelpers.js";
 
 const defaultStyling = await preloadStyling();
@@ -14,7 +15,7 @@ if (!customElements.get(componentName)) {
   CreateComponent({componentName, onConnect: connectElement});
 }
 
-export {copyRight};
+export {copyRight, createStylesheet};
 
 function connectElement(componentNode) {
   const fullContent = componentNode.content ?? createFullContent(componentNode);
