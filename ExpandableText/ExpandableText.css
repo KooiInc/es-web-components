@@ -17,12 +17,12 @@
       display: inline-block;
       font-family: system-ui, "Sans Serif";
       font-size: 1.2rem;
+      line-height: 1.3rem;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       max-width: 90%;
       height: auto;
-      line-height: normal;
     }
 
     .arrow {
