@@ -185,6 +185,7 @@ function handleManualPasswordEntry(evt) {
 
 /* Pass entry handling END */
 function translateGeneratorElement(language="EN") {
+  console.log(appText.texts.useNumbers);
   return interpolate(`${pwdGeneratorTemplate}`, {
     symCBTtl: appText.texts.symCBTtl[language],
     symCBText: appText.texts.symCBText[language],
