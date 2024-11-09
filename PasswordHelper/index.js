@@ -204,6 +204,7 @@ function translateGeneratorElement(language="EN") {
     selectAllNO: appText.texts.selectAllNO[language],
     selectAllYES: appText.texts.selectAllYES[language],
     space: appText.texts.space[language],
+    length: appText.texts.length[language],
   });
 }
 
