@@ -83,7 +83,6 @@ function initialize() {
     <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</div>
     <div>Curabitur pretium tincidunt lacus, ut dapibus purus tincidunt a. Nulla facilisi...</div>`;
   $(`<template id="loremExternal">${loremIpsum}</template>`);
-  $.prohibitTag(`template`);
   examples = [
 `<expandable-text data-title="An &lt;expandable-text> element with html inside">
     ${loremIpsum}
