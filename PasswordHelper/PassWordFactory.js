@@ -116,12 +116,12 @@ function numberRange({start = 0, len = 10, remap} = {}) {
 }
 
 // Shannon entropy
-function calculateEntropy(str) {
+function calculateEntropy(str, guessesPerSecond = 100_000) {
   const len = str.length
   const freqs = [...str].reduce((freq, chr) => ({...freq, [chr]: (freq[chr] || 0) + 1}), {});
   const entropy = Object.values( freqs ).reduce( (sum, f) => sum - f/len * Math.log2(f/len), 0) * len;
   const intruderGuessAttempts = entropy > 2 ? BigInt((2**(Math.floor(entropy)))/2) : 0;
-  const guessDurationInDays =  BigInt( Math.floor((2**(Math.floor(entropy)))/2/100000/86400) );
+  const guessDurationInDays =  BigInt( Math.floor((2**(Math.floor(entropy)))/2/guessesPerSecond/86400) );
   return {entropy, guessDurationInDays, intruderGuessAttempts};
 }
 

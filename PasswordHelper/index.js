@@ -131,7 +131,7 @@ function getSelectedPreferencesForPasswordGenerator() {
 
 /* Generic Handling START */
 function reportEntropy(value) {
-  const calculated = calculateEntropy(value);
+  const calculated = calculateEntropy(value, 1_000_000);
   const guessDuration = BigInt(calculated.guessDurationInDays);
   const years = (guessDuration / 365n);
   const days = (guessDuration % 365n);
